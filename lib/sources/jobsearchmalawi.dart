@@ -12,7 +12,7 @@ class JobSearchMW {
 
   static final listingsUri = Uri.https(host, 'jm-ajax/get_listings');
 
-  Map<String, String> get _headers => {
+  static Map<String, String> get _headers => {
         'Host': host,
         'User-Agent':
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0',
@@ -22,18 +22,15 @@ class JobSearchMW {
         'Referer': 'https://jobsearchmalawi.com/',
       };
 
-  Future<Job> fetchJob(String url) async {
+  static Future<Job> fetchJob(String url) async {
     final Job job;
-    final url = listingsUri;
-
-    final response = await http.post(url, headers: _headers);
+    final response = await http.get(Uri.https(url), headers: _headers);
 
     if (response.statusCode != 200) {
       throw HttpException('HTTP Request completed with ${response.statusCode}');
     }
 
-    final json = jsonDecode(response.body);
-    final $ = parseFragment(json['html']);
+    final $ = parseFragment(response.body);
 
     job = Job(
       logo: $.querySelector('.company_logo')?.attributes['src']?.trim() ?? '',
@@ -48,5 +45,5 @@ class JobSearchMW {
     return job;
   }
 
-  Future<List<Job>> fetchJobs() async {}
+  static Future<List<Job>> fetchJobs() async {}
 }
