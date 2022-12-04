@@ -24,7 +24,7 @@ class JobSearchMW {
 
   static Future<Job> fetchJob(String url) async {
     final Job job;
-    final response = await http.get(Uri.https(url), headers: _headers);
+    final response = await http.get(Uri.parse(url), headers: _headers);
 
     if (response.statusCode != 200) {
       throw HttpException('HTTP Request completed with ${response.statusCode}');
