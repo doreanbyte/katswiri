@@ -27,7 +27,7 @@ class JobSearchMW {
     final response = await http.get(Uri.parse(url), headers: _headers);
 
     if (response.statusCode != 200) {
-      throw HttpException('HTTP Request completed with ${response.statusCode}');
+      throw HttpException('HTTP Request Error: ${response.statusCode}');
     }
 
     final $ = parseFragment(response.body);
@@ -39,11 +39,58 @@ class JobSearchMW {
       location: $.querySelector('.location > a')?.text.trim() ?? '',
       type: $.querySelector('li.job-type')?.text.trim() ?? '',
       posted: $.querySelector('.date-posted > time')?.text.trim() ?? '',
-      description: $.querySelector('.job_description')?.text.trim() ?? '',
+      description: $
+              .querySelector('.job_description')
+              ?.text
+              .replaceAll(
+                  '(adsbygoogle = window.adsbygoogle || []).push({});', '')
+              .trim() ??
+          '',
     );
 
     return job;
   }
 
-  static Future<List<Job>> fetchJobs() async {}
+  static Future<List<Job>> fetchJobs({page = 1}) async {
+    final List<Job> jobs = [];
+
+    final response = await http.post(
+      listingsUri,
+      headers: _headers,
+      body: {
+        'page': '$page',
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw HttpException('HTTP Request Error: ${response.statusCode}');
+    }
+
+    final json = jsonDecode(response.body);
+    final html = json['html'];
+    final $ = parseFragment(html);
+
+    $.querySelectorAll('li.job_listing').forEach((element) {
+      final job = Job(
+        logo: element
+                .querySelector('img.company_logo')
+                ?.attributes['src']
+                ?.trim() ??
+            '',
+        position: element.querySelector('.position > h3')?.text.trim() ?? '',
+        companyName:
+            element.querySelector('.company > strong')?.text.trim() ?? '',
+        location: element.querySelector('.location')?.text.trim() ?? '',
+        type: element.querySelector('li.job-type')?.text.trim() ?? '',
+        posted: element.querySelector('.date > time')?.text.trim() ?? '',
+        url: element.querySelector('a')?.attributes['href'] ?? '',
+      );
+
+      if (!job.location.contains(RegExp('Information|Parasites'))) {
+        jobs.add(job);
+      }
+    });
+
+    return jobs;
+  }
 }
