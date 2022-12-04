@@ -6,7 +6,8 @@ class Job {
     required this.location,
     required this.type,
     required this.posted,
-    this.description = "",
+    this.url = '',
+    this.description = '',
   });
 
   final String logo;
@@ -15,5 +16,6 @@ class Job {
   final String location;
   final String type;
   final String posted;
+  final String url;
   final String description;
 }
