@@ -33,7 +33,7 @@ class JobSearchMW {
     final $ = parseFragment(response.body);
 
     job = Job(
-      logo: $.querySelector('.company_logo')?.attributes['src']?.trim() ?? '',
+      logo: $.querySelector('.wp-post-image')?.attributes['src']?.trim() ?? '',
       position: $.querySelector('.entry-title')?.text.trim() ?? '',
       companyName: $.querySelector('p.name > strong')?.text.trim() ?? '',
       location: $.querySelector('.location > a')?.text.trim() ?? '',
