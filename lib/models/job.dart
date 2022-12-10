@@ -18,4 +18,28 @@ class Job {
   final String posted;
   final String url;
   final String description;
+
+  Map<String, String> toMap() {
+    return {
+      'logo': logo,
+      'position': position,
+      'companyName': companyName,
+      'location': location,
+      'type': type,
+      'posted': posted,
+      'url': url,
+      'description': description,
+    };
+  }
+
+  factory Job.fromMap(Map<String, String> job) => Job(
+        logo: job['logo'] ?? '',
+        position: job['position'] ?? '',
+        companyName: job['companyName'] ?? '',
+        location: job['location'] ?? '',
+        type: job['type'] ?? '',
+        posted: job['posted'] ?? '',
+        url: job['url'] ?? '',
+        description: job['description'] ?? '',
+      );
 }
