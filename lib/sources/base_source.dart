@@ -1,6 +1,6 @@
 import 'package:katswiri/models/job.dart';
 
-abstract class BaseSource {
+abstract class Source {
   String get title => '';
 
   Future<Job> fetchJob(String url);

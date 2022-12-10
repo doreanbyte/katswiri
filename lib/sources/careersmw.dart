@@ -7,7 +7,7 @@ import 'package:html/parser.dart' show parseFragment;
 import 'package:katswiri/models/job.dart';
 import 'package:katswiri/sources/base_source.dart';
 
-class CareersMW extends BaseSource {
+class CareersMW extends Source {
   @override
   String get title => 'CareersMW';
 
