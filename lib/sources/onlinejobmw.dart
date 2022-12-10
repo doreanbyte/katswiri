@@ -5,9 +5,12 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parseFragment;
 
 import 'package:katswiri/models/job.dart';
+import 'package:katswiri/sources/base_source.dart';
 
-class OnlineJobMW {
-  static const title = 'OnlineJobMW';
+class OnlineJobMW extends BaseSource {
+  @override
+  String get title => 'OnlineJobMW';
+
   static const host = 'onlinejobmw.com';
 
   static final listingsUri = Uri.https(host, 'jm-ajax/get_listings');
@@ -22,7 +25,8 @@ class OnlineJobMW {
         'Referer': 'https://onlinejobmw.com/vacancies-in-malawi/',
       };
 
-  static Future<Job> fetchJob(String url) async {
+  @override
+  Future<Job> fetchJob(String url) async {
     final Job job;
     final response = await http.get(Uri.parse(url), headers: _headers);
 
@@ -51,7 +55,8 @@ class OnlineJobMW {
     return job;
   }
 
-  static Future<List<Job>> fetchJobs({page = 1}) async {
+  @override
+  Future<List<Job>> fetchJobs({int page = 1}) async {
     final List<Job> jobs = [];
 
     final response = await http.post(
