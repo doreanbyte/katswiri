@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'bottom_navigation.dart';
+import 'job_detail_screen.dart';
+
 class Katswiri extends StatelessWidget {
   const Katswiri({super.key});
 
@@ -12,30 +15,20 @@ class Katswiri extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFF000000),
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
+      initialRoute: BottomNavigationScreen.route,
       onGenerateRoute: (settings) {
         final MaterialPageRoute pageRoute;
         final path = settings.name as String;
 
         switch (path) {
-          case ExploreJobsScreen.route:
-            pageRoute = MaterialPageRoute(
-              builder: (context) => ExploreJobsScreen(),
-            );
-            break;
-          case SavedJobsScreen.route:
-            pageRoute = MaterialPageRoute(
-              builder: (context) => SavedJobsScreen(),
-            );
-            break;
           case JobDetailScreen.route:
             pageRoute = MaterialPageRoute(
-              builder: (context) => JobDetailScreen(),
+              builder: (context) => const JobDetailScreen(),
             );
             break;
           default:
             pageRoute = MaterialPageRoute(
-              builder: (context) => ExploreJobsScreen(),
+              builder: (context) => const BottomNavigationScreen(),
             );
         }
 
