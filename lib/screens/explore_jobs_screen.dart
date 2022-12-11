@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:katswiri/models/job.dart';
 import 'package:katswiri/sources/sources.dart';
 
 class ExploreJobsScreen extends StatefulWidget {
@@ -24,7 +27,9 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
     return Scaffold(
       appBar: AppBar(
         title: const Text('Explore'),
+        backgroundColor: Colors.transparent,
         bottom: TabBar(
+          indicatorColor: Colors.white,
           controller: _tabController,
           tabs: _sources
               .map<Widget>((source) => Tab(
@@ -53,6 +58,10 @@ class _JobList extends StatefulWidget {
 
 class __JobListState extends State<_JobList> {
   late final Source _source;
+  final List<Job> _jobs = [];
+
+  late final StreamController<List<Job>> _streamController;
+  late final ScrollController _scrollController;
 
   @override
   void initState() {
