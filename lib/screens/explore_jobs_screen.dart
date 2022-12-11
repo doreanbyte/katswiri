@@ -12,6 +12,8 @@ class ExploreJobsScreen extends StatefulWidget {
 class _ExploreJobsScreenState extends State<ExploreJobsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Center(
+      child: Text('Explore Jobs'),
+    );
   }
 }

@@ -12,6 +12,8 @@ class SavedJobsScreen extends StatefulWidget {
 class _SavedJobsScreenState extends State<SavedJobsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Center(
+      child: Text('Saved Jobs'),
+    );
   }
 }
