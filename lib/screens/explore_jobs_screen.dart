@@ -97,4 +97,17 @@ class __JobListState extends State<_JobList> {
       child: Text(_source.title),
     );
   }
+
+  void _getJobs() async {
+    try {
+      final jobs = await _source.fetchJobs(page: _page);
+      _streamController.sink.add(jobs);
+      setState(() {
+        _page++;
+        _loading = false;
+      });
+    } catch (e) {
+      _streamController.addError(e);
+    }
+  }
 }
