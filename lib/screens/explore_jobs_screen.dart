@@ -110,4 +110,13 @@ class __JobListState extends State<_JobList> {
       _streamController.addError(e);
     }
   }
+
+  void _onScrollEnd() {
+    final offset = _scrollController.offset;
+    final maxScrollExtent = _scrollController.position.maxScrollExtent;
+
+    if (offset >= maxScrollExtent && !_loading) {
+      _getJobs();
+    }
+  }
 }
