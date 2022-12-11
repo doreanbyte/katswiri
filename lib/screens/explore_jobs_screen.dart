@@ -74,7 +74,10 @@ class __JobListState extends State<_JobList> {
 
     _streamController.stream.listen((jobs) {
       _jobs.addAll(jobs);
-      setState(() => _loading = false);
+      setState(() {
+        _page++;
+        _loading = false;
+      });
     });
 
     _scrollController = ScrollController()..addListener(_onScrollEnd);
@@ -100,12 +103,11 @@ class __JobListState extends State<_JobList> {
 
   void _getJobs() async {
     try {
+      setState(() {
+        _loading = true;
+      });
       final jobs = await _source.fetchJobs(page: _page);
       _streamController.sink.add(jobs);
-      setState(() {
-        _page++;
-        _loading = false;
-      });
     } catch (e) {
       _streamController.addError(e);
     }
