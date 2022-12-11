@@ -59,6 +59,8 @@ class _JobList extends StatefulWidget {
 class __JobListState extends State<_JobList> {
   late final Source _source;
   final List<Job> _jobs = [];
+  int _page = 1;
+  bool _loading = false;
 
   late final StreamController<List<Job>> _streamController;
   late final ScrollController _scrollController;
@@ -66,7 +68,18 @@ class __JobListState extends State<_JobList> {
   @override
   void initState() {
     super.initState();
+
     _source = widget.source;
+    _streamController = StreamController.broadcast();
+
+    _streamController.stream.listen((jobs) {
+      _jobs.addAll(jobs);
+      setState(() => _loading = false);
+    });
+
+    _scrollController = ScrollController()..addListener(_onScrollEnd);
+
+    _getJobs();
   }
 
   @override
