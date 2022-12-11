@@ -14,6 +14,10 @@ class Katswiri extends StatelessWidget {
         backgroundColor: Colors.black12,
         scaffoldBackgroundColor: const Color(0xFF000000),
         primarySwatch: Colors.blue,
+        textTheme: Theme.of(context).textTheme.apply(
+              bodyColor: Colors.white,
+              displayColor: Colors.white,
+            ),
       ),
       initialRoute: BottomNavigationScreen.route,
       onGenerateRoute: (settings) {
