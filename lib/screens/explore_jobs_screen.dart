@@ -96,9 +96,19 @@ class __JobListState extends State<_JobList> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(_source.title),
+    return StreamBuilder<List<Job>>(
+      stream: _streamController.stream,
+      builder: _builder,
     );
+  }
+
+  Widget _builder(BuildContext context, AsyncSnapshot<List<Job>> snapshot) {
+    return ListView.builder(
+        padding: const EdgeInsets.all(20),
+        itemCount: _jobs.length,
+        itemBuilder: (context, index) {
+          return _JobTile(job: _jobs[index]);
+        });
   }
 
   void _getJobs() async {
@@ -120,5 +130,21 @@ class __JobListState extends State<_JobList> {
     if (offset >= maxScrollExtent && !_loading) {
       _getJobs();
     }
+  }
+}
+
+class _JobTile extends StatefulWidget {
+  const _JobTile({super.key, required this.job});
+
+  final Job job;
+
+  @override
+  State<_JobTile> createState() => __JobTileState();
+}
+
+class __JobTileState extends State<_JobTile> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
