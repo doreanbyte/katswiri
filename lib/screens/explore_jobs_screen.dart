@@ -83,6 +83,15 @@ class __JobListState extends State<_JobList> {
   }
 
   @override
+  void dispose() {
+    _streamController.close();
+    _scrollController.removeListener(_onScrollEnd);
+    _scrollController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Center(
       child: Text(_source.title),
