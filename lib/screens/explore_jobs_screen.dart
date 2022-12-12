@@ -111,11 +111,21 @@ class __JobListState extends State<_JobList> {
   }
 
   Widget _builder(BuildContext context, AsyncSnapshot<List<Job>> snapshot) {
+    final widgets = _widgets.map<Widget>((widget) => widget).toList();
+
+    if (_loading) {
+      widgets.add(
+        const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return ListView.builder(
         padding: const EdgeInsets.all(20),
-        itemCount: _widgets.length,
+        itemCount: widgets.length,
         itemBuilder: (context, index) {
-          return _widgets[index];
+          return widgets[index];
         });
   }
 
