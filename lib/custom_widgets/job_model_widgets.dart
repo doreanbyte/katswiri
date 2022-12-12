@@ -181,7 +181,7 @@ class _JobsListState extends State<JobsList> {
 
     return ListView.builder(
         controller: widget.controller,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(8.0),
         itemCount: widgets.length,
         itemBuilder: (context, index) {
           return widgets[index];
@@ -230,52 +230,8 @@ class _JobTileState extends State<JobTile> {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 85.0,
-                      height: 85.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.network(
-                          _job.logo,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _job.position,
-                            style: const TextStyle(
-                              color: textColor,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 16.0,
-                          ),
-                          Text(
-                            _job.location,
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
               GestureDetector(
                 onTap: () {
                   setState(() {
@@ -292,30 +248,82 @@ class _JobTileState extends State<JobTile> {
                     );
                   });
                 },
-                child: AnimatedContainer(
-                  height: 36.0,
-                  padding: const EdgeInsets.all(4.0),
-                  duration: const Duration(milliseconds: 300),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      border: Border.all(
-                        color: _job.saved
-                            ? Colors.blue.shade100
-                            : Colors.grey.shade300,
-                      )),
-                  child: Center(
-                    child: _job.saved
-                        ? const Icon(
-                            Icons.bookmark,
-                            color: Colors.blue,
-                          )
-                        : Icon(
-                            Icons.bookmark_outline,
-                            color: Colors.grey.shade600,
-                          ),
-                  ),
+                child: _job.saved
+                    ? const Icon(
+                        Icons.bookmark,
+                        color: Colors.blue,
+                        size: 28.0,
+                      )
+                    : Icon(
+                        Icons.bookmark_outline,
+                        color: Colors.grey.shade600,
+                        size: 28.0,
+                      ),
+              ),
+              const SizedBox(
+                width: 8.0,
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.share,
+                  color: Colors.blue,
+                  size: 28.0,
                 ),
               )
+            ],
+          ),
+          const SizedBox(
+            height: 12.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 85.0,
+                      height: 85.0,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(2.0),
+                        child: Image.network(
+                          _job.logo,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12.0),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _job.position,
+                            style: const TextStyle(
+                              color: textColor,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 2,
+                          ),
+                          const SizedBox(
+                            height: 24.0,
+                          ),
+                          Text(
+                            _job.location,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
           const SizedBox(
