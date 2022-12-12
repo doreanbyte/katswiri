@@ -4,19 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:katswiri/models/job.dart';
 import 'package:katswiri/sources/sources.dart';
 
-class JobList extends StatefulWidget {
-  const JobList({super.key, required this.source});
+class JobListRetriever extends StatefulWidget {
+  const JobListRetriever({super.key, required this.source});
 
   final Source source;
 
   @override
-  State<JobList> createState() => _JobListState();
+  State<JobListRetriever> createState() => _JobListRetrieverState();
 }
 
-class _JobListState extends State<JobList> {
+class _JobListRetrieverState extends State<JobListRetriever> {
   late final Source _source;
   final List<Job> _jobs = [];
-  final List<Widget> _widgets = [];
 
   int _page = 1;
   bool _loading = false;
@@ -57,45 +56,13 @@ class _JobListState extends State<JobList> {
   }
 
   Widget _builder(BuildContext context, AsyncSnapshot<List<Job>> snapshot) {
-    // Avoid receiving copy of _widgets list to avoid directly modifying its
-    // values in the builder
-    final widgets = _widgets.toList();
-
-    if (_loading) {
-      widgets.add(
-        const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
-    if (_error) {
-      widgets.add(
-        Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: () {
-                  _error = false;
-                  _getJobs();
-                },
-                icon: const Icon(Icons.refresh),
-              ),
-              const Text('Something went wrong'),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return ListView.builder(
-        padding: const EdgeInsets.all(20),
-        itemCount: widgets.length,
-        itemBuilder: (context, index) {
-          return widgets[index];
-        });
+    return JobsList(
+      _jobs,
+      loading: _loading,
+      error: _error,
+      onRefreshPressed: _onRefreshPressed,
+      controller: _scrollController,
+    );
   }
 
   void _getJobs() async {
@@ -124,11 +91,6 @@ class _JobListState extends State<JobList> {
 
   void _onData(List<Job> jobs) {
     _jobs.addAll(jobs);
-    // Go through every result from stream and turn it into it's relevevant
-    // widget in this case a job tile
-    jobs.forEach((job) {
-      _widgets.add(JobTile(job: job));
-    });
 
     setState(() {
       _page++;
@@ -140,6 +102,81 @@ class _JobListState extends State<JobList> {
     setState(() {
       _error = true;
     });
+  }
+
+  void _onRefreshPressed() {
+    _error = false;
+    _getJobs();
+  }
+}
+
+class JobsList extends StatefulWidget {
+  const JobsList(
+    this.jobs, {
+    super.key,
+    required this.loading,
+    required this.error,
+    required this.onRefreshPressed,
+    required this.controller,
+  });
+
+  final List<Job> jobs;
+  final bool loading;
+  final bool error;
+  final void Function() onRefreshPressed;
+  final ScrollController controller;
+
+  @override
+  State<JobsList> createState() => _JobsListState();
+}
+
+class _JobsListState extends State<JobsList> {
+  late final List<Job> _jobs;
+
+  @override
+  void initState() {
+    super.initState();
+    _jobs = widget.jobs;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Widget> widgets =
+        _jobs.map<Widget>((job) => JobTile(job: job)).toList();
+
+    if (widget.loading) {
+      widgets.add(
+        const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    if (widget.error) {
+      widgets.add(
+        Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: widget.onRefreshPressed,
+                icon: const Icon(Icons.refresh),
+              ),
+              const Text('Something went wrong'),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return ListView.builder(
+        controller: widget.controller,
+        padding: const EdgeInsets.all(20),
+        itemCount: widgets.length,
+        itemBuilder: (context, index) {
+          return widgets[index];
+        });
   }
 }
 

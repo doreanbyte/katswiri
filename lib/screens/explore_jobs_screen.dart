@@ -38,8 +38,9 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
       ),
       body: TabBarView(
         controller: _tabController,
-        children:
-            _sources.map<Widget>((source) => JobList(source: source)).toList(),
+        children: _sources
+            .map<Widget>((source) => JobListRetriever(source: source))
+            .toList(),
       ),
     );
   }
