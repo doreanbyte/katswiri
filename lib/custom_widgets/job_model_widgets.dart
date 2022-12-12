@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:katswiri/screens/job_detail_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:katswiri/models/job.dart';
 import 'package:katswiri/sources/sources.dart';
@@ -325,16 +326,26 @@ class _JobTileState extends State<JobTile> {
                     const SizedBox(width: 14.0),
                     Flexible(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            _job.position,
-                            style: const TextStyle(
-                              color: textColor,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w500,
-                              overflow: TextOverflow.ellipsis,
+                          GestureDetector(
+                            onTapUp: (_) {
+                              Navigator.pushNamed(
+                                context,
+                                JobDetailScreen.route,
+                                arguments: _job,
+                              );
+                            },
+                            child: Text(
+                              _job.position,
+                              style: const TextStyle(
+                                color: textColor,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w500,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              maxLines: 2,
                             ),
-                            maxLines: 2,
                           ),
                           const SizedBox(
                             height: 16.0,
@@ -348,12 +359,16 @@ class _JobTileState extends State<JobTile> {
                               const SizedBox(
                                 width: 8.0,
                               ),
-                              Text(
-                                _job.location,
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w500,
+                              Expanded(
+                                child: Text(
+                                  _job.location,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ],
