@@ -291,17 +291,23 @@ class _JobTileState extends State<JobTile> {
           const SizedBox(
             height: 16.0,
           ),
-          Center(
-            child: Text(
-              _job.companyName,
-              maxLines: 2,
-              style: const TextStyle(
-                color: textColor,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-                overflow: TextOverflow.ellipsis,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Text(
+                  _job.companyName,
+                  maxLines: 2,
+                  style: const TextStyle(
+                    color: textColor,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
           const SizedBox(
             height: 24.0,
@@ -350,32 +356,6 @@ class _JobTileState extends State<JobTile> {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 16.0,
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.location_pin,
-                                color: Colors.grey,
-                              ),
-                              const SizedBox(
-                                width: 8.0,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  _job.location,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     )
@@ -388,51 +368,68 @@ class _JobTileState extends State<JobTile> {
             height: 28.0,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.business,
-                            color: Colors.grey,
-                          ),
-                          const SizedBox(
-                            width: 8.0,
-                          ),
-                          Text(
-                            _job.type,
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
+                      const Icon(
+                        Icons.business,
+                        color: Colors.grey,
                       ),
-                      const SizedBox(height: 16.0),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.watch_later_rounded,
-                            color: Colors.grey,
-                          ),
-                          const SizedBox(
-                            width: 8.0,
-                          ),
-                          Text(
-                            _job.posted,
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
+                      const SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        _job.type,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16.0),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.watch_later_rounded,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        _job.posted,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16.0),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.location_pin,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        _job.location,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
