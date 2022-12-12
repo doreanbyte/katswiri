@@ -100,7 +100,9 @@ class __JobListState extends State<_JobList> {
   }
 
   Widget _builder(BuildContext context, AsyncSnapshot<List<Job>> snapshot) {
-    final widgets = _widgets.map<Widget>((widget) => widget).toList();
+    // Avoid receiving copy of _widgets list to avoid directly modifying its
+    // values in the builder
+    final widgets = _widgets.toList();
 
     if (_loading) {
       widgets.add(
@@ -155,7 +157,10 @@ class __JobListState extends State<_JobList> {
     final offset = _scrollController.offset;
     final maxScrollExtent = _scrollController.position.maxScrollExtent;
 
-    if (offset >= maxScrollExtent && !_loading) {
+    // If offset is equal to or greater than max scroll extent and the _loading
+    // field is not set to true and the _error field is not set to true indicating
+    // an error occured. Call _getJobs to fetch extra data
+    if (offset >= maxScrollExtent && !_loading && !_error) {
       _getJobs();
     }
   }
