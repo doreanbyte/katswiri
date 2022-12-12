@@ -22,7 +22,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
   final navBarItems = <BottomNavigationBarItem>[
     const BottomNavigationBarItem(
-      icon: Icon(Icons.business),
+      icon: Icon(Icons.work),
       label: 'Explore',
     ),
     const BottomNavigationBarItem(
