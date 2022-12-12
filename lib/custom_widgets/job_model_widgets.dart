@@ -64,12 +64,15 @@ class _JobListRetrieverState extends State<JobListRetriever>
   }
 
   Widget _builder(BuildContext context, AsyncSnapshot<List<Job>> snapshot) {
-    return JobsList(
-      _jobs,
-      loading: _loading,
-      error: _hasError,
-      onRetryPressed: _onRetryPressed,
-      controller: _scrollController,
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      child: JobsList(
+        _jobs,
+        loading: _loading,
+        error: _hasError,
+        onRetryPressed: _onRetryPressed,
+        controller: _scrollController,
+      ),
     );
   }
 
@@ -117,6 +120,12 @@ class _JobListRetrieverState extends State<JobListRetriever>
     _hasError = false;
     _getJobs();
   }
+
+  Future<void> _onRefresh() async {
+    _jobs.clear();
+    _page = 1;
+    _getJobs();
+  }
 }
 
 class JobsList extends StatefulWidget {
@@ -155,8 +164,11 @@ class _JobsListState extends State<JobsList> {
 
     if (widget.loading) {
       widgets.add(
-        const Center(
-          child: CircularProgressIndicator(),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
       );
     }
