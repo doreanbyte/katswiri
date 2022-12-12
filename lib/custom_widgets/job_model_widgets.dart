@@ -331,13 +331,16 @@ class _JobTileState extends State<JobTile> {
                 child: Row(
                   children: [
                     SizedBox(
-                      width: 85.0,
-                      height: 85.0,
+                      width: 65.0,
+                      height: 65.0,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(2.0),
-                        child: Image.network(
-                          _job.logo,
-                          fit: BoxFit.contain,
+                        child: Hero(
+                          tag: _job.url,
+                          child: Image.network(
+                            _job.logo,
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     ),
