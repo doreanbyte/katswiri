@@ -41,22 +41,22 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
       body: TabBarView(
         controller: _tabController,
         children:
-            _sources.map<Widget>((source) => _JobList(source: source)).toList(),
+            _sources.map<Widget>((source) => JobList(source: source)).toList(),
       ),
     );
   }
 }
 
-class _JobList extends StatefulWidget {
-  const _JobList({super.key, required this.source});
+class JobList extends StatefulWidget {
+  const JobList({super.key, required this.source});
 
   final Source source;
 
   @override
-  State<_JobList> createState() => __JobListState();
+  State<JobList> createState() => _JobListState();
 }
 
-class __JobListState extends State<_JobList> {
+class _JobListState extends State<JobList> {
   late final Source _source;
   final List<Job> _jobs = [];
   final List<Widget> _widgets = [];
@@ -170,7 +170,7 @@ class __JobListState extends State<_JobList> {
     // Go through every result from stream and turn it into it's relevevant
     // widget in this case a job tile
     jobs.forEach((job) {
-      _widgets.add(_JobTile(job: job));
+      _widgets.add(JobTile(job: job));
     });
 
     setState(() {
@@ -186,16 +186,16 @@ class __JobListState extends State<_JobList> {
   }
 }
 
-class _JobTile extends StatefulWidget {
-  const _JobTile({super.key, required this.job});
+class JobTile extends StatefulWidget {
+  const JobTile({super.key, required this.job});
 
   final Job job;
 
   @override
-  State<_JobTile> createState() => __JobTileState();
+  State<JobTile> createState() => _JobTileState();
 }
 
-class __JobTileState extends State<_JobTile> {
+class _JobTileState extends State<JobTile> {
   late final Job _job;
 
   @override
