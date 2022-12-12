@@ -59,6 +59,8 @@ class _JobList extends StatefulWidget {
 class __JobListState extends State<_JobList> {
   late final Source _source;
   final List<Job> _jobs = [];
+  final List<Widget> _widgets = [];
+
   int _page = 1;
   bool _loading = false;
 
@@ -74,6 +76,12 @@ class __JobListState extends State<_JobList> {
 
     _streamController.stream.listen((jobs) {
       _jobs.addAll(jobs);
+      // Go through every result from stream and turn it into it's relevevant
+      // widget in this case a job tile
+      jobs.forEach((job) {
+        _widgets.add(_JobTile(job: job));
+      });
+
       setState(() {
         _page++;
         _loading = false;
@@ -105,9 +113,9 @@ class __JobListState extends State<_JobList> {
   Widget _builder(BuildContext context, AsyncSnapshot<List<Job>> snapshot) {
     return ListView.builder(
         padding: const EdgeInsets.all(20),
-        itemCount: _jobs.length,
+        itemCount: _widgets.length,
         itemBuilder: (context, index) {
-          return _JobTile(job: _jobs[index]);
+          return _widgets[index];
         });
   }
 
