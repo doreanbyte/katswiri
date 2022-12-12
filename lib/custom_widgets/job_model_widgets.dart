@@ -57,9 +57,12 @@ class _JobListRetrieverState extends State<JobListRetriever>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return StreamBuilder<List<Job>>(
-      stream: _streamController.stream,
-      builder: _builder,
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: StreamBuilder<List<Job>>(
+        stream: _streamController.stream,
+        builder: _builder,
+      ),
     );
   }
 
@@ -265,8 +268,8 @@ class _JobTileState extends State<JobTile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: 60.0,
-                height: 60.0,
+                width: 70.0,
+                height: 70.0,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(2.0),
                   child: Hero(
