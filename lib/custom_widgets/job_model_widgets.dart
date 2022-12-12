@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:katswiri/models/job.dart';
 import 'package:katswiri/sources/sources.dart';
 
@@ -13,7 +14,8 @@ class JobListRetriever extends StatefulWidget {
   State<JobListRetriever> createState() => _JobListRetrieverState();
 }
 
-class _JobListRetrieverState extends State<JobListRetriever> {
+class _JobListRetrieverState extends State<JobListRetriever>
+    with AutomaticKeepAliveClientMixin<JobListRetriever> {
   late final Source _source;
   final List<Job> _jobs = [];
 
@@ -48,7 +50,12 @@ class _JobListRetrieverState extends State<JobListRetriever> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return StreamBuilder<List<Job>>(
       stream: _streamController.stream,
       builder: _builder,
@@ -266,7 +273,12 @@ class _JobTileState extends State<JobTile> {
                 width: 8.0,
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await Share.share(
+                    _job.url,
+                    subject: _job.position,
+                  );
+                },
                 icon: const Icon(
                   Icons.share,
                   color: Colors.blue,
@@ -286,6 +298,7 @@ class _JobTileState extends State<JobTile> {
                 color: textColor,
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
@@ -320,6 +333,7 @@ class _JobTileState extends State<JobTile> {
                               color: textColor,
                               fontSize: 18.0,
                               fontWeight: FontWeight.w500,
+                              overflow: TextOverflow.ellipsis,
                             ),
                             maxLines: 2,
                           ),
