@@ -226,7 +226,7 @@ class _JobTileState extends State<JobTile> {
               Expanded(
                 child: Row(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 60,
                       height: 60,
                       child: ClipRRect(
