@@ -68,7 +68,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
       _jobs,
       loading: _loading,
       error: _hasError,
-      onRefreshPressed: _onRefreshPressed,
+      onRetryPressed: _onRetryPressed,
       controller: _scrollController,
     );
   }
@@ -113,7 +113,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
     });
   }
 
-  void _onRefreshPressed() {
+  void _onRetryPressed() {
     _hasError = false;
     _getJobs();
   }
@@ -125,14 +125,14 @@ class JobsList extends StatefulWidget {
     super.key,
     required this.loading,
     required this.error,
-    required this.onRefreshPressed,
+    required this.onRetryPressed,
     required this.controller,
   });
 
   final List<Job> jobs;
   final bool loading;
   final bool error;
-  final void Function() onRefreshPressed;
+  final void Function() onRetryPressed;
   final ScrollController controller;
 
   @override
@@ -169,7 +169,7 @@ class _JobsListState extends State<JobsList> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
-                onPressed: widget.onRefreshPressed,
+                onPressed: widget.onRetryPressed,
                 icon: const Icon(Icons.refresh),
                 color: Colors.blue,
                 iconSize: 38.0,
@@ -336,15 +336,18 @@ class _JobTileState extends State<JobTile> {
                                 arguments: _job,
                               );
                             },
-                            child: Text(
-                              _job.position,
-                              style: const TextStyle(
-                                color: textColor,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w500,
-                                overflow: TextOverflow.ellipsis,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                _job.position,
+                                style: const TextStyle(
+                                  color: textColor,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w500,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                maxLines: 2,
                               ),
-                              maxLines: 2,
                             ),
                           ),
                           const SizedBox(
