@@ -38,14 +38,40 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Job>(
-      stream: _streamController.stream,
-      builder: _builder,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_job.position),
+        backgroundColor: Colors.transparent,
+      ),
+      body: SafeArea(
+        child: StreamBuilder<Job>(
+          stream: _streamController.stream,
+          builder: _builder,
+        ),
+      ),
     );
   }
 
   Widget _builder(BuildContext context, AsyncSnapshot<Job> snapshot) {
-    return Container();
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            color: Colors.black87,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                spreadRadius: 0.5,
+                blurRadius: 1,
+                offset: const Offset(1, 0),
+              )
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   void _getJob() async {
