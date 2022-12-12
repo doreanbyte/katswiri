@@ -165,6 +165,8 @@ class _JobsListState extends State<JobsList> {
                 icon: const Icon(Icons.refresh),
                 color: Colors.blue,
                 iconSize: 38.0,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
               ),
               const SizedBox(height: 8.0),
               const Text(
@@ -274,7 +276,21 @@ class _JobTileState extends State<JobTile> {
             ],
           ),
           const SizedBox(
-            height: 12.0,
+            height: 16.0,
+          ),
+          Center(
+            child: Text(
+              _job.companyName,
+              maxLines: 2,
+              style: const TextStyle(
+                color: textColor,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 24.0,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -293,7 +309,7 @@ class _JobTileState extends State<JobTile> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12.0),
+                    const SizedBox(width: 14.0),
                     Flexible(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,7 +330,7 @@ class _JobTileState extends State<JobTile> {
                             _job.location,
                             style: const TextStyle(
                               color: Colors.grey,
-                              fontSize: 14.0,
+                              fontSize: 16.0,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -330,7 +346,7 @@ class _JobTileState extends State<JobTile> {
             height: 28.0,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -341,16 +357,16 @@ class _JobTileState extends State<JobTile> {
                         _job.type,
                         style: const TextStyle(
                           color: Colors.grey,
-                          fontSize: 15.0,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       const SizedBox(height: 12.0),
                       Text(
-                        _job.companyName,
+                        _job.posted,
                         style: const TextStyle(
-                          color: textColor,
-                          fontSize: 15.0,
+                          color: Colors.grey,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -358,14 +374,6 @@ class _JobTileState extends State<JobTile> {
                   ),
                 ],
               ),
-              Text(
-                _job.posted,
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              )
             ],
           )
         ],
