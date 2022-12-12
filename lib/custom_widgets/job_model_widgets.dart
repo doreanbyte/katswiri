@@ -243,7 +243,7 @@ class _JobTileState extends State<JobTile> {
     const textColor = Colors.white;
 
     return Container(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(4.0),
       margin: const EdgeInsets.only(bottom: 24.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
@@ -258,7 +258,155 @@ class _JobTileState extends State<JobTile> {
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 60.0,
+                height: 60.0,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(2.0),
+                  child: Hero(
+                    tag: _job.url,
+                    child: Image.network(
+                      _job.logo,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16.0),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTapUp: (_) {
+                        Navigator.pushNamed(
+                          context,
+                          JobDetailScreen.route,
+                          arguments: <String, dynamic>{
+                            'job': _job,
+                            'source': widget.source,
+                          },
+                        );
+                      },
+                      child: Text(
+                        _job.position,
+                        style: const TextStyle(
+                          color: textColor,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w500,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        maxLines: 2,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            _job.companyName,
+                            maxLines: 2,
+                            style: const TextStyle(
+                              color: Color(0xFFFFFFFF),
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w300,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12.0,
+                    ),
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.business,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(
+                                  width: 8.0,
+                                ),
+                                Text(
+                                  _job.type,
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16.0),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.watch_later_rounded,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(
+                                  width: 8.0,
+                                ),
+                                Text(
+                                  _job.posted,
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16.0),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.location_pin,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(
+                                  width: 8.0,
+                                ),
+                                Text(
+                                  _job.location,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 16.0,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -308,161 +456,6 @@ class _JobTileState extends State<JobTile> {
               )
             ],
           ),
-          const SizedBox(
-            height: 16.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Text(
-                  _job.companyName,
-                  maxLines: 2,
-                  style: const TextStyle(
-                    color: textColor,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 24.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 65.0,
-                      height: 65.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(2.0),
-                        child: Hero(
-                          tag: _job.url,
-                          child: Image.network(
-                            _job.logo,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 14.0),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTapUp: (_) {
-                              Navigator.pushNamed(
-                                context,
-                                JobDetailScreen.route,
-                                arguments: <String, dynamic>{
-                                  'job': _job,
-                                  'source': widget.source,
-                                },
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                _job.position,
-                                style: const TextStyle(
-                                  color: textColor,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w500,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                maxLines: 2,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 28.0,
-          ),
-          Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.business,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      Text(
-                        _job.type,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.watch_later_rounded,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      Text(
-                        _job.posted,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.location_pin,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      Text(
-                        _job.location,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          )
         ],
       ),
     );
