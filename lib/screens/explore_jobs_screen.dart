@@ -196,6 +196,15 @@ class _JobTile extends StatefulWidget {
 }
 
 class __JobTileState extends State<_JobTile> {
+  late final Job _job;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _job = widget.job;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container();
