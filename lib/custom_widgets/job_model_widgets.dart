@@ -190,7 +190,7 @@ class JobTile extends StatefulWidget {
 }
 
 class _JobTileState extends State<JobTile> {
-  late final Job _job;
+  Job _job = Job.empty();
 
   @override
   void initState() {
@@ -201,6 +201,145 @@ class _JobTileState extends State<JobTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final textColor = Theme.of(context).primaryColorLight;
+
+    return Container(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(bottom: 15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.black87,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 0,
+            blurRadius: 2,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(
+                          _job.logo,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _job.position,
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            _job.location,
+                            style: TextStyle(color: Colors.grey[500]),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _job = Job(
+                      logo: _job.logo,
+                      position: _job.position,
+                      companyName: _job.companyName,
+                      location: _job.location,
+                      type: _job.type,
+                      posted: _job.posted,
+                      url: _job.url,
+                      description: _job.description,
+                      saved: !_job.saved,
+                    );
+                  });
+                },
+                child: AnimatedContainer(
+                  height: 35,
+                  padding: const EdgeInsets.all(5),
+                  duration: const Duration(milliseconds: 300),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: _job.saved
+                            ? Colors.blue.shade100
+                            : Colors.grey.shade300,
+                      )),
+                  child: Center(
+                    child: _job.saved
+                        ? const Icon(
+                            Icons.bookmark,
+                            color: Colors.blue,
+                          )
+                        : Icon(
+                            Icons.bookmark_outline,
+                            color: Colors.grey.shade600,
+                          ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 15,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.grey.shade200,
+                    ),
+                    child: Text(
+                      _job.type,
+                      style: TextStyle(color: textColor),
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                _job.posted,
+                style: TextStyle(
+                  color: Colors.grey.shade800,
+                  fontSize: 12,
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
