@@ -63,6 +63,7 @@ class __JobListState extends State<_JobList> {
 
   int _page = 1;
   bool _loading = false;
+  bool _error = false;
 
   late final StreamController<List<Job>> _streamController;
   late final ScrollController _scrollController;
@@ -74,19 +75,7 @@ class __JobListState extends State<_JobList> {
     _source = widget.source;
     _streamController = StreamController.broadcast();
 
-    _streamController.stream.listen((jobs) {
-      _jobs.addAll(jobs);
-      // Go through every result from stream and turn it into it's relevevant
-      // widget in this case a job tile
-      jobs.forEach((job) {
-        _widgets.add(_JobTile(job: job));
-      });
-
-      setState(() {
-        _page++;
-        _loading = false;
-      });
-    });
+    _streamController.stream.listen(_onData, onError: _onError);
 
     _scrollController = ScrollController()..addListener(_onScrollEnd);
 
@@ -121,6 +110,27 @@ class __JobListState extends State<_JobList> {
       );
     }
 
+    if (_error) {
+      widgets.add(
+        Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: () {
+                  _error = false;
+                  _getJobs();
+                },
+                icon: const Icon(Icons.refresh),
+              ),
+              const Text('Something went wrong'),
+            ],
+          ),
+        ),
+      );
+    }
+
     return ListView.builder(
         padding: const EdgeInsets.all(20),
         itemCount: widgets.length,
@@ -148,6 +158,26 @@ class __JobListState extends State<_JobList> {
     if (offset >= maxScrollExtent && !_loading) {
       _getJobs();
     }
+  }
+
+  void _onData(List<Job> jobs) {
+    _jobs.addAll(jobs);
+    // Go through every result from stream and turn it into it's relevevant
+    // widget in this case a job tile
+    jobs.forEach((job) {
+      _widgets.add(_JobTile(job: job));
+    });
+
+    setState(() {
+      _page++;
+      _loading = false;
+    });
+  }
+
+  void _onError(Object object, StackTrace stackTrace) {
+    setState(() {
+      _error = true;
+    });
   }
 }
 
