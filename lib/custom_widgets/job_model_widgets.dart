@@ -201,20 +201,20 @@ class _JobTileState extends State<JobTile> {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).primaryColorLight;
+    const textColor = Colors.white;
 
     return Container(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.only(bottom: 24.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(8.0),
         color: Colors.black87,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 0,
-            blurRadius: 2,
-            offset: const Offset(0, 1),
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 0.5,
+            blurRadius: 1,
+            offset: const Offset(1, 0),
           ),
         ],
       ),
@@ -227,35 +227,39 @@ class _JobTileState extends State<JobTile> {
                 child: Row(
                   children: [
                     SizedBox(
-                      width: 60,
-                      height: 60,
+                      width: 85.0,
+                      height: 85.0,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(8.0),
                         child: Image.network(
                           _job.logo,
                           fit: BoxFit.contain,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 16.0),
                     Flexible(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             _job.position,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: textColor,
-                              fontSize: 15,
+                              fontSize: 20.0,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           const SizedBox(
-                            height: 5,
+                            height: 16.0,
                           ),
                           Text(
                             _job.location,
-                            style: TextStyle(color: Colors.grey[500]),
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ],
                       ),
@@ -280,11 +284,11 @@ class _JobTileState extends State<JobTile> {
                   });
                 },
                 child: AnimatedContainer(
-                  height: 35,
-                  padding: const EdgeInsets.all(5),
+                  height: 36.0,
+                  padding: const EdgeInsets.all(4.0),
                   duration: const Duration(milliseconds: 300),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(8.0),
                       border: Border.all(
                         color: _job.saved
                             ? Colors.blue.shade100
@@ -306,34 +310,43 @@ class _JobTileState extends State<JobTile> {
             ],
           ),
           const SizedBox(
-            height: 20,
+            height: 28.0,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.grey.shade200,
-                    ),
-                    child: Text(
-                      _job.type,
-                      style: TextStyle(color: textColor),
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _job.type,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 12.0),
+                      Text(
+                        _job.companyName,
+                        style: const TextStyle(
+                          color: textColor,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
               Text(
                 _job.posted,
-                style: TextStyle(
-                  color: Colors.grey.shade800,
-                  fontSize: 12,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500,
                 ),
               )
             ],
