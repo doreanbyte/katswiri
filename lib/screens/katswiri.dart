@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:katswiri/models/job.dart';
+import 'package:katswiri/sources/sources.dart';
 
 import 'bottom_navigation.dart';
 import 'job_detail_screen.dart';
@@ -27,9 +28,16 @@ class Katswiri extends StatelessWidget {
 
         switch (path) {
           case JobDetailScreen.route:
-            final job = settings.arguments as Job;
+            final arguments = settings.arguments as Map<String, dynamic>;
+
+            final job = arguments['job'] as Job;
+            final source = arguments['source'] as Source;
+
             pageRoute = MaterialPageRoute(
-              builder: (context) => JobDetailScreen(job: job),
+              builder: (context) => JobDetailScreen(
+                job: job,
+                source: source,
+              ),
             );
             break;
           default:

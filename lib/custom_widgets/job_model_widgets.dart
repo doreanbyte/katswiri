@@ -72,6 +72,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
         error: _hasError,
         onRetryPressed: _onRetryPressed,
         controller: _scrollController,
+        source: _source,
       ),
     );
   }
@@ -136,6 +137,7 @@ class JobsList extends StatefulWidget {
     required this.error,
     required this.onRetryPressed,
     required this.controller,
+    required this.source,
   });
 
   final List<Job> jobs;
@@ -143,6 +145,7 @@ class JobsList extends StatefulWidget {
   final bool error;
   final void Function() onRetryPressed;
   final ScrollController controller;
+  final Source source;
 
   @override
   State<JobsList> createState() => _JobsListState();
@@ -159,8 +162,12 @@ class _JobsListState extends State<JobsList> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> widgets =
-        _jobs.map<Widget>((job) => JobTile(job: job)).toList();
+    final List<Widget> widgets = _jobs
+        .map<Widget>((job) => JobTile(
+              job: job,
+              source: widget.source,
+            ))
+        .toList();
 
     if (widget.loading) {
       widgets.add(
@@ -212,9 +219,10 @@ class _JobsListState extends State<JobsList> {
 }
 
 class JobTile extends StatefulWidget {
-  const JobTile({super.key, required this.job});
+  const JobTile({super.key, required this.job, required this.source});
 
   final Job job;
+  final Source source;
 
   @override
   State<JobTile> createState() => _JobTileState();
@@ -354,7 +362,10 @@ class _JobTileState extends State<JobTile> {
                               Navigator.pushNamed(
                                 context,
                                 JobDetailScreen.route,
-                                arguments: _job,
+                                arguments: <String, dynamic>{
+                                  'job': _job,
+                                  'source': widget.source,
+                                },
                               );
                             },
                             child: Padding(
