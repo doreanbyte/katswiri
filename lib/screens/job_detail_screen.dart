@@ -38,13 +38,13 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_job.position),
-        backgroundColor: Colors.transparent,
-      ),
-      body: SafeArea(
-        child: StreamBuilder<Job>(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(_job.position),
+          backgroundColor: Colors.transparent,
+        ),
+        body: StreamBuilder<Job>(
           stream: _streamController.stream,
           builder: _builder,
         ),
