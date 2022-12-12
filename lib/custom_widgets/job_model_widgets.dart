@@ -19,7 +19,7 @@ class _JobListRetrieverState extends State<JobListRetriever> {
 
   int _page = 1;
   bool _loading = false;
-  bool _error = false;
+  bool _hasError = false;
 
   late final StreamController<List<Job>> _streamController;
   late final ScrollController _scrollController;
@@ -59,7 +59,7 @@ class _JobListRetrieverState extends State<JobListRetriever> {
     return JobsList(
       _jobs,
       loading: _loading,
-      error: _error,
+      error: _hasError,
       onRefreshPressed: _onRefreshPressed,
       controller: _scrollController,
     );
@@ -84,7 +84,7 @@ class _JobListRetrieverState extends State<JobListRetriever> {
     // If offset is equal to or greater than max scroll extent and the _loading
     // field is not set to true and the _error field is not set to true indicating
     // an error occured. Call _getJobs to fetch extra data
-    if (offset >= maxScrollExtent && !_loading && !_error) {
+    if (offset >= maxScrollExtent && !_loading && !_hasError) {
       _getJobs();
     }
   }
@@ -99,14 +99,14 @@ class _JobListRetrieverState extends State<JobListRetriever> {
   }
 
   void _onError(Object object, StackTrace stackTrace) {
+    _loading = false;
     setState(() {
-      _error = true;
-      _loading = false;
+      _hasError = true;
     });
   }
 
   void _onRefreshPressed() {
-    _error = false;
+    _hasError = false;
     _getJobs();
   }
 }
