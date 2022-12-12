@@ -101,6 +101,7 @@ class _JobListRetrieverState extends State<JobListRetriever> {
   void _onError(Object object, StackTrace stackTrace) {
     setState(() {
       _error = true;
+      _loading = false;
     });
   }
 
@@ -162,8 +163,16 @@ class _JobsListState extends State<JobsList> {
               IconButton(
                 onPressed: widget.onRefreshPressed,
                 icon: const Icon(Icons.refresh),
+                color: Colors.blue,
+                iconSize: 38.0,
               ),
-              const Text('Something went wrong'),
+              const SizedBox(height: 8.0),
+              const Text(
+                'Something went wrong',
+                style: TextStyle(
+                  fontSize: 16.0,
+                ),
+              ),
             ],
           ),
         ),
