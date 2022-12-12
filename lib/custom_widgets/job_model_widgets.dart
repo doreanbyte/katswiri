@@ -325,7 +325,6 @@ class _JobTileState extends State<JobTile> {
                     const SizedBox(width: 14.0),
                     Flexible(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             _job.position,
@@ -338,15 +337,26 @@ class _JobTileState extends State<JobTile> {
                             maxLines: 2,
                           ),
                           const SizedBox(
-                            height: 24.0,
+                            height: 16.0,
                           ),
-                          Text(
-                            _job.location,
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.location_pin,
+                                color: Colors.grey,
+                              ),
+                              const SizedBox(
+                                width: 8.0,
+                              ),
+                              Text(
+                                _job.location,
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -367,22 +377,44 @@ class _JobTileState extends State<JobTile> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        _job.type,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.business,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            width: 8.0,
+                          ),
+                          Text(
+                            _job.type,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 12.0),
-                      Text(
-                        _job.posted,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      const SizedBox(height: 16.0),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.watch_later_rounded,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            width: 8.0,
+                          ),
+                          Text(
+                            _job.posted,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
