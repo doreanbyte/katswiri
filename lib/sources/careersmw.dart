@@ -64,6 +64,10 @@ class CareersMW extends Source {
       headers: _headers,
       body: {
         'page': '$page',
+        'per_page': '50',
+        'orderby': 'featured',
+        'order': 'DESC',
+        'show_pagination': 'false',
       },
     );
 

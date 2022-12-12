@@ -64,6 +64,10 @@ class OnlineJobMW extends Source {
       headers: _headers,
       body: {
         'page': '$page',
+        'per_page': '6',
+        'orderby': 'featured',
+        'order': 'DESC',
+        'show_pagination': 'false',
       },
     );
 

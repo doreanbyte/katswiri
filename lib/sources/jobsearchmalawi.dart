@@ -64,6 +64,10 @@ class JobSearchMW extends Source {
       headers: _headers,
       body: {
         'page': '$page',
+        'per_page': '20',
+        'orderby': 'featured',
+        'order': 'DESC',
+        'show_pagination': 'false',
       },
     );
 
