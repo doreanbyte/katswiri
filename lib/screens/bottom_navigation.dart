@@ -37,7 +37,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
     return SafeArea(
       child: Scaffold(
-        body: navViews[_selectedIndex],
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: navViews,
+        ),
         bottomNavigationBar: BottomNavigationBar(
           iconSize: 32.0,
           backgroundColor: const Color(0xFF000000),

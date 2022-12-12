@@ -41,8 +41,15 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(_job.position),
+          elevation: 0,
           backgroundColor: Colors.transparent,
+          leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(
+              Icons.chevron_left_rounded,
+              size: 32.0,
+            ),
+          ),
         ),
         body: StreamBuilder<Job>(
           stream: _streamController.stream,
@@ -79,6 +86,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
       setState(() {
         _loading = true;
       });
+
       final job = await _source.fetchJob(_job.url);
       _streamController.sink.add(job);
     } catch (e) {
