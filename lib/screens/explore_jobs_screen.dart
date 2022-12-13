@@ -27,7 +27,9 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
         title: const Text('Explore'),
         backgroundColor: Colors.transparent,
         bottom: TabBar(
-          indicatorColor: Colors.white,
+          labelColor: Colors.blue,
+          unselectedLabelColor: Colors.white70,
+          indicatorColor: Colors.blue,
           controller: _tabController,
           tabs: _sources
               .map<Widget>((source) => Tab(
