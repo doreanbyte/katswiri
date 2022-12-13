@@ -21,6 +21,12 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
   );
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
