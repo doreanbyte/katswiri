@@ -5,7 +5,11 @@ import 'package:katswiri/models/job.dart';
 import 'package:katswiri/sources/sources.dart';
 
 class JobDetailScreen extends StatefulWidget {
-  const JobDetailScreen({super.key, required this.job, required this.source});
+  const JobDetailScreen({
+    super.key,
+    required this.job,
+    required this.source,
+  });
 
   final Job job;
   final Source source;
@@ -60,24 +64,98 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
   }
 
   Widget _builder(BuildContext context, AsyncSnapshot<Job> snapshot) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
-            color: Colors.black87,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
-                spreadRadius: 0.5,
-                blurRadius: 1,
-                offset: const Offset(1, 0),
-              )
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              color: Colors.black87,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 0.5,
+                  blurRadius: 1,
+                  offset: const Offset(1, 0),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        textDirection: TextDirection.ltr,
+                        children: [
+                          SizedBox(
+                            width: 150.0,
+                            height: 150.0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Hero(
+                                tag: _job.url,
+                                child: Image.network(
+                                  _job.logo,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 12.0,
+                          ),
+                          Text(
+                            _job.companyName,
+                            maxLines: 5,
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text(_job.posted),
+                          Text(_job.type),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 24.0,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      _job.position,
+                      maxLines: 5,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w500,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

@@ -280,7 +280,7 @@ class _JobTileState extends State<JobTile> {
                   width: 70.0,
                   height: 70.0,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(2.0),
+                    borderRadius: BorderRadius.circular(8.0),
                     child: Hero(
                       tag: _job.url,
                       child: Image.network(
@@ -336,6 +336,9 @@ class _JobTileState extends State<JobTile> {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
+                        ),
+                        const SizedBox(
+                          width: 8.0,
                         ),
                         //TODO: Add onTapUp gesture detector to location text
                         // to direct user to page showing jobs matching this location
