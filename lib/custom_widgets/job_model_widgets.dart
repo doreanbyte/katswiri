@@ -337,7 +337,7 @@ class _JobTileState extends State<JobTile> {
                             ),
                           ),
                         ),
-                        //TODO: Add onTapUp gesture detectore to notification text
+                        //TODO: Add onTapUp gesture detector to location text
                         // to direct user to page showing jobs matching this location
                         Expanded(
                           child: Text(
