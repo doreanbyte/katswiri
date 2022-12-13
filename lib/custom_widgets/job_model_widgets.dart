@@ -327,78 +327,20 @@ class _JobTileState extends State<JobTile> {
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12.0,
-                    ),
-                    Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.business,
-                                  color: Colors.grey,
-                                ),
-                                const SizedBox(
-                                  width: 8.0,
-                                ),
-                                Text(
-                                  _job.type,
-                                  style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
+                        //TODO: Add onTapUp gesture detectore to notification text
+                        // to direct user to page showing jobs matching this location
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            _job.location,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: Colors.blue,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
                             ),
-                            const SizedBox(height: 16.0),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.watch_later_rounded,
-                                  color: Colors.grey,
-                                ),
-                                const SizedBox(
-                                  width: 8.0,
-                                ),
-                                Text(
-                                  _job.posted,
-                                  style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16.0),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.location_pin,
-                                  color: Colors.grey,
-                                ),
-                                const SizedBox(
-                                  width: 8.0,
-                                ),
-                                Text(
-                                  _job.location,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
@@ -411,52 +353,67 @@ class _JobTileState extends State<JobTile> {
             height: 16.0,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _job = Job(
-                      logo: _job.logo,
-                      position: _job.position,
-                      companyName: _job.companyName,
-                      location: _job.location,
-                      type: _job.type,
-                      posted: _job.posted,
-                      url: _job.url,
-                      description: _job.description,
-                      saved: !_job.saved,
-                    );
-                  });
-                },
-                child: _job.saved
-                    ? const Icon(
-                        Icons.bookmark,
-                        color: Colors.blue,
-                        size: 28.0,
-                      )
-                    : Icon(
-                        Icons.bookmark_outline,
-                        color: Colors.grey.shade600,
-                        size: 28.0,
-                      ),
+              Row(
+                children: [
+                  Text(
+                    '${_job.type}  \u2022  ${_job.posted}',
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(
-                width: 8.0,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    //TODO: Implement saving jobs
+                    onTap: () {
+                      setState(() {
+                        _job = Job(
+                          logo: _job.logo,
+                          position: _job.position,
+                          companyName: _job.companyName,
+                          location: _job.location,
+                          type: _job.type,
+                          posted: _job.posted,
+                          url: _job.url,
+                          description: _job.description,
+                          saved: !_job.saved,
+                        );
+                      });
+                    },
+                    child: _job.saved
+                        ? const Icon(
+                            Icons.bookmark,
+                            color: Colors.blue,
+                            size: 28.0,
+                          )
+                        : Icon(
+                            Icons.bookmark_outline,
+                            color: Colors.grey.shade600,
+                            size: 28.0,
+                          ),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      await Share.share(
+                        _job.url,
+                        subject: _job.position,
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.share,
+                      color: Colors.blue,
+                      size: 28.0,
+                    ),
+                  ),
+                ],
               ),
-              IconButton(
-                onPressed: () async {
-                  await Share.share(
-                    _job.url,
-                    subject: _job.position,
-                  );
-                },
-                icon: const Icon(
-                  Icons.share,
-                  color: Colors.blue,
-                  size: 28.0,
-                ),
-              )
             ],
           ),
         ],
