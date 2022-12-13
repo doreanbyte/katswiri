@@ -127,8 +127,63 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                     Expanded(
                       child: Column(
                         children: [
-                          Text(_job.posted),
-                          Text(_job.type),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.access_time_filled,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(
+                                width: 8.0,
+                              ),
+                              Expanded(
+                                child: Text(_job.posted),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.business,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(
+                                width: 8.0,
+                              ),
+                              Expanded(
+                                child: Text(_job.type),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                          GestureDetector(
+                            //TODO: Implement on gesture for location
+                            onTapUp: (_) {},
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.location_pin,
+                                  color: Colors.blue,
+                                ),
+                                const SizedBox(
+                                  width: 8.0,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    _job.location,
+                                    style: const TextStyle(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
