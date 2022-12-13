@@ -267,16 +267,26 @@ class _JobTileState extends State<JobTile> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 70.0,
-                height: 70.0,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(2.0),
-                  child: Hero(
-                    tag: _job.url,
-                    child: Image.network(
-                      _job.logo,
-                      fit: BoxFit.contain,
+              GestureDetector(
+                onTapUp: (_) => Navigator.pushNamed(
+                  context,
+                  JobDetailScreen.route,
+                  arguments: {
+                    'job': _job,
+                    'source': widget.source,
+                  },
+                ),
+                child: SizedBox(
+                  width: 70.0,
+                  height: 70.0,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(2.0),
+                    child: Hero(
+                      tag: _job.url,
+                      child: Image.network(
+                        _job.logo,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
@@ -312,7 +322,7 @@ class _JobTileState extends State<JobTile> {
                       height: 12.0,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
@@ -330,7 +340,6 @@ class _JobTileState extends State<JobTile> {
                         //TODO: Add onTapUp gesture detectore to notification text
                         // to direct user to page showing jobs matching this location
                         Expanded(
-                          flex: 2,
                           child: Text(
                             _job.location,
                             maxLines: 1,
