@@ -130,7 +130,15 @@ class _JobDetailSectionState extends State<JobDetailSection>
   }
 
   void _onData(Job job) {
-    _job = job;
+    _job = Job(
+      logo: _job.logo,
+      position: _job.position,
+      companyName: _job.companyName,
+      location: _job.location,
+      type: _job.type,
+      posted: _job.posted,
+      description: job.description,
+    );
 
     setState(() {
       _loading = false;
