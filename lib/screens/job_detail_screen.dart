@@ -68,6 +68,9 @@ class _JobDetailScreenState extends State<JobDetailScreen>
             ),
             JobListRetriever(
               source: widget.source,
+              arguments: {
+                'position': widget.job.position,
+              },
             ),
           ],
         ),

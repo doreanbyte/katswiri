@@ -7,9 +7,10 @@ import 'package:katswiri/models/job.dart';
 import 'package:katswiri/sources/sources.dart';
 
 class JobListRetriever extends StatefulWidget {
-  const JobListRetriever({super.key, required this.source});
+  const JobListRetriever({super.key, required this.source, this.arguments});
 
   final Source source;
+  final Map<String, String>? arguments;
 
   @override
   State<JobListRetriever> createState() => _JobListRetrieverState();
@@ -85,7 +86,10 @@ class _JobListRetrieverState extends State<JobListRetriever>
       setState(() {
         _loading = true;
       });
-      final jobs = await _source.fetchJobs(page: _page);
+      final jobs = await _source.fetchJobs(
+        page: _page,
+        arguments: widget.arguments,
+      );
       _streamController.sink.add(jobs);
     } catch (e) {
       _streamController.addError(e);

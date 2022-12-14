@@ -56,7 +56,10 @@ class OnlineJobMW extends Source {
   }
 
   @override
-  Future<List<Job>> fetchJobs({int page = 1}) async {
+  Future<List<Job>> fetchJobs({
+    int page = 1,
+    Map<String, String>? arguments,
+  }) async {
     final List<Job> jobs = [];
 
     final response = await http.post(
@@ -68,6 +71,8 @@ class OnlineJobMW extends Source {
         'orderby': 'featured',
         'order': 'DESC',
         'show_pagination': 'false',
+        if (arguments?['position'] != null)
+          'search_keywords': arguments?['position'],
       },
     );
 
