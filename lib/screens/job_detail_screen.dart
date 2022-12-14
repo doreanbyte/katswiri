@@ -54,12 +54,8 @@ class _JobDetailScreenState extends State<JobDetailScreen>
             indicatorColor: Colors.blue,
             controller: _tabController,
             tabs: const [
-              Tab(
-                text: 'Description',
-              ),
-              Tab(
-                text: 'Related',
-              )
+              Tab(text: 'Description'),
+              Tab(text: 'Related'),
             ],
           ),
         ),

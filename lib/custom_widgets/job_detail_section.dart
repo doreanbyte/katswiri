@@ -51,9 +51,12 @@ class _JobDetailSectionState extends State<JobDetailSection>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return StreamBuilder<Job>(
-      stream: _streamController.stream,
-      builder: _builder,
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: StreamBuilder<Job>(
+        stream: _streamController.stream,
+        builder: _builder,
+      ),
     );
   }
 
