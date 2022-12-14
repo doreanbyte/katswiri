@@ -45,7 +45,7 @@ class JobSearchMW extends Source {
       posted: $.querySelector('.date-posted > time')?.text.trim() ?? '',
       description: $
               .querySelector('.job_description')
-              ?.text
+              ?.outerHtml
               .replaceAll(
                   '(adsbygoogle = window.adsbygoogle || []).push({});', '')
               .trim() ??

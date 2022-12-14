@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:katswiri/models/job.dart';
 import 'package:katswiri/sources/sources.dart';
 
@@ -62,45 +63,56 @@ class _JobDetailSectionState extends State<JobDetailSection>
   }
 
   Widget _builder(BuildContext context, AsyncSnapshot<Job> snapshot) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        _JobDetailHeader(_job),
-        const Divider(
-          height: 1.0,
-          color: Colors.grey,
-        ),
-        if (_loading)
-          const Center(
-            child: CircularProgressIndicator(),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          _JobDetailHeader(_job),
+          const Divider(
+            height: 1.0,
+            color: Colors.grey,
           ),
-        if (_hasError)
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: _onRetryPressed,
-                  icon: const Icon(Icons.refresh),
-                  color: Colors.blue,
-                  iconSize: 38.0,
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                ),
-                const SizedBox(height: 8.0),
-                const Text(
-                  'Something went wrong',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-              ],
+          const SizedBox(
+            height: 16.0,
+          ),
+          if (_loading)
+            const Center(
+              child: CircularProgressIndicator(),
             ),
-          ),
-        Expanded(child: Text(_job.description)),
-      ],
+          if (_hasError)
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: _onRetryPressed,
+                    icon: const Icon(Icons.refresh),
+                    color: Colors.blue,
+                    iconSize: 38.0,
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                  ),
+                  const SizedBox(height: 8.0),
+                  const Text(
+                    'Something went wrong',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          if (_job.description.isNotEmpty)
+            HtmlWidget(
+              _job.description,
+              textStyle: const TextStyle(
+                fontSize: 16.0,
+              ),
+            ),
+        ],
+      ),
     );
   }
 

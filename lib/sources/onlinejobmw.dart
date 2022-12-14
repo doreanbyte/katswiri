@@ -45,7 +45,7 @@ class OnlineJobMW extends Source {
       posted: $.querySelector('.date-posted')?.text.trim() ?? '',
       description: $
               .querySelector('.job_listing-description')
-              ?.text
+              ?.outerHtml
               .replaceAll(
                   '(adsbygoogle = window.adsbygoogle || []).push({});', '')
               .trim() ??
