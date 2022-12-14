@@ -23,6 +23,7 @@ class _JobDetailSectionState extends State<JobDetailSection>
   Job _job = Job.empty();
   late final Source _source;
   bool _loading = false;
+  bool _hasError = false;
 
   late final StreamController<Job> _streamController;
 
@@ -70,6 +71,35 @@ class _JobDetailSectionState extends State<JobDetailSection>
           height: 1.0,
           color: Colors.grey,
         ),
+        if (_loading)
+          const Center(
+            child: CircularProgressIndicator(),
+          ),
+        if (_hasError)
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: _onRetryPressed,
+                  icon: const Icon(Icons.refresh),
+                  color: Colors.blue,
+                  iconSize: 38.0,
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+                const SizedBox(height: 8.0),
+                const Text(
+                  'Something went wrong',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        Expanded(child: Text(_job.description)),
       ],
     );
   }
@@ -87,9 +117,25 @@ class _JobDetailSectionState extends State<JobDetailSection>
     }
   }
 
-  void _onData(Job event) {}
+  void _onData(Job job) {
+    _job = job;
 
-  void _onError(Object error, StackTrace stackTrace) {}
+    setState(() {
+      _loading = false;
+    });
+  }
+
+  void _onError(Object error, StackTrace stackTrace) {
+    _loading = false;
+    setState(() {
+      _hasError = true;
+    });
+  }
+
+  void _onRetryPressed() {
+    _hasError = false;
+    _getJob();
+  }
 }
 
 class _JobDetailHeader extends StatelessWidget {
