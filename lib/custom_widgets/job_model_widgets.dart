@@ -94,7 +94,11 @@ class _JobsListState extends State<JobsList> {
 }
 
 class JobTile extends StatefulWidget {
-  const JobTile({super.key, required this.job, required this.source});
+  const JobTile({
+    super.key,
+    required this.job,
+    required this.source,
+  });
 
   final Job job;
   final Source source;

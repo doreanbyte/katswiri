@@ -1,17 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:katswiri/custom_widgets/custom_widgets.dart';
+import 'package:katswiri/sources/sources.dart';
 
-class GeneralSearchScreen extends StatefulWidget {
-  const GeneralSearchScreen({super.key});
+class GeneralSearchScreen extends StatelessWidget {
+  const GeneralSearchScreen(
+    this.title, {
+    super.key,
+    required this.source,
+    required this.arguments,
+  });
+
+  final String title;
+  final Source source;
+  final Map<String, String> arguments;
 
   static const route = '/general_search';
 
   @override
-  State<GeneralSearchScreen> createState() => _GeneralSearchScreenState();
-}
-
-class _GeneralSearchScreenState extends State<GeneralSearchScreen> {
-  @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+        backgroundColor: Colors.transparent,
+      ),
+      body: JobListRetriever(
+        source: source,
+        arguments: arguments,
+      ),
+    );
   }
 }
