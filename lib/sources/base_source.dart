@@ -1,4 +1,4 @@
-import 'package:katswiri/models/job.dart';
+import 'package:katswiri/models/models.dart';
 
 abstract class Source {
   String get title => '';

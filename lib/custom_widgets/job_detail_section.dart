@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:katswiri/models/job.dart';
+import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/sources.dart';
 
 class JobDetailSection extends StatefulWidget {

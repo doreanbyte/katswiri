@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parseFragment;
 
-import 'package:katswiri/models/job.dart';
+import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/base_source.dart';
 
 class JobSearchMW extends Source {

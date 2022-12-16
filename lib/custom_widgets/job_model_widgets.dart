@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:katswiri/screens/job_detail_screen.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:katswiri/models/job.dart';
+import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/sources.dart';
 
 class JobsList extends StatefulWidget {
