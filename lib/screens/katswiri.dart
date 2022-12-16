@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:katswiri/models/models.dart';
+import 'package:katswiri/screens/general_search_screen.dart';
 import 'package:katswiri/sources/sources.dart';
 
 import 'bottom_navigation.dart';
@@ -37,6 +38,22 @@ class Katswiri extends StatelessWidget {
               builder: (context) => JobDetailScreen(
                 job: job,
                 source: source,
+              ),
+            );
+            break;
+          case GeneralSearchScreen.route:
+            final arguments = settings.arguments as Map<String, dynamic>;
+
+            final String title = arguments['title'] as String;
+            final Source source = arguments['source'] as Source;
+            final Map<String, String> searchArgs =
+                arguments['arguments'] as Map<String, String>;
+
+            pageRoute = MaterialPageRoute(
+              builder: (context) => GeneralSearchScreen(
+                title,
+                source: source,
+                arguments: searchArgs,
               ),
             );
             break;
