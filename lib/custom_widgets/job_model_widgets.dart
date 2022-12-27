@@ -119,120 +119,120 @@ class _JobTileState extends State<JobTile> {
 
   @override
   Widget build(BuildContext context) {
-    const textColor = Colors.white;
-
-    return GestureDetector(
-      onTapUp: (_) => Navigator.pushNamed(
-        context,
-        JobDetailScreen.route,
-        arguments: {
-          'job': _job,
-          'source': widget.source,
-        },
+    return DefaultTextStyle(
+      style: const TextStyle(
+        color: Colors.white,
       ),
-      child: Container(
-        padding: const EdgeInsets.all(4.0),
-        margin: const EdgeInsets.only(bottom: 24.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          color: Colors.black87,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 0.5,
-              blurRadius: 1,
-              offset: const Offset(1, 0),
-            ),
-          ],
+      child: GestureDetector(
+        onTapUp: (_) => Navigator.pushNamed(
+          context,
+          JobDetailScreen.route,
+          arguments: {
+            'job': _job,
+            'source': widget.source,
+          },
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 70.0,
-                  height: 70.0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Hero(
-                      tag: _job.url,
-                      child: Image.network(
-                        _job.logo,
-                        fit: BoxFit.contain,
+        child: Container(
+          padding: const EdgeInsets.all(4.0),
+          margin: const EdgeInsets.only(bottom: 24.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            color: Colors.black87,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                spreadRadius: 0.5,
+                blurRadius: 1,
+                offset: const Offset(1, 0),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 70.0,
+                    height: 70.0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Hero(
+                        tag: _job.url,
+                        child: Image.network(
+                          _job.logo,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 16.0),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _job.position,
-                        style: const TextStyle(
-                          color: textColor,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w500,
-                          overflow: TextOverflow.ellipsis,
+                  const SizedBox(width: 16.0),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _job.position,
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w500,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          maxLines: 2,
                         ),
-                        maxLines: 2,
-                      ),
-                      const SizedBox(
-                        height: 12.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              _job.companyName,
-                              maxLines: 2,
-                              style: const TextStyle(
-                                color: Color(0xFFFFFFFF),
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w300,
+                        const SizedBox(
+                          height: 12.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                _job.companyName,
+                                maxLines: 2,
+                                style: const TextStyle(
+                                  color: Color(0xFFFFFFFF),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w300,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8.0,
+                            ),
+                            //TODO: Add onTapUp gesture detector to location text
+                            // to direct user to page showing jobs matching this location
+                            Expanded(
+                              child: Text(
+                                _job.location,
+                                maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 8.0,
-                          ),
-                          //TODO: Add onTapUp gesture detector to location text
-                          // to direct user to page showing jobs matching this location
-                          Expanded(
-                            child: Text(
-                              _job.location,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Colors.blue,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 16.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text(
+                ],
+              ),
+              const SizedBox(
+                height: 16.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
                       '${_job.type}  \u2022  ${_job.posted}',
                       style: const TextStyle(
                         color: Colors.grey,
@@ -240,60 +240,88 @@ class _JobTileState extends State<JobTile> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      //TODO: Implement saving jobs
-                      onTap: () {
-                        setState(() {
-                          _job = Job(
-                            logo: _job.logo,
-                            position: _job.position,
-                            companyName: _job.companyName,
-                            location: _job.location,
-                            type: _job.type,
-                            posted: _job.posted,
-                            url: _job.url,
-                            description: _job.description,
-                            saved: !_job.saved,
-                          );
-                        });
-                      },
-                      child: _job.saved
-                          ? const Icon(
-                              Icons.bookmark,
-                              color: Colors.blue,
-                              size: 28.0,
-                            )
-                          : Icon(
-                              Icons.bookmark_outline,
-                              color: Colors.grey.shade600,
-                              size: 28.0,
-                            ),
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        await Share.share(
-                          _job.url,
-                          subject: _job.position,
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.share,
-                        color: Colors.blue,
-                        size: 28.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        //TODO: Implement saving jobs
+                        onTap: () {
+                          setState(() {
+                            _job = Job(
+                              logo: _job.logo,
+                              position: _job.position,
+                              companyName: _job.companyName,
+                              location: _job.location,
+                              type: _job.type,
+                              posted: _job.posted,
+                              url: _job.url,
+                              description: _job.description,
+                              saved: !_job.saved,
+                            );
+                          });
+                        },
+                        child: _job.saved
+                            ? const Icon(
+                                Icons.bookmark,
+                                color: Colors.blue,
+                                size: 28.0,
+                              )
+                            : Icon(
+                                Icons.bookmark_outline,
+                                color: Colors.grey.shade600,
+                                size: 28.0,
+                              ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                      IconButton(
+                        onPressed: () async {
+                          await Share.share(
+                            _job.url,
+                            subject: _job.position,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.share,
+                          color: Colors.blue,
+                          size: 28.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+}
+
+class JobTileLeadSection extends StatefulWidget {
+  const JobTileLeadSection({super.key});
+
+  @override
+  State<JobTileLeadSection> createState() => _JobTileLeadSectionState();
+}
+
+class _JobTileLeadSectionState extends State<JobTileLeadSection> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class JobTileFooter extends StatefulWidget {
+  const JobTileFooter({super.key});
+
+  @override
+  State<JobTileFooter> createState() => _JobTileFooterState();
+}
+
+class _JobTileFooterState extends State<JobTileFooter> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
