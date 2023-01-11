@@ -22,7 +22,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
   final navBarItems = <BottomNavigationBarItem>[
     const BottomNavigationBarItem(
-      icon: Icon(Icons.work),
+      icon: Icon(Icons.map),
       label: 'Explore',
     ),
     const BottomNavigationBarItem(
@@ -42,7 +42,6 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           children: navViews,
         ),
         bottomNavigationBar: BottomNavigationBar(
-          iconSize: 32.0,
           backgroundColor: const Color(0xFF000000),
           unselectedItemColor: Colors.grey,
           currentIndex: _selectedIndex,
