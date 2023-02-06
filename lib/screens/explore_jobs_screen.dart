@@ -26,33 +26,6 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
     super.dispose();
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: const Text('Explore'),
-  //       backgroundColor: Colors.transparent,
-  //       bottom: TabBar(
-  //         labelColor: Colors.blue,
-  //         unselectedLabelColor: Colors.white70,
-  //         indicatorColor: Colors.blue,
-  //         controller: _tabController,
-  //         tabs: _sources
-  //             .map<Widget>((source) => Tab(
-  //                   text: source.title,
-  //                 ))
-  //             .toList(),
-  //       ),
-  //     ),
-  //     body: TabBarView(
-  //       controller: _tabController,
-  //       children: _sources
-  //           .map<Widget>((source) => JobListRetriever(source: source))
-  //           .toList(),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Column(
