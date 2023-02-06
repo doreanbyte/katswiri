@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:katswiri/sources/sources.dart';
-import 'package:katswiri/custom_widgets/custom_widgets.dart';
 
 class ExploreJobsScreen extends StatefulWidget {
   const ExploreJobsScreen({super.key});
@@ -55,12 +54,20 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Stack(
-        children: const [
-          ExploreLeadSection(),
-        ],
-      ),
+    return Column(
+      children: [
+        const ExploreLeadSection(),
+        TabBarSection(
+          controller: _tabController,
+          sources: _sources,
+        ),
+        Expanded(
+          child: TabBarViewSection(
+            controller: _tabController,
+            sources: _sources,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -108,5 +115,47 @@ class ExploreLeadSection extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class TabBarSection extends StatefulWidget {
+  const TabBarSection({
+    required this.controller,
+    required this.sources,
+    super.key,
+  });
+
+  final TabController controller;
+  final List<Source> sources;
+
+  @override
+  State<TabBarSection> createState() => _TabBarSectionState();
+}
+
+class _TabBarSectionState extends State<TabBarSection> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class TabBarViewSection extends StatefulWidget {
+  const TabBarViewSection({
+    required this.controller,
+    required this.sources,
+    super.key,
+  });
+
+  final TabController controller;
+  final List<Source> sources;
+
+  @override
+  State<TabBarViewSection> createState() => _TabBarViewSectionState();
+}
+
+class _TabBarViewSectionState extends State<TabBarViewSection> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
