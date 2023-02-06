@@ -146,18 +146,19 @@ class _TabBarSectionState extends State<TabBarSection> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 8.0,
+        horizontal: 16.0,
       ),
       child: TabBar(
+        isScrollable: true,
         labelStyle: const TextStyle(
-          fontSize: 16.0,
-          fontWeight: FontWeight.w600,
+          fontSize: 18.0,
+          fontWeight: FontWeight.w700,
         ),
         unselectedLabelStyle: const TextStyle(
           fontSize: 14.0,
           fontWeight: FontWeight.w500,
         ),
-        indicatorWeight: 3.0,
+        indicatorWeight: 4.0,
         labelColor: Colors.blue,
         unselectedLabelColor: Colors.white70,
         indicatorColor: Colors.blue,

@@ -57,12 +57,9 @@ class _JobListRetrieverState extends State<JobListRetriever>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: StreamBuilder<List<Job>>(
-        stream: _streamController.stream,
-        builder: _builder,
-      ),
+    return StreamBuilder<List<Job>>(
+      stream: _streamController.stream,
+      builder: _builder,
     );
   }
 
