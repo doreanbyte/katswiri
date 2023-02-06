@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/sources/sources.dart';
 
 class ExploreJobsScreen extends StatefulWidget {
@@ -61,6 +62,9 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
           controller: _tabController,
           sources: _sources,
         ),
+        const SizedBox(
+          height: 12.0,
+        ),
         Expanded(
           child: TabBarViewSection(
             controller: _tabController,
@@ -102,7 +106,7 @@ class ExploreLeadSection extends StatelessWidget {
             ],
           ),
           const SizedBox(
-            height: 8.0,
+            height: 16.0,
           ),
           const Text(
             'Browse and Discover Jobs from Multiple Sources',
@@ -182,6 +186,11 @@ class TabBarViewSection extends StatefulWidget {
 class _TabBarViewSectionState extends State<TabBarViewSection> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return TabBarView(
+      controller: widget.controller,
+      children: widget.sources
+          .map<Widget>((source) => JobListRetriever(source: source))
+          .toList(),
+    );
   }
 }
