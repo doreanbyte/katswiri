@@ -22,11 +22,13 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
   final navBarItems = <BottomNavigationBarItem>[
     const BottomNavigationBarItem(
-      icon: Icon(Icons.map),
+      icon: Icon(Icons.explore_outlined),
+      activeIcon: Icon(Icons.explore_rounded),
       label: 'Explore',
     ),
     const BottomNavigationBarItem(
-      icon: Icon(Icons.bookmark),
+      icon: Icon(Icons.bookmark_outline),
+      activeIcon: Icon(Icons.bookmark_rounded),
       label: 'Saved',
     ),
   ];
