@@ -35,23 +35,23 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   Widget build(BuildContext context) {
     assert(navViews.length == navBarItems.length);
 
-    return SafeArea(
-      child: Scaffold(
-        body: IndexedStack(
+    return Scaffold(
+      body: SafeArea(
+        child: IndexedStack(
           index: _selectedIndex,
           children: navViews,
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: const Color(0xFF000000),
-          unselectedItemColor: Colors.grey,
-          currentIndex: _selectedIndex,
-          items: navBarItems,
-          onTap: (int index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xFF000000),
+        unselectedItemColor: Colors.grey,
+        currentIndex: _selectedIndex,
+        items: navBarItems,
+        onTap: (int index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
     );
   }

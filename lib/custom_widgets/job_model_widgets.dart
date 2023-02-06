@@ -297,31 +297,3 @@ class _JobTileState extends State<JobTile> {
     );
   }
 }
-
-class JobTileLeadSection extends StatefulWidget {
-  const JobTileLeadSection({super.key});
-
-  @override
-  State<JobTileLeadSection> createState() => _JobTileLeadSectionState();
-}
-
-class _JobTileLeadSectionState extends State<JobTileLeadSection> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-class JobTileFooter extends StatefulWidget {
-  const JobTileFooter({super.key});
-
-  @override
-  State<JobTileFooter> createState() => _JobTileFooterState();
-}
-
-class _JobTileFooterState extends State<JobTileFooter> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}

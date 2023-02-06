@@ -31,6 +31,7 @@ class CareersMW extends Source {
     final response = await http.get(Uri.parse(url), headers: _headers);
 
     if (response.statusCode != 200) {
+      //TODO: Wrap undesired response instead of throwing
       throw HttpException('HTTP Request Error: ${response.statusCode}');
     }
 
@@ -77,6 +78,7 @@ class CareersMW extends Source {
     );
 
     if (response.statusCode != 200) {
+      //TODO: Wrap undesired response instead of throwing
       throw HttpException('HTTP Request Error: ${response.statusCode}');
     }
 

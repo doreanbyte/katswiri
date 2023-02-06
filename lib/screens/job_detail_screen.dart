@@ -35,31 +35,31 @@ class _JobDetailScreenState extends State<JobDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.job.position),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(
-              Icons.chevron_left_rounded,
-              size: 32.0,
-            ),
-          ),
-          bottom: TabBar(
-            labelColor: Colors.blue,
-            unselectedLabelColor: Colors.white70,
-            indicatorColor: Colors.blue,
-            controller: _tabController,
-            tabs: const [
-              Tab(text: 'Description'),
-              Tab(text: 'Related'),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.job.position),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(
+            Icons.chevron_left_rounded,
+            size: 32.0,
           ),
         ),
-        body: TabBarView(
+        bottom: TabBar(
+          labelColor: Colors.blue,
+          unselectedLabelColor: Colors.white70,
+          indicatorColor: Colors.blue,
+          controller: _tabController,
+          tabs: const [
+            Tab(text: 'Description'),
+            Tab(text: 'Related'),
+          ],
+        ),
+      ),
+      body: SafeArea(
+        child: TabBarView(
           controller: _tabController,
           children: [
             JobDetailSection(
