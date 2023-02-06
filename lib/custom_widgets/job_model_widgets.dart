@@ -294,17 +294,7 @@ class _JobTileState extends State<JobTile> {
       style: const TextStyle(
         color: Colors.white,
       ),
-      child: InkWell(
-        onTapUp: (_) => Navigator.pushNamed(
-          context,
-          JobDetailScreen.route,
-          arguments: {
-            'job': _job,
-            'source': widget.source,
-          },
-        ),
-        child: JobTileContent(job: _job),
-      ),
+      child: JobTileContent(job: _job),
     );
   }
 }
@@ -317,16 +307,51 @@ class JobTileContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(2.0),
-      margin: const EdgeInsets.only(bottom: 8.0),
+      padding: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.only(bottom: 12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          JobTileActions(job),
-          const SizedBox(
-            height: 4.0,
+          Row(
+            children: [
+              JobTileImage(job: job),
+            ],
           ),
+          const SizedBox(
+            height: 2.0,
+          ),
+          JobTileActions(job),
         ],
+      ),
+    );
+  }
+}
+
+class JobTileImage extends StatelessWidget {
+  const JobTileImage({
+    super.key,
+    required this.job,
+    this.size = 75,
+  });
+
+  final Job job;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      height: size,
+      width: size,
+      decoration: BoxDecoration(
+        color: Colors.black87,
+        shape: BoxShape.circle,
+        image: DecorationImage(
+          fit: BoxFit.fill,
+          image: NetworkImage(
+            job.logo,
+          ),
+        ),
       ),
     );
   }
