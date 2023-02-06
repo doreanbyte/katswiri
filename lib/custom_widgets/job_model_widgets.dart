@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:katswiri/custom_widgets/custom_widgets.dart' show Spinner;
 import 'package:katswiri/screens/job_detail_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:katswiri/models/models.dart';
@@ -46,12 +47,7 @@ class _JobsListState extends State<JobsList> {
 
     if (widget.loading) {
       widgets.add(
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
+        const Spinner(),
       );
     }
 
