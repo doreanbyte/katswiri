@@ -135,7 +135,33 @@ class TabBarSection extends StatefulWidget {
 class _TabBarSectionState extends State<TabBarSection> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8.0,
+      ),
+      child: TabBar(
+        labelStyle: const TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w500,
+        ),
+        indicatorWeight: 3.0,
+        labelColor: Colors.blue,
+        unselectedLabelColor: Colors.white70,
+        indicatorColor: Colors.blue,
+        controller: widget.controller,
+        tabs: widget.sources
+            .map<Widget>(
+              (source) => Tab(
+                text: source.title,
+              ),
+            )
+            .toList(),
+      ),
+    );
   }
 }
 
