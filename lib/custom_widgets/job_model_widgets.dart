@@ -79,12 +79,17 @@ class _JobsListState extends State<JobsList> {
       );
     }
 
-    return ListView.builder(
-        controller: widget.controller,
-        itemCount: widgets.length,
-        itemBuilder: (context, index) {
-          return widgets[index];
-        });
+    return ListView.separated(
+      controller: widget.controller,
+      itemBuilder: (context, index) {
+        return widgets[index];
+      },
+      separatorBuilder: (context, index) => const Divider(
+        color: Colors.grey,
+        thickness: .8,
+      ),
+      itemCount: widgets.length,
+    );
   }
 }
 
