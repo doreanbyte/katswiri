@@ -149,11 +149,14 @@ class JobTileContent extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         horizontal: 2.0,
       ),
-      height: MediaQuery.of(context).size.height * .13,
+      height: 125.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          JobTileCompanySection(job: job),
+          JobTileCompanySection(job),
+          Expanded(
+            child: JobTileDescriptionSection(job),
+          ),
         ],
       ),
     );
@@ -191,7 +194,7 @@ class JobTileImage extends StatelessWidget {
 }
 
 class JobTileCompanySection extends StatelessWidget {
-  const JobTileCompanySection({super.key, required this.job});
+  const JobTileCompanySection(this.job, {super.key});
 
   final Job job;
 
@@ -201,7 +204,7 @@ class JobTileCompanySection extends StatelessWidget {
       children: [
         JobTileImage(
           job: job,
-          size: 42.0,
+          size: 36.0,
         ),
         const SizedBox(
           width: 8.0,
@@ -219,6 +222,65 @@ class JobTileCompanySection extends StatelessWidget {
         ),
         JobTileActions(job),
       ],
+    );
+  }
+}
+
+class JobTileDescriptionSection extends StatelessWidget {
+  const JobTileDescriptionSection(this.job, {super.key});
+
+  final Job job;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Text(
+              job.position,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w800,
+                letterSpacing: -.4,
+                wordSpacing: 1.2,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      job.location,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    job.posted,
+                    textAlign: TextAlign.end,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
