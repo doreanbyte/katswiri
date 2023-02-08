@@ -148,13 +148,16 @@ class JobTileContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 2.0,
+        horizontal: 4.0,
       ),
       height: 125.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           JobTileCompanySection(job),
+          const SizedBox(
+            height: 2.0,
+          ),
           Expanded(
             child: JobTileDescriptionSection(job),
           ),
@@ -205,7 +208,7 @@ class JobTileCompanySection extends StatelessWidget {
       children: [
         JobTileImage(
           job: job,
-          size: 46.0,
+          size: 48.0,
         ),
         const SizedBox(
           width: 12.0,
@@ -218,6 +221,7 @@ class JobTileCompanySection extends StatelessWidget {
             style: const TextStyle(
               color: Colors.grey,
               fontSize: 16.0,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -264,7 +268,7 @@ class JobTileDescriptionSection extends StatelessWidget {
                       job.location,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
@@ -277,6 +281,7 @@ class JobTileDescriptionSection extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.grey,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),

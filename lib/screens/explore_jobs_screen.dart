@@ -100,7 +100,10 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
                   fontWeight: FontWeight.w400,
                   color: Colors.grey,
                 ),
-              )
+              ),
+              const SizedBox(
+                height: 4.0,
+              ),
             ],
           ),
         ),
@@ -135,7 +138,7 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      margin: const EdgeInsets.only(bottom: 8.0),
+      margin: const EdgeInsets.only(bottom: 12.0),
       child: _tabBar,
     );
   }
