@@ -80,6 +80,7 @@ class _JobsListState extends State<JobsList> {
     }
 
     return ListView.separated(
+      padding: const EdgeInsets.only(top: 8.0),
       controller: widget.controller,
       itemBuilder: (context, index) {
         return widgets[index];
@@ -204,7 +205,7 @@ class JobTileCompanySection extends StatelessWidget {
       children: [
         JobTileImage(
           job: job,
-          size: 42.0,
+          size: 46.0,
         ),
         const SizedBox(
           width: 12.0,
