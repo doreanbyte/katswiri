@@ -151,7 +151,6 @@ class JobTileContent extends StatelessWidget {
       ),
       height: MediaQuery.of(context).size.height * .13,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           JobTileCompanySection(job: job),
@@ -181,7 +180,7 @@ class JobTileImage extends StatelessWidget {
         color: Colors.white,
         shape: BoxShape.circle,
         image: DecorationImage(
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
           image: NetworkImage(
             job.logo,
           ),
@@ -202,7 +201,7 @@ class JobTileCompanySection extends StatelessWidget {
       children: [
         JobTileImage(
           job: job,
-          size: 34.0,
+          size: 42.0,
         ),
         const SizedBox(
           width: 8.0,
@@ -218,6 +217,7 @@ class JobTileCompanySection extends StatelessWidget {
             ),
           ),
         ),
+        JobTileActions(job),
       ],
     );
   }
@@ -231,19 +231,8 @@ class JobTileActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        OutlinedButton.icon(
-          //TODO: Implement onPressed
-          onPressed: () {},
-          icon: const Icon(
-            Icons.location_city,
-          ),
-          label: Text(
-            job.location,
-            maxLines: 1,
-          ),
-        ),
         IconButton(
           onPressed: () async {
             await Share.share(
@@ -252,7 +241,14 @@ class JobTileActions extends StatelessWidget {
             );
           },
           icon: const Icon(
-            Icons.share,
+            Icons.share_sharp,
+            color: Colors.blue,
+          ),
+        ),
+        IconButton(
+          onPressed: () async {},
+          icon: const Icon(
+            Icons.bookmark_add_outlined,
             color: Colors.blue,
           ),
         ),
