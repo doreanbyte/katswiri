@@ -257,9 +257,11 @@ class JobTileDescriptionSection extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextButton(
+                    //TODO: Implement location button
                     onPressed: () {},
                     child: Text(
                       job.location,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontWeight: FontWeight.w800,
                       ),
@@ -267,6 +269,7 @@ class JobTileDescriptionSection extends StatelessWidget {
                   ),
                 ),
                 Expanded(
+                  flex: 2,
                   child: Text(
                     job.posted,
                     textAlign: TextAlign.end,
