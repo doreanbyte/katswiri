@@ -58,29 +58,39 @@ class ExploreLeadSection extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: 12.0,
         right: 12.0,
-        top: 28.0,
-        bottom: 8.0,
+        top: 24.0,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: const [
-              Icon(
+            children: [
+              const Icon(
                 Icons.explore_rounded,
                 color: Colors.white70,
-                size: 36.0,
+                size: 28.0,
               ),
-              SizedBox(
-                width: 12.0,
+              const SizedBox(
+                width: 8.0,
               ),
-              Text(
-                'Explore',
-                style: TextStyle(
-                  fontSize: 42.0,
-                  fontWeight: FontWeight.bold,
+              const Expanded(
+                child: Text(
+                  'Explore',
+                  style: TextStyle(
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: -.4,
+                  ),
                 ),
               ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.search_outlined,
+                  color: Colors.white70,
+                  size: 28.0,
+                ),
+              )
             ],
           ),
           const SizedBox(
@@ -89,7 +99,7 @@ class ExploreLeadSection extends StatelessWidget {
           const Text(
             'Browse and Discover Jobs from Multiple Sources',
             style: TextStyle(
-              fontSize: 18.0,
+              fontSize: 16.0,
               fontWeight: FontWeight.w400,
               color: Colors.grey,
             ),
@@ -124,14 +134,14 @@ class _TabBarSectionState extends State<TabBarSection> {
       child: TabBar(
         isScrollable: true,
         labelStyle: const TextStyle(
-          fontSize: 18.0,
+          fontSize: 16.0,
           fontWeight: FontWeight.w700,
         ),
         unselectedLabelStyle: const TextStyle(
           fontSize: 14.0,
           fontWeight: FontWeight.w500,
         ),
-        indicatorWeight: 4.0,
+        indicatorWeight: 3.0,
         labelColor: Colors.blue,
         unselectedLabelColor: Colors.white70,
         indicatorColor: Colors.blue,

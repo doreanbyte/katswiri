@@ -204,10 +204,10 @@ class JobTileCompanySection extends StatelessWidget {
       children: [
         JobTileImage(
           job: job,
-          size: 36.0,
+          size: 42.0,
         ),
         const SizedBox(
-          width: 8.0,
+          width: 12.0,
         ),
         Expanded(
           child: Text(
