@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart'
+    show CachedNetworkImageProvider;
 import 'package:flutter/material.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart' show Spinner;
 import 'package:katswiri/screens/job_detail_screen.dart';
@@ -188,9 +190,7 @@ class JobTileImage extends StatelessWidget {
         shape: BoxShape.circle,
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: NetworkImage(
-            job.logo,
-          ),
+          image: CachedNetworkImageProvider(job.logo),
         ),
       ),
     );
