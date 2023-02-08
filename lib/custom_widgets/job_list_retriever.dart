@@ -6,10 +6,16 @@ import 'package:katswiri/sources/sources.dart';
 import 'job_model_widgets.dart';
 
 class JobListRetriever extends StatefulWidget {
-  const JobListRetriever({super.key, required this.source, this.arguments});
+  const JobListRetriever({
+    super.key,
+    required this.source,
+    this.arguments,
+    this.scrollController,
+  });
 
   final Source source;
   final Map<String, String>? arguments;
+  final ScrollController? scrollController;
 
   @override
   State<JobListRetriever> createState() => _JobListRetrieverState();
@@ -25,7 +31,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
   bool _hasError = false;
 
   late final StreamController<List<Job>> _streamController;
-  late final ScrollController _scrollController;
+  late final ScrollController _listScrollController;
 
   @override
   void initState() {
@@ -33,10 +39,9 @@ class _JobListRetrieverState extends State<JobListRetriever>
 
     _source = widget.source;
     _streamController = StreamController.broadcast();
-
     _streamController.stream.listen(_onData, onError: _onError);
 
-    _scrollController = ScrollController()..addListener(_onScrollEnd);
+    _listScrollController = ScrollController()..addListener(_onScrollEnd);
 
     _getJobs();
   }
@@ -44,8 +49,8 @@ class _JobListRetrieverState extends State<JobListRetriever>
   @override
   void dispose() {
     _streamController.close();
-    _scrollController.removeListener(_onScrollEnd);
-    _scrollController.dispose();
+    _listScrollController.removeListener(_onScrollEnd);
+    _listScrollController.dispose();
 
     super.dispose();
   }
@@ -64,15 +69,21 @@ class _JobListRetrieverState extends State<JobListRetriever>
   }
 
   Widget _builder(BuildContext context, AsyncSnapshot<List<Job>> snapshot) {
-    return RefreshIndicator(
-      onRefresh: _onRefresh,
-      child: JobsList(
-        _jobs,
-        loading: _loading,
-        error: _hasError,
-        onRetryPressed: _onRetryPressed,
-        controller: _scrollController,
-        source: _source,
+    return SingleChildScrollView(
+      controller: widget.scrollController,
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * .80,
+        child: RefreshIndicator(
+          onRefresh: _onRefresh,
+          child: JobsList(
+            _jobs,
+            loading: _loading,
+            error: _hasError,
+            onRetryPressed: _onRetryPressed,
+            controller: _listScrollController,
+            source: _source,
+          ),
+        ),
       ),
     );
   }
@@ -93,8 +104,8 @@ class _JobListRetrieverState extends State<JobListRetriever>
   }
 
   void _onScrollEnd() {
-    final offset = _scrollController.offset;
-    final maxScrollExtent = _scrollController.position.maxScrollExtent;
+    final offset = _listScrollController.offset;
+    final maxScrollExtent = _listScrollController.position.maxScrollExtent;
 
     // If offset is equal to or greater than max scroll extent and the _loading
     // field is not set to true and the _error field is not set to true indicating
