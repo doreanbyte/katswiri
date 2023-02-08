@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/sources.dart';
 
-class JobDetailScreen extends StatelessWidget {
+class JobDetailScreen extends StatefulWidget {
   const JobDetailScreen({
     super.key,
     required this.job,
@@ -14,6 +14,11 @@ class JobDetailScreen extends StatelessWidget {
 
   static const route = '/job_detail';
 
+  @override
+  State<JobDetailScreen> createState() => _JobDetailScreenState();
+}
+
+class _JobDetailScreenState extends State<JobDetailScreen> {
   @override
   Widget build(BuildContext context) {
     // return Scaffold(
@@ -60,8 +65,8 @@ class JobDetailScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: JobDetailContent(
-          job: job,
-          source: source,
+          job: widget.job,
+          source: widget.source,
         ),
       ),
     );
@@ -91,12 +96,83 @@ class _JobDetailContentState extends State<JobDetailContent>
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
+    _tabController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return NestedScrollView(
+      physics: NeverScrollableScrollPhysics(),
+      headerSliverBuilder: (context, isScrolled) => [
+        SliverAppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          collapsedHeight: 350,
+          expandedHeight: 350,
+          flexibleSpace: LeadingSection(
+            job: widget.job,
+          ),
+        ),
+      ],
+      body: Container(),
+    );
+  }
+}
+
+class LeadingSection extends StatelessWidget {
+  const LeadingSection({
+    super.key,
+    required this.job,
+  });
+
+  final Job job;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          opacity: .1,
+          fit: BoxFit.cover,
+          image: NetworkImage(job.logo),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.chevron_left_sharp,
+              size: 38.0,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(
+            height: 8.0,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text(
+                    job.position,
+                    style: const TextStyle(
+                      fontSize: 38.0,
+                      fontWeight: FontWeight.w900,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -15,7 +15,7 @@ class Katswiri extends StatelessWidget {
       title: 'Katswiri',
       theme: ThemeData(
         backgroundColor: Colors.black12,
-        scaffoldBackgroundColor: Colors.black,
+        scaffoldBackgroundColor: Colors.black87,
         primarySwatch: Colors.blue,
         textTheme: Theme.of(context).textTheme.apply(
               bodyColor: Colors.white,

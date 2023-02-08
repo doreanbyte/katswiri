@@ -146,29 +146,15 @@ class JobTileContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8.0),
-      margin: const EdgeInsets.only(bottom: 8.0),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 2.0,
+      ),
+      height: MediaQuery.of(context).size.height * .13,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Hero(
-                tag: job.url,
-                child: JobTileImage(job: job),
-              ),
-              const SizedBox(
-                width: 16.0,
-              ),
-              Expanded(
-                child: JobTileDetail(job: job),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          JobTileActions(job),
+          JobTileCompanySection(job: job),
         ],
       ),
     );
@@ -205,47 +191,31 @@ class JobTileImage extends StatelessWidget {
   }
 }
 
-class JobTileDetail extends StatelessWidget {
-  const JobTileDetail({super.key, required this.job});
+class JobTileCompanySection extends StatelessWidget {
+  const JobTileCompanySection({super.key, required this.job});
 
   final Job job;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
-        Text(
-          job.position,
-          style: const TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.w700,
-            overflow: TextOverflow.ellipsis,
-          ),
-          maxLines: 2,
+        JobTileImage(
+          job: job,
+          size: 34.0,
         ),
         const SizedBox(
-          height: 8.0,
+          width: 8.0,
         ),
-        Text(
-          job.companyName,
-          style: const TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.w500,
+        Expanded(
+          child: Text(
+            job.companyName,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            color: Colors.white54,
-          ),
-          maxLines: 2,
-        ),
-        const SizedBox(
-          height: 8.0,
-        ),
-        Text(
-          '${job.type}  \u2022  ${job.posted}',
-          style: const TextStyle(
-            color: Colors.grey,
-            fontWeight: FontWeight.w500,
-            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Colors.grey,
+              fontSize: 16.0,
+            ),
           ),
         ),
       ],
