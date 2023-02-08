@@ -20,94 +20,154 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
     vsync: this,
   );
 
+  late final _scrollController = ScrollController();
+
   @override
   void dispose() {
     _tabController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const ExploreLeadSection(),
-        TabBarSection(
-          controller: _tabController,
-          sources: _sources,
-        ),
-        const SizedBox(
-          height: 12.0,
-        ),
-        Expanded(
-          child: TabBarViewSection(
-            controller: _tabController,
-            sources: _sources,
-          ),
-        ),
-      ],
+    return NestedScrollView(
+      controller: _scrollController,
+      headerSliverBuilder: _headerSliverBuilder,
+      body: TabBarViewSection(
+        tabController: _tabController,
+        sources: _sources,
+        scrollController: _scrollController,
+      ),
     );
   }
-}
 
-class ExploreLeadSection extends StatelessWidget {
-  const ExploreLeadSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(
-        left: 12.0,
-        right: 12.0,
-        top: 24.0,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Icon(
-                Icons.explore_rounded,
+  List<Widget> _headerSliverBuilder(BuildContext context, bool isScrolled) {
+    return [
+      SliverAppBar(
+        snap: true,
+        floating: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: Row(
+          children: const [
+            Icon(
+              Icons.explore_rounded,
+              color: Colors.white70,
+              size: 28.0,
+            ),
+            SizedBox(
+              width: 8.0,
+            ),
+            Expanded(
+              child: Text(
+                'Explore',
+                style: TextStyle(
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -.4,
+                ),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.search_outlined,
                 color: Colors.white70,
                 size: 28.0,
               ),
-              const SizedBox(
-                width: 8.0,
-              ),
-              const Expanded(
-                child: Text(
-                  'Explore',
-                  style: TextStyle(
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: -.4,
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.search_outlined,
-                  color: Colors.white70,
-                  size: 28.0,
-                ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 16.0,
-          ),
-          const Text(
-            'Browse and Discover Jobs from Multiple Sources',
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w400,
-              color: Colors.grey,
             ),
           ),
         ],
       ),
+      SliverPadding(
+        padding: const EdgeInsets.only(left: 8.0),
+        sliver: SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              const SizedBox(
+                height: 16.0,
+              ),
+              const Text(
+                'Browse and Discover Jobs from Multiple Sources',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      SliverPersistentHeader(
+        delegate: _SliverTabBarDelegate(
+          controller: _tabController,
+          sources: _sources,
+        ),
+      ),
+    ];
+  }
+}
+
+class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverTabBarDelegate({
+    required this.controller,
+    required this.sources,
+  });
+
+  final TabController controller;
+  final List<Source> sources;
+
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+
+  @override
+  double get maxExtent => _tabBar.preferredSize.height;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      margin: const EdgeInsets.only(bottom: 8.0),
+      child: _tabBar,
     );
   }
+
+  @override
+  bool shouldRebuild(_SliverTabBarDelegate oldDelegate) {
+    return false;
+  }
+
+  TabBar get _tabBar => TabBar(
+        isScrollable: true,
+        labelStyle: const TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.w700,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w500,
+        ),
+        indicatorWeight: 3.0,
+        labelColor: Colors.blue,
+        unselectedLabelColor: Colors.white70,
+        indicatorColor: Colors.blue,
+        controller: controller,
+        tabs: sources
+            .map<Widget>(
+              (source) => Tab(
+                text: source.title,
+              ),
+            )
+            .toList(),
+      );
 }
 
 class TabBarSection extends StatefulWidget {
@@ -160,13 +220,15 @@ class _TabBarSectionState extends State<TabBarSection> {
 
 class TabBarViewSection extends StatefulWidget {
   const TabBarViewSection({
-    required this.controller,
+    required this.tabController,
     required this.sources,
+    this.scrollController,
     super.key,
   });
 
-  final TabController controller;
+  final TabController tabController;
   final List<Source> sources;
+  final ScrollController? scrollController;
 
   @override
   State<TabBarViewSection> createState() => _TabBarViewSectionState();
@@ -176,9 +238,14 @@ class _TabBarViewSectionState extends State<TabBarViewSection> {
   @override
   Widget build(BuildContext context) {
     return TabBarView(
-      controller: widget.controller,
+      controller: widget.tabController,
       children: widget.sources
-          .map<Widget>((source) => JobListRetriever(source: source))
+          .map<Widget>(
+            (source) => JobListRetriever(
+              source: source,
+              scrollController: widget.scrollController,
+            ),
+          )
           .toList(),
     );
   }
