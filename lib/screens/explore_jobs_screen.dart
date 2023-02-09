@@ -137,7 +137,6 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       margin: const EdgeInsets.only(bottom: 12.0),
       child: _tabBar,
     );

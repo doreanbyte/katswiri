@@ -116,7 +116,8 @@ class _JobListRetrieverState extends State<JobListRetriever>
 
   void _onData(List<Job> jobs) {
     _jobs.addAll(jobs);
-    _jobs.sort(((a, b) => _postedDate(a).compareTo(_postedDate(b))));
+    _jobs.sort((a, b) =>
+        _postedDate(b).difference(_postedDate(a)).inSeconds.compareTo(0));
 
     setState(() {
       _page++;
@@ -145,9 +146,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
 
 DateTime _postedDate(Job job) {
   var posted = job.posted.toLowerCase();
-  posted = posted.replaceAll('posted', '')
-    ..replaceAll('ago', '')
-    ..trim();
+  posted = posted.replaceAll('posted', '').replaceAll('ago', '').trim();
 
   final period = int.tryParse(posted.split(' ').first);
   DateTime now = DateTime.now();
@@ -171,6 +170,10 @@ DateTime _postedDate(Job job) {
   } else if (posted.contains('day')) {
     return now.subtract(
       Duration(days: period),
+    );
+  } else if (posted.contains('week')) {
+    return now.subtract(
+      Duration(days: period * 7),
     );
   } else if (posted.contains('month')) {
     return now.subtract(
