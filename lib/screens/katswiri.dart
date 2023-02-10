@@ -12,7 +12,7 @@ class Katswiri extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Katswiri',
+      title: 'Katswir',
       theme: ThemeData(
         backgroundColor: Colors.black12,
         scaffoldBackgroundColor: Colors.black87,
