@@ -35,13 +35,13 @@ class _JobListRetrieverState extends State<JobListRetriever>
 
   @override
   void initState() {
+    super.initState();
     _source = widget.source;
     _streamController = StreamController.broadcast();
     _streamController.stream.listen(_onData, onError: _onError);
 
     _listScrollController = ScrollController()..addListener(_onScrollEnd);
 
-    super.initState();
     _getJobs();
   }
 
