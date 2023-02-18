@@ -206,9 +206,12 @@ class JobTileCompanySection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        JobTileImage(
-          job: job,
-          size: 48.0,
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: JobTileImage(
+            job: job,
+            size: 48.0,
+          ),
         ),
         const SizedBox(
           width: 12.0,
