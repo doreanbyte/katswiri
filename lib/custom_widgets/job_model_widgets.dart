@@ -209,9 +209,12 @@ class JobTileCompanySection extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: JobTileImage(
-            job: job,
-            size: 48.0,
+          child: Hero(
+            tag: job.url,
+            child: JobTileImage(
+              job: job,
+              size: 48.0,
+            ),
           ),
         ),
         const SizedBox(
