@@ -81,16 +81,12 @@ class _JobsListState extends State<JobsList> {
       );
     }
 
-    return ListView.separated(
+    return ListView.builder(
       padding: const EdgeInsets.only(top: 8.0),
       controller: widget.controller,
       itemBuilder: (context, index) {
         return widgets[index];
       },
-      separatorBuilder: (context, index) => const Divider(
-        color: Colors.grey,
-        thickness: .8,
-      ),
       itemCount: widgets.length,
     );
   }
@@ -148,22 +144,27 @@ class JobTileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 4.0,
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
       ),
-      height: 125.0,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          JobTileCompanySection(job),
-          const SizedBox(
-            height: 2.0,
-          ),
-          Expanded(
-            child: JobTileDescriptionSection(job),
-          ),
-        ],
+      color: const Color.fromARGB(38, 64, 64, 64),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 4.0),
+        padding: const EdgeInsets.all(4.0),
+        height: 136.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            JobTileCompanySection(job),
+            const SizedBox(
+              height: 2.0,
+            ),
+            Expanded(
+              child: JobTileDescriptionSection(job),
+            ),
+          ],
+        ),
       ),
     );
   }
