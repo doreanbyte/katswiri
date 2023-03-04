@@ -153,13 +153,11 @@ class TabBarViewSection extends StatefulWidget {
   const TabBarViewSection({
     required this.tabController,
     required this.sources,
-    this.scrollController,
     super.key,
   });
 
   final TabController tabController;
   final List<Source> sources;
-  final ScrollController? scrollController;
 
   @override
   State<TabBarViewSection> createState() => _TabBarViewSectionState();
@@ -174,7 +172,6 @@ class _TabBarViewSectionState extends State<TabBarViewSection> {
           .map<Widget>(
             (source) => JobListRetriever(
               source: source,
-              scrollController: widget.scrollController,
             ),
           )
           .toList(),
