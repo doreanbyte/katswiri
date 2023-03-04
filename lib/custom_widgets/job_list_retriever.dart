@@ -108,6 +108,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
     }
 
     return RefreshIndicator(
+      backgroundColor: Colors.black,
       onRefresh: _onRefresh,
       child: ListView.builder(
         controller: _scrollController,
