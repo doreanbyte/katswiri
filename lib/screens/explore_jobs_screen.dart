@@ -63,19 +63,11 @@ class ExploreLeadSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(
-                Icons.explore_rounded,
-                color: Colors.white70,
-                size: 24.0,
-              ),
-              const SizedBox(
-                width: 8.0,
-              ),
               const Expanded(
                 child: Text(
                   'Explore',
                   style: TextStyle(
-                    fontSize: 26.0,
+                    fontSize: 22.0,
                     fontWeight: FontWeight.w600,
                     letterSpacing: -.4,
                   ),
@@ -85,16 +77,14 @@ class ExploreLeadSection extends StatelessWidget {
                 onPressed: () {},
                 icon: const Icon(
                   Icons.search_outlined,
-                  color: Colors.white70,
-                  size: 24.0,
+                  color: Colors.blue,
                 ),
               ),
               IconButton(
                 onPressed: () {},
                 icon: const Icon(
                   Icons.public_outlined,
-                  color: Colors.white70,
-                  size: 24.0,
+                  color: Colors.blue,
                 ),
               ),
             ],

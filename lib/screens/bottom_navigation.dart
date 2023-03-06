@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:katswiri/screens/explore_jobs_screen.dart';
 import 'package:katswiri/screens/saved_jobs_screen.dart';
+import 'package:katswiri/screens/history_screen.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
   const BottomNavigationScreen({super.key});
@@ -17,6 +18,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
   final navViews = <Widget>[
     const ExploreJobsScreen(),
+    const HistoryScreen(),
     const SavedJobsScreen(),
   ];
 
@@ -25,6 +27,11 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       icon: Icon(Icons.explore_outlined),
       activeIcon: Icon(Icons.explore_rounded),
       label: 'Explore',
+    ),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.history_outlined),
+      activeIcon: Icon(Icons.history_rounded),
+      label: 'History',
     ),
     const BottomNavigationBarItem(
       icon: Icon(Icons.bookmark_outline),

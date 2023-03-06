@@ -62,9 +62,9 @@ class JobTileComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
+        borderRadius: BorderRadius.circular(20.0),
       ),
-      color: const Color.fromARGB(58, 64, 64, 64),
+      color: const Color.fromARGB(96, 64, 64, 64),
       child: Container(
         padding: const EdgeInsets.all(8.0),
         height: 128.0,
@@ -207,8 +207,10 @@ class JobTileTagsSection extends StatelessWidget {
           child: TextButton.icon(
             onPressed: () {},
             icon: const Icon(Icons.location_pin),
-            label: Text(job.location),
-            style: ButtonStyle(),
+            label: Text(
+              job.location.isNotEmpty ? job.location : 'Unknown',
+              maxLines: 1,
+            ),
           ),
         ),
         Expanded(
