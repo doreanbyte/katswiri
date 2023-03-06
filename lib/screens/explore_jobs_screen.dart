@@ -15,10 +15,16 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
     with SingleTickerProviderStateMixin {
   final _sources = getSources();
 
-  late final _tabController = TabController(
-    length: _sources.length,
-    vsync: this,
-  );
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(
+      length: _sources.length,
+      vsync: this,
+    );
+    super.initState();
+  }
 
   @override
   void dispose() {
