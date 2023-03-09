@@ -167,7 +167,7 @@ class JobTileCompanySection extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  color: Colors.grey,
+                  color: Colors.green,
                   fontSize: 14.0,
                   fontWeight: FontWeight.w500,
                 ),
@@ -210,6 +210,9 @@ class JobTileTagsSection extends StatelessWidget {
             label: Text(
               job.location.isNotEmpty ? job.location : 'Unknown',
               maxLines: 1,
+              style: const TextStyle(
+                color: Colors.grey,
+              ),
             ),
           ),
         ),
@@ -217,7 +220,12 @@ class JobTileTagsSection extends StatelessWidget {
           child: TextButton.icon(
             onPressed: () {},
             icon: const Icon(Icons.work),
-            label: Text(job.type.isNotEmpty ? job.type : 'Unknown'),
+            label: Text(
+              job.type.isNotEmpty ? job.type : 'Unknown',
+              style: const TextStyle(
+                color: Colors.grey,
+              ),
+            ),
           ),
         ),
       ],
@@ -246,7 +254,6 @@ class JobTileActions extends StatelessWidget {
             },
             icon: const Icon(
               Icons.share_sharp,
-              color: Colors.blue,
             ),
           ),
         ),
@@ -255,7 +262,6 @@ class JobTileActions extends StatelessWidget {
             onPressed: () async {},
             icon: const Icon(
               Icons.bookmark_add_outlined,
-              color: Colors.blue,
             ),
           ),
         ),

@@ -16,11 +16,15 @@ class Katswiri extends StatelessWidget {
       theme: ThemeData(
         backgroundColor: Colors.black12,
         scaffoldBackgroundColor: Colors.black87,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
         textTheme: Theme.of(context).textTheme.apply(
               bodyColor: Colors.white,
               displayColor: Colors.white,
             ),
+        iconTheme: IconTheme.of(context).copyWith(
+          color: Colors.green,
+        ),
+        primaryColor: Colors.green,
       ),
       initialRoute: BottomNavigationScreen.route,
       onGenerateRoute: (settings) {

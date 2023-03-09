@@ -21,6 +21,8 @@ class JobDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final iconColor = Theme.of(context).iconTheme.color;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -30,9 +32,9 @@ class JobDetailScreen extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.chevron_left_outlined,
-            color: Colors.blue,
+            color: iconColor,
           ),
         ),
         actions: [
@@ -43,27 +45,27 @@ class JobDetailScreen extends StatelessWidget {
                 subject: job.position,
               );
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.share_sharp,
-              color: Colors.blue,
+              color: iconColor,
             ),
           ),
           IconButton(
             onPressed: () {
               //TODO: Implement save button logic
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.bookmark_add_outlined,
-              color: Colors.blue,
+              color: iconColor,
             ),
           ),
           IconButton(
             onPressed: () {
               //TODO: Implement opening in webview logic
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.public_outlined,
-              color: Colors.blue,
+              color: iconColor,
             ),
           ),
         ],
@@ -131,9 +133,8 @@ class _JobDetailComponentState extends State<JobDetailComponent>
               fontWeight: FontWeight.w500,
             ),
             indicatorWeight: 3.0,
-            labelColor: Colors.blue,
+            labelColor: Colors.green,
             unselectedLabelColor: Colors.white70,
-            indicatorColor: Colors.blue,
             controller: _tabController,
             tabs: const [
               Tab(text: 'Description'),
@@ -172,76 +173,69 @@ class JobLeadSection extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
-      color: const Color.fromARGB(76, 64, 64, 64),
+      color: const Color.fromARGB(96, 64, 64, 64),
       child: Container(
         padding: const EdgeInsets.all(8.0),
-        height: 180.0,
-        child: Row(
+        height: 128.0,
+        child: ListView(
           children: [
-            Expanded(
-              child: Column(
-                children: [
-                  Text(
-                    job.position,
-                    textAlign: TextAlign.center,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -.4,
-                      wordSpacing: 1.2,
-                    ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Hero(
+                  tag: job.url,
+                  child: JobTileImage(
+                    job: job,
+                    size: 36.0,
                   ),
-                  const SizedBox(
-                    height: 12.0,
-                  ),
-                  Row(
+                ),
+                const SizedBox(
+                  width: 8.0,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Spacer(),
-                      Hero(
-                        tag: job.url,
-                        child: JobTileImage(
-                          job: job,
-                          size: 40,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      Expanded(
-                        child: Text(
-                          job.companyName,
-                          textAlign: TextAlign.center,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                    ],
-                  ),
-                  JobTileTagsSection(job),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        job.posted,
+                      Text(
+                        job.companyName,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          color: Colors.grey,
+                          color: Colors.green,
+                          fontSize: 14.0,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ),
+                      const SizedBox(
+                        height: 4.0,
+                      ),
+                      Text(
+                        job.position,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -.4,
+                          wordSpacing: 1.2,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+            JobTileTagsSection(job),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                job.posted,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -334,7 +328,7 @@ class _DescriptionSectionState extends State<DescriptionSection>
                 return HtmlWidget(
                   _job.description,
                   textStyle: const TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                   ),
                 );
               } else {

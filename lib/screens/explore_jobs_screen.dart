@@ -83,14 +83,12 @@ class ExploreLeadSection extends StatelessWidget {
                 onPressed: () {},
                 icon: const Icon(
                   Icons.search_outlined,
-                  color: Colors.blue,
                 ),
               ),
               IconButton(
                 onPressed: () {},
                 icon: const Icon(
                   Icons.public_outlined,
-                  color: Colors.blue,
                 ),
               ),
             ],
@@ -130,9 +128,8 @@ class _TabBarSectionState extends State<TabBarSection> {
         fontWeight: FontWeight.w500,
       ),
       indicatorWeight: 3.0,
-      labelColor: Colors.blue,
+      labelColor: Theme.of(context).primaryColor,
       unselectedLabelColor: Colors.white70,
-      indicatorColor: Colors.blue,
       controller: widget.controller,
       tabs: widget.sources
           .map<Widget>(
