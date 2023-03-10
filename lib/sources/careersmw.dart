@@ -11,11 +11,10 @@ class CareersMW extends Source {
   @override
   String get title => 'CareersMW';
 
-  static const host = 'careersmw.com';
+  @override
+  String get host => 'careersmw.com';
 
-  static final listingsUri = Uri.https(host, 'jm-ajax/get_listings');
-
-  static Map<String, String> get _headers => {
+  Map<String, String> get _headers => {
         'Host': host,
         'User-Agent':
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0',
@@ -61,6 +60,7 @@ class CareersMW extends Source {
     int page = 1,
     Map<String, String>? arguments,
   }) async {
+    final listingsUri = Uri.https(host, 'jm-ajax/get_listings');
     final List<Job> jobs = [];
 
     final response = await http.post(

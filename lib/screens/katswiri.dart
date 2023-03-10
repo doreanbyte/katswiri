@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/screens/general_search_screen.dart';
+import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';
 
 import 'bottom_navigation.dart';
@@ -58,6 +59,18 @@ class Katswiri extends StatelessWidget {
                 title,
                 source: source,
                 arguments: searchArgs,
+              ),
+            );
+            break;
+          case WebViewScreen.route:
+            final arguments = settings.arguments as Map<String, dynamic>;
+            final String url = arguments['url'] as String;
+            final String title = arguments['title'] as String;
+
+            pageRoute = MaterialPageRoute(
+              builder: (context) => WebViewScreen(
+                title: title,
+                url: url,
               ),
             );
             break;

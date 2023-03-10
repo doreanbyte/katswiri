@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/models/models.dart';
+import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -61,7 +62,14 @@ class JobDetailScreen extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              //TODO: Implement opening in webview logic
+              Navigator.pushNamed(
+                context,
+                WebViewScreen.route,
+                arguments: {
+                  'url': job.url,
+                  'title': job.position,
+                },
+              );
             },
             icon: Icon(
               Icons.public_outlined,

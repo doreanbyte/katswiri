@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart';
+import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';
 
 class ExploreJobsScreen extends StatefulWidget {
@@ -36,7 +37,18 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const ExploreLeadSection(),
+        ExploreLeadSection(
+          onPressed: () {
+            Navigator.pushNamed(
+              context,
+              WebViewScreen.route,
+              arguments: {
+                'url': 'https://${_sources[_tabController.index].host}',
+                'title': _sources[_tabController.index].title,
+              },
+            );
+          },
+        ),
         TabBarSection(
           controller: _tabController,
           sources: _sources,
@@ -56,7 +68,9 @@ class _ExploreJobsScreenState extends State<ExploreJobsScreen>
 }
 
 class ExploreLeadSection extends StatelessWidget {
-  const ExploreLeadSection({super.key});
+  const ExploreLeadSection({this.onPressed, super.key});
+
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +100,7 @@ class ExploreLeadSection extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: onPressed,
                 icon: const Icon(
                   Icons.public_outlined,
                 ),
