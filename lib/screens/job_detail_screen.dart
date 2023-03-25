@@ -402,7 +402,7 @@ class RelatedSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return JobListRetriever(
       source: source,
-      arguments: {'position': position},
+      filter: {'position': position},
     );
   }
 }

@@ -9,11 +9,11 @@ class JobListRetriever extends StatefulWidget {
   const JobListRetriever({
     super.key,
     required this.source,
-    this.arguments,
+    this.filter,
   });
 
   final Source source;
-  final Map<String, String>? arguments;
+  final Map<String, String>? filter;
 
   @override
   State<JobListRetriever> createState() => _JobListRetrieverState();
@@ -129,7 +129,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
 
       final jobs = await _source.fetchJobs(
         page: _page,
-        arguments: widget.arguments,
+        filter: widget.filter,
       );
       _streamController.sink.add(jobs);
     } catch (e) {
@@ -190,11 +190,11 @@ DateTime _postedDate(Job job) {
     return now;
   }
 
-  if (posted.contains('second')) {
+  if (posted.contains('sec')) {
     return now.subtract(
       Duration(seconds: period),
     );
-  } else if (posted.contains('minute')) {
+  } else if (posted.contains('min')) {
     return now.subtract(
       Duration(minutes: period),
     );

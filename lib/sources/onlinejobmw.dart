@@ -58,7 +58,7 @@ class OnlineJobMW extends Source {
   @override
   Future<List<Job>> fetchJobs({
     int page = 1,
-    Map<String, String>? arguments,
+    Map<String, String>? filter,
   }) async {
     final listingsUri = Uri.https(host, 'jm-ajax/get_listings');
     final List<Job> jobs = [];
@@ -72,8 +72,7 @@ class OnlineJobMW extends Source {
         'orderby': 'featured',
         'order': 'DESC',
         'show_pagination': 'false',
-        if (arguments?['position'] != null)
-          'search_keywords': arguments?['position'],
+        if (filter?['position'] != null) 'search_keywords': filter?['position'],
       },
     );
 

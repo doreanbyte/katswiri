@@ -7,5 +7,5 @@ abstract class Source {
 
   Future<Job> fetchJob(String url);
 
-  Future<List<Job>> fetchJobs({int page, Map<String, String>? arguments});
+  Future<List<Job>> fetchJobs({int page, Map<String, String>? filter});
 }

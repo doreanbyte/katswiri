@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:katswiri/models/models.dart';
-import 'package:katswiri/screens/general_search_screen.dart';
+import 'package:katswiri/screens/search_screen.dart';
 import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';
 
@@ -46,7 +46,7 @@ class Katswiri extends StatelessWidget {
               ),
             );
             break;
-          case GeneralSearchScreen.route:
+          case SearchScreen.route:
             final arguments = settings.arguments as Map<String, dynamic>;
 
             final String title = arguments['title'] as String;
@@ -55,7 +55,7 @@ class Katswiri extends StatelessWidget {
                 arguments['arguments'] as Map<String, String>;
 
             pageRoute = MaterialPageRoute(
-              builder: (context) => GeneralSearchScreen(
+              builder: (context) => SearchScreen(
                 title,
                 source: source,
                 arguments: searchArgs,

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/sources/sources.dart';
 
-class GeneralSearchScreen extends StatelessWidget {
-  const GeneralSearchScreen(
+class SearchScreen extends StatelessWidget {
+  const SearchScreen(
     this.title, {
     super.key,
     required this.source,
@@ -25,7 +25,7 @@ class GeneralSearchScreen extends StatelessWidget {
       ),
       body: JobListRetriever(
         source: source,
-        arguments: arguments,
+        filter: arguments,
       ),
     );
   }
