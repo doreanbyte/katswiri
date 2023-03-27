@@ -5,8 +5,8 @@ import 'onlinejobmw.dart';
 
 List<Source> get _sources => [
       CareersMW(),
-      OnlineJobMW(),
       JobSearchMW(),
+      OnlineJobMW(),
     ];
 
 List<Source> getSources() => _sources;

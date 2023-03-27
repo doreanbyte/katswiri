@@ -1,32 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:katswiri/custom_widgets/custom_widgets.dart';
-import 'package:katswiri/sources/sources.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen(
-    this.title, {
-    super.key,
-    required this.source,
-    required this.arguments,
-  });
+class CustomSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    if (query.isEmpty) {
+      return [Container()];
+    }
 
-  final String title;
-  final Source source;
-  final Map<String, String> arguments;
-
-  static const route = '/general_search';
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: const Icon(
+          Icons.clear,
+        ),
+      )
+    ];
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Colors.transparent,
-      ),
-      body: JobListRetriever(
-        source: source,
-        filter: arguments,
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: const Icon(
+        Icons.close,
       ),
     );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Container();
   }
 }

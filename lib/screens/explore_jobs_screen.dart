@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/screens/webview_screen.dart';
+import 'package:katswiri/screens/search_screen.dart';
 import 'package:katswiri/sources/sources.dart';
 
 class ExploreJobsScreen extends StatefulWidget {
@@ -94,7 +95,12 @@ class ExploreLeadSection extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showSearch(
+                    context: context,
+                    delegate: CustomSearchDelegate(),
+                  );
+                },
                 icon: const Icon(
                   Icons.search_outlined,
                 ),
