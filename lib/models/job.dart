@@ -8,7 +8,6 @@ class Job {
     required this.posted,
     this.url = '',
     this.description = '',
-    this.saved = false,
   });
 
   final String logo;
@@ -19,7 +18,6 @@ class Job {
   final String posted;
   final String url;
   final String description;
-  final bool saved;
 
   Map<String, dynamic> toMap() {
     return {
@@ -31,7 +29,6 @@ class Job {
       'posted': posted,
       'url': url,
       'description': description,
-      'saved': saved,
     };
   }
 
@@ -44,7 +41,6 @@ class Job {
         posted: job['posted'] ?? '',
         url: job['url'] ?? '',
         description: job['description'] ?? '',
-        saved: job['saved'] ?? false,
       );
 
   factory Job.empty() => const Job(
@@ -56,6 +52,5 @@ class Job {
         posted: '',
         url: '',
         description: '',
-        saved: false,
       );
 }
