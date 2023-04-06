@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/sources.dart';
+import 'package:katswiri/utils/utils.dart';
 
 class JobListRetriever extends StatefulWidget {
   const JobListRetriever({
@@ -25,8 +26,9 @@ class _JobListRetrieverState extends State<JobListRetriever>
   final List<Job> _jobs = [];
 
   int _page = 1;
-  bool _loading = false;
+  bool _loading = true;
   bool _hasError = false;
+  String _errMsg = '';
 
   late final StreamController<List<Job>> _streamController;
   late final ScrollController _scrollController;
@@ -39,8 +41,8 @@ class _JobListRetrieverState extends State<JobListRetriever>
 
     _scrollController = ScrollController()..addListener(_onScrollEnd);
 
-    _getJobs();
     super.initState();
+    _getJobs();
   }
 
   @override
@@ -81,28 +83,9 @@ class _JobListRetrieverState extends State<JobListRetriever>
 
     if (_hasError) {
       widgets.add(
-        Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: _onRetryPressed,
-                icon: const Icon(Icons.refresh),
-                color: Colors.blue,
-                iconSize: 38.0,
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-              ),
-              const SizedBox(height: 8.0),
-              const Text(
-                'Something went wrong',
-                style: TextStyle(
-                  fontSize: 16.0,
-                ),
-              ),
-            ],
-          ),
+        ErrorButton(
+          errorMessage: _errMsg,
+          onRetryPressed: _onRetryPressed,
         ),
       );
     }
@@ -111,6 +94,8 @@ class _JobListRetrieverState extends State<JobListRetriever>
       backgroundColor: Colors.black,
       onRefresh: _onRefresh,
       child: ListView.builder(
+        addAutomaticKeepAlives: false,
+        addRepaintBoundaries: false,
         controller: _scrollController,
         padding: const EdgeInsets.only(top: 4.0),
         itemBuilder: (context, index) {
@@ -123,14 +108,11 @@ class _JobListRetrieverState extends State<JobListRetriever>
 
   void _getJobs() async {
     try {
-      setState(() {
-        _loading = true;
-      });
-
       final jobs = await _source.fetchJobs(
         page: _page,
         filter: widget.filter,
       );
+
       _streamController.sink.add(jobs);
     } catch (e) {
       _streamController.addError(e);
@@ -145,14 +127,19 @@ class _JobListRetrieverState extends State<JobListRetriever>
     // field is not set to true and the _error field is not set to true indicating
     // an error occured. Call _getJobs to fetch extra data
     if (offset >= maxScrollExtent && !_loading && !_hasError) {
+      setState(() {
+        _loading = true;
+      });
+
       _getJobs();
     }
   }
 
   void _onData(List<Job> jobs) {
     _jobs.addAll(jobs);
-    _jobs.sort((a, b) =>
-        _postedDate(b).difference(_postedDate(a)).inSeconds.compareTo(0));
+    _jobs.sort(
+      (a, b) => postedDate(b).difference(postedDate(a)).inSeconds.compareTo(0),
+    );
 
     setState(() {
       _page++;
@@ -160,65 +147,32 @@ class _JobListRetrieverState extends State<JobListRetriever>
     });
   }
 
-  void _onError(Object object, StackTrace stackTrace) {
-    _loading = false;
+  void _onError(Object error, StackTrace stackTrace) {
     setState(() {
+      _loading = false;
       _hasError = true;
+      _errMsg = error.toString();
     });
   }
 
   void _onRetryPressed() {
-    _hasError = false;
+    setState(() {
+      _hasError = false;
+      _errMsg = '';
+      _loading = true;
+    });
+
     _getJobs();
   }
 
   Future<void> _onRefresh() async {
-    _jobs.clear();
-    _page = 1;
+    setState(() {
+      _jobs.clear();
+      _page = 1;
+      _loading = true;
+      _errMsg = '';
+    });
+
     _getJobs();
-  }
-}
-
-DateTime _postedDate(Job job) {
-  var posted = job.posted.toLowerCase();
-  posted = posted.replaceAll('posted', '').replaceAll('ago', '').trim();
-
-  final period = int.tryParse(posted.split(' ').first);
-  DateTime now = DateTime.now();
-
-  if (period == null) {
-    return now;
-  }
-
-  if (posted.contains('sec')) {
-    return now.subtract(
-      Duration(seconds: period),
-    );
-  } else if (posted.contains('min')) {
-    return now.subtract(
-      Duration(minutes: period),
-    );
-  } else if (posted.contains('hour')) {
-    return now.subtract(
-      Duration(hours: period),
-    );
-  } else if (posted.contains('day')) {
-    return now.subtract(
-      Duration(days: period),
-    );
-  } else if (posted.contains('week')) {
-    return now.subtract(
-      Duration(days: period * 7),
-    );
-  } else if (posted.contains('month')) {
-    return now.subtract(
-      Duration(days: period * 30),
-    );
-  } else if (posted.contains('year')) {
-    return now.subtract(
-      Duration(days: period * 365),
-    );
-  } else {
-    return now;
   }
 }
