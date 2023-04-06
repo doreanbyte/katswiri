@@ -6,6 +6,7 @@ import 'package:html/parser.dart' show parseFragment;
 
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/base_source.dart';
+import 'package:katswiri/sources/source_countries.dart';
 
 class OnlineJobMW extends Source {
   @override
@@ -13,6 +14,9 @@ class OnlineJobMW extends Source {
 
   @override
   String get host => 'onlinejobmw.com';
+
+  @override
+  Countries get country => Countries.malawi;
 
   Map<String, String> get _headers => {
         'Host': host,

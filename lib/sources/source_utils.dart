@@ -3,10 +3,8 @@ import 'careersmw.dart';
 import 'jobsearchmalawi.dart';
 import 'onlinejobmw.dart';
 
-List<Source> get _sources => [
-      CareersMW(),
+List<Source> getSources() => [
       JobSearchMW(),
       OnlineJobMW(),
+      CareersMW(),
     ];
-
-List<Source> getSources() => _sources;
