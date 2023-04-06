@@ -1,34 +1,23 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
 import 'package:flutter/material.dart';
+import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/screens/job_detail_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/sources.dart';
 
-class JobTile extends StatefulWidget {
+class JobTile extends StatelessWidget {
   const JobTile({
-    super.key,
     required this.job,
     required this.source,
+    super.key,
   });
 
   final Job job;
   final Source source;
-
-  @override
-  State<JobTile> createState() => _JobTileState();
-}
-
-class _JobTileState extends State<JobTile> {
-  Job _job = Job.empty();
-
-  @override
-  void initState() {
-    super.initState();
-
-    _job = widget.job;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,24 +26,29 @@ class _JobTileState extends State<JobTile> {
         color: Colors.white,
       ),
       child: GestureDetector(
-        onTapUp: (_) => Navigator.pushNamed(
-          context,
-          JobDetailScreen.route,
-          arguments: {
-            'job': _job,
-            'source': widget.source,
-          },
-        ),
+        onTapUp: (_) => _onTapUp(context),
         child: JobTileComponent(
-          job: _job,
+          job: job,
         ),
       ),
     );
   }
+
+  void _onTapUp(BuildContext context) => Navigator.pushNamed(
+        context,
+        JobDetailScreen.route,
+        arguments: {
+          'job': job,
+          'source': source,
+        },
+      );
 }
 
 class JobTileComponent extends StatelessWidget {
-  const JobTileComponent({required this.job, super.key});
+  const JobTileComponent({
+    required this.job,
+    super.key,
+  });
 
   final Job job;
 
@@ -78,16 +72,16 @@ class JobTileComponent extends StatelessWidget {
                     child: Column(
                       children: [
                         Expanded(
-                          child: JobTileCompanySection(job),
+                          child: JobCompanySection(job),
                         ),
                         const SizedBox(
                           height: 8.0,
                         ),
-                        JobTileTagsSection(job),
+                        JobTagsSection(job),
                       ],
                     ),
                   ),
-                  JobTileActions(job),
+                  JobActions(job),
                 ],
               ),
             ),
@@ -109,8 +103,8 @@ class JobTileComponent extends StatelessWidget {
   }
 }
 
-class JobTileImage extends StatelessWidget {
-  const JobTileImage({
+class JobThumbnailImage extends StatelessWidget {
+  const JobThumbnailImage({
     super.key,
     required this.job,
     this.size = 75,
@@ -137,8 +131,8 @@ class JobTileImage extends StatelessWidget {
   }
 }
 
-class JobTileCompanySection extends StatelessWidget {
-  const JobTileCompanySection(this.job, {super.key});
+class JobCompanySection extends StatelessWidget {
+  const JobCompanySection(this.job, {super.key});
 
   final Job job;
 
@@ -150,7 +144,7 @@ class JobTileCompanySection extends StatelessWidget {
       children: [
         Hero(
           tag: job.url,
-          child: JobTileImage(
+          child: JobThumbnailImage(
             job: job,
             size: 36.0,
           ),
@@ -194,8 +188,8 @@ class JobTileCompanySection extends StatelessWidget {
   }
 }
 
-class JobTileTagsSection extends StatelessWidget {
-  const JobTileTagsSection(this.job, {super.key});
+class JobTagsSection extends StatelessWidget {
+  const JobTagsSection(this.job, {super.key});
 
   final Job job;
 
@@ -204,37 +198,58 @@ class JobTileTagsSection extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: TextButton.icon(
-            onPressed: () {},
+          child: JobTag(
             icon: const Icon(Icons.location_pin),
-            label: Text(
-              job.location.isNotEmpty ? job.location : 'Unknown',
-              maxLines: 1,
-              style: const TextStyle(
-                color: Colors.grey,
-              ),
-            ),
+            onPressed: () => _onLocationPressed(context),
+            label: job.location.isNotEmpty ? job.location : 'Unknown',
           ),
         ),
         Expanded(
-          child: TextButton.icon(
-            onPressed: () {},
+          child: JobTag(
             icon: const Icon(Icons.work),
-            label: Text(
-              job.type.isNotEmpty ? job.type : 'Unknown',
-              style: const TextStyle(
-                color: Colors.grey,
-              ),
-            ),
+            onPressed: () => _onTypePressed(context),
+            label: job.type.isNotEmpty ? job.type : 'Unknown',
           ),
         ),
       ],
     );
   }
+
+  void _onLocationPressed(BuildContext context) {}
+
+  void _onTypePressed(BuildContext context) {}
 }
 
-class JobTileActions extends StatelessWidget {
-  const JobTileActions(this.job, {super.key});
+class JobTag extends StatelessWidget {
+  const JobTag({
+    required this.icon,
+    required this.onPressed,
+    required this.label,
+    super.key,
+  });
+
+  final Icon icon;
+  final void Function() onPressed;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton.icon(
+      onPressed: onPressed,
+      icon: icon,
+      label: Text(
+        label,
+        maxLines: 1,
+        style: const TextStyle(
+          color: Colors.grey,
+        ),
+      ),
+    );
+  }
+}
+
+class JobActions extends StatelessWidget {
+  const JobActions(this.job, {super.key});
 
   final Job job;
 
@@ -267,5 +282,80 @@ class JobTileActions extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class SaveJobButton extends StatefulWidget {
+  const SaveJobButton({
+    required this.job,
+    super.key,
+  });
+
+  final Job job;
+
+  @override
+  SaveJobButtonState createState() => SaveJobButtonState();
+}
+
+class SaveJobButtonState extends State<SaveJobButton> {
+  late final StreamController<bool> _streamController;
+
+  @override
+  void initState() {
+    _streamController = StreamController.broadcast();
+    _streamController.stream.listen(_onData);
+    super.initState();
+    _getStatus();
+  }
+
+  @override
+  void dispose() {
+    _streamController.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<bool>(
+      builder: _builder,
+      stream: _streamController.stream,
+    );
+  }
+
+  void _onData(bool status) {
+    setState(() {});
+  }
+
+  Widget _builder(BuildContext context, AsyncSnapshot<bool> snapshot) {
+    if (!snapshot.hasData) {
+      return const Spinner();
+    }
+
+    final isSaved = snapshot.data as bool;
+
+    return isSaved
+        ? IconButton(
+            onPressed: () => _handleUnSave(widget.job),
+            icon: const Icon(Icons.bookmark_rounded),
+          )
+        : IconButton(
+            onPressed: () => _handleSave(widget.job),
+            icon: const Icon(Icons.bookmark_outline),
+          );
+  }
+
+  //TODO: Implement this method
+  void _getStatus() async {
+    _streamController.sink.add(false);
+  }
+
+  //TODO: Implement this method
+  void _handleSave(Job job) async {
+    _streamController.sink.add(true);
+  }
+
+  //TODO: Implement this method
+  void _handleUnSave(Job job) async {
+    _streamController.sink.add(false);
   }
 }
