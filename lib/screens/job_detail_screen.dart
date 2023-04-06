@@ -51,15 +51,7 @@ class JobDetailScreen extends StatelessWidget {
               color: iconColor,
             ),
           ),
-          IconButton(
-            onPressed: () {
-              //TODO: Implement save button logic
-            },
-            icon: Icon(
-              Icons.bookmark_add_outlined,
-              color: iconColor,
-            ),
-          ),
+          SaveJobButton(job: job),
           IconButton(
             onPressed: () {
               Navigator.pushNamed(
@@ -158,7 +150,7 @@ class _JobDetailComponentState extends State<JobDetailComponent>
                   widget.source,
                 ),
                 RelatedSection(
-                  widget.job.position,
+                  {'position': widget.job.position},
                   widget.source,
                 ),
               ],
@@ -192,7 +184,7 @@ class JobLeadSection extends StatelessWidget {
               children: [
                 Hero(
                   tag: job.url,
-                  child: JobTileImage(
+                  child: JobThumbnailImage(
                     job: job,
                     size: 36.0,
                   ),
@@ -233,7 +225,7 @@ class JobLeadSection extends StatelessWidget {
                 ),
               ],
             ),
-            JobTileTagsSection(job),
+            JobTagsSection(job),
             Align(
               alignment: Alignment.centerRight,
               child: Text(
@@ -266,8 +258,9 @@ class _DescriptionSectionState extends State<DescriptionSection>
   late final StreamController<Job> _streamController;
 
   Job _job = Job.empty();
-  bool _loading = false;
+  bool _loading = true;
   bool _hasError = false;
+  String _errMsg = '';
 
   @override
   void initState() {
@@ -312,18 +305,13 @@ class _DescriptionSectionState extends State<DescriptionSection>
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      IconButton(
-                        onPressed: _onRetryPressed,
-                        icon: const Icon(Icons.refresh),
-                        color: Colors.blue,
-                        iconSize: 38.0,
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
+                      RetryButton(
+                        onRetryPressed: _onRetryPressed,
                       ),
                       const SizedBox(height: 8.0),
-                      const Text(
-                        'Something went wrong',
-                        style: TextStyle(
+                      Text(
+                        _errMsg,
+                        style: const TextStyle(
                           fontSize: 16.0,
                         ),
                       ),
@@ -338,6 +326,9 @@ class _DescriptionSectionState extends State<DescriptionSection>
                   textStyle: const TextStyle(
                     fontSize: 14.0,
                   ),
+                  onTapUrl: (url) {
+                    return true;
+                  },
                 );
               } else {
                 return Container();
@@ -351,10 +342,6 @@ class _DescriptionSectionState extends State<DescriptionSection>
 
   void _getJob() async {
     try {
-      setState(() {
-        _loading = true;
-      });
-
       final job = await widget.source.fetchJob(_job.url);
       _streamController.sink.add(job);
     } catch (e) {
@@ -379,30 +366,33 @@ class _DescriptionSectionState extends State<DescriptionSection>
   }
 
   void _onError(Object error, StackTrace stackTrace) {
-    _loading = false;
     setState(() {
+      _loading = false;
       _hasError = true;
-      _getJob();
+      _errMsg = error.toString();
     });
   }
 
   void _onRetryPressed() {
-    _hasError = false;
+    setState(() {
+      _hasError = false;
+      _errMsg = '';
+    });
     _getJob();
   }
 }
 
 class RelatedSection extends StatelessWidget {
-  const RelatedSection(this.position, this.source, {super.key});
+  const RelatedSection(this.filter, this.source, {super.key});
 
-  final String position;
+  final Map<String, String>? filter;
   final Source source;
 
   @override
   Widget build(BuildContext context) {
     return JobListRetriever(
       source: source,
-      filter: {'position': position},
+      filter: filter,
     );
   }
 }
