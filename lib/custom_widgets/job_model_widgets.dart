@@ -273,11 +273,8 @@ class JobActions extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: IconButton(
-            onPressed: () async {},
-            icon: const Icon(
-              Icons.bookmark_add_outlined,
-            ),
+          child: SaveJobButton(
+            job: job,
           ),
         ),
       ],
@@ -297,7 +294,8 @@ class SaveJobButton extends StatefulWidget {
   SaveJobButtonState createState() => SaveJobButtonState();
 }
 
-class SaveJobButtonState extends State<SaveJobButton> {
+class SaveJobButtonState extends State<SaveJobButton>
+    with SingleTickerProviderStateMixin {
   late final StreamController<bool> _streamController;
 
   @override
@@ -305,7 +303,10 @@ class SaveJobButtonState extends State<SaveJobButton> {
     _streamController = StreamController.broadcast();
     _streamController.stream.listen(_onData);
     super.initState();
-    _getStatus();
+    Future.delayed(
+      Duration.zero,
+      () => _getStatus(),
+    );
   }
 
   @override
@@ -327,21 +328,24 @@ class SaveJobButtonState extends State<SaveJobButton> {
   }
 
   Widget _builder(BuildContext context, AsyncSnapshot<bool> snapshot) {
-    if (!snapshot.hasData) {
-      return const Spinner();
-    }
+    final isSaved = snapshot.data ?? false;
 
-    final isSaved = snapshot.data as bool;
-
-    return isSaved
-        ? IconButton(
-            onPressed: () => _handleUnSave(widget.job),
-            icon: const Icon(Icons.bookmark_rounded),
-          )
-        : IconButton(
-            onPressed: () => _handleSave(widget.job),
-            icon: const Icon(Icons.bookmark_outline),
-          );
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: isSaved
+          ? IconButton(
+              key: const ValueKey('saved'),
+              onPressed: () => _handleUnSave(widget.job),
+              icon: const Icon(Icons.bookmark_rounded),
+              color: Colors.green,
+            )
+          : IconButton(
+              key: const ValueKey('unsaved'),
+              onPressed: () => _handleSave(widget.job),
+              icon: const Icon(Icons.bookmark_outline),
+              color: Colors.green,
+            ),
+    );
   }
 
   //TODO: Implement this method
