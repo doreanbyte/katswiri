@@ -138,7 +138,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
   void _onData(List<Job> jobs) {
     _jobs.addAll(jobs);
     _jobs.sort(
-      (a, b) => postedDate(b).difference(postedDate(a)).inSeconds.compareTo(0),
+      (a, b) => postedDate(b).compareTo(postedDate(a)),
     );
 
     setState(() {

@@ -19,8 +19,7 @@ DateTime postedDate(Job job) {
     int year = int.parse(dateMatch.namedGroup('year') as String);
 
     final datePosted = DateTime(year, month, day);
-    final duration = datePosted.difference(now);
-    return now.subtract(duration);
+    return datePosted;
   }
 
   final period = int.tryParse(posted.split(' ').first);
@@ -64,19 +63,20 @@ DateTime postedDate(Job job) {
 
 int _getMonthNumber(String monthName) {
   final months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+    'january',
+    'february',
+    'march',
+    'april',
+    'may',
+    'june',
+    'july',
+    'august',
+    'september',
+    'october',
+    'november',
+    'december'
   ];
 
-  return months.indexOf(monthName) + 1;
+  final monthIndex = months.indexOf(monthName);
+  return monthIndex + 1;
 }
