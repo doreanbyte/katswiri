@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parseFragment;
@@ -32,11 +31,6 @@ class OnlineJobMW extends Source {
   Future<Job> fetchJob(String url) async {
     final Job job;
     final response = await http.get(Uri.parse(url), headers: _headers);
-
-    if (response.statusCode != 200) {
-      //TODO: Wrap undesired response instead of throwing
-      throw HttpException('HTTP Request Error: ${response.statusCode}');
-    }
 
     final $ = parseFragment(response.body);
 
@@ -79,11 +73,6 @@ class OnlineJobMW extends Source {
         if (filter?['position'] != null) 'search_keywords': filter?['position'],
       },
     );
-
-    if (response.statusCode != 200) {
-      //TODO: Wrap undesired response instead of throwing
-      throw HttpException('HTTP Request Error: ${response.statusCode}');
-    }
 
     final json = jsonDecode(response.body);
     final html = json['html'];

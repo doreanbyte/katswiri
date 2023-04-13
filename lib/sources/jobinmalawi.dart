@@ -7,12 +7,12 @@ import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/base_source.dart';
 import 'package:katswiri/sources/source_countries.dart';
 
-class CareersMW extends Source {
+class JobInMalawi extends Source {
   @override
-  String get title => 'CareersMW';
+  String get title => 'JobInMalawi';
 
   @override
-  String get host => 'careersmw.com';
+  String get host => 'jobinmalawi.com';
 
   @override
   Countries get country => Countries.malawi;
@@ -22,9 +22,9 @@ class CareersMW extends Source {
         'User-Agent':
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0',
         'X-Requested-With': 'XMLHttpRequest',
-        'Origin': 'https://careersmw.com',
-        'Alt-Used': 'careersmw.com',
-        'Referer': 'https://careersmw.com/',
+        'Origin': 'https://jobsearchmalawi.com',
+        'Alt-Used': 'jobsearchmalawi.com',
+        'Referer': 'https://jobsearchmalawi.com/',
       };
 
   @override
@@ -35,7 +35,11 @@ class CareersMW extends Source {
     final $ = parseFragment(response.body);
 
     job = Job(
-      logo: $.querySelector('.wp-post-image')?.attributes['src']?.trim() ?? '',
+      logo: $
+              .querySelector('.company > .company_logo')
+              ?.attributes['src']
+              ?.trim() ??
+          '',
       position: $.querySelector('.entry-title')?.text.trim() ?? '',
       companyName: $.querySelector('p.name > strong')?.text.trim() ?? '',
       location: $.querySelector('.location > a')?.text.trim() ?? '',
@@ -66,7 +70,7 @@ class CareersMW extends Source {
       headers: _headers,
       body: {
         'page': '$page',
-        'per_page': '50',
+        'per_page': '10',
         'orderby': 'featured',
         'order': 'DESC',
         'show_pagination': 'false',
