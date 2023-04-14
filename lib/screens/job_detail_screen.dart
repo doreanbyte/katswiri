@@ -225,10 +225,7 @@ class JobLeadSection extends StatelessWidget {
                 ),
               ],
             ),
-            JobTagsSection(
-              job,
-              hide: false,
-            ),
+            JobTagsSection(job),
             Align(
               alignment: Alignment.centerRight,
               child: Text(
@@ -380,9 +377,7 @@ class _DescriptionSectionState extends State<DescriptionSection>
     setState(() {
       _hasError = false;
       _errMsg = '';
-      _loading = true;
     });
-
     _getJob();
   }
 }
