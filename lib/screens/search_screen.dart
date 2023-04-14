@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:katswiri/custom_widgets/custom_widgets.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context).copyWith(
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.black87,
+      ),
+    );
+  }
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     if (query.isEmpty) {
@@ -13,7 +23,8 @@ class CustomSearchDelegate extends SearchDelegate {
           query = '';
         },
         icon: const Icon(
-          Icons.clear,
+          Icons.close,
+          color: Colors.green,
         ),
       )
     ];
@@ -26,14 +37,19 @@ class CustomSearchDelegate extends SearchDelegate {
         close(context, null);
       },
       icon: const Icon(
-        Icons.close,
+        Icons.chevron_left,
+        color: Colors.green,
       ),
     );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container();
+    return TabbedSources(
+      filter: {
+        'position': query,
+      },
+    );
   }
 
   @override
