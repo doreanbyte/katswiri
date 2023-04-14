@@ -45,11 +45,7 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return TabbedSources(
-      filter: {
-        'position': query,
-      },
-    );
+    return TabbedSources(filter: {'position': query});
   }
 
   @override

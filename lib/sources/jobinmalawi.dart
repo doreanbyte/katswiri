@@ -75,6 +75,7 @@ class JobInMalawi extends Source {
         'order': 'DESC',
         'show_pagination': 'false',
         if (filter?['position'] != null) 'search_keywords': filter?['position'],
+        if (filter?['location'] != null) 'search_location': filter?['location'],
       },
     );
 
