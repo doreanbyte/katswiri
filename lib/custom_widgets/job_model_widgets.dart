@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
 import 'package:flutter/material.dart';
-import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/screens/job_detail_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:katswiri/models/models.dart';
@@ -189,9 +188,10 @@ class JobCompanySection extends StatelessWidget {
 }
 
 class JobTagsSection extends StatelessWidget {
-  const JobTagsSection(this.job, {super.key});
+  const JobTagsSection(this.job, {this.hide = true, super.key});
 
   final Job job;
+  final bool hide;
 
   @override
   Widget build(BuildContext context) {
@@ -205,6 +205,7 @@ class JobTagsSection extends StatelessWidget {
           ),
         ),
         Expanded(
+          flex: hide ? 2 : 1,
           child: JobTag(
             icon: const Icon(Icons.work),
             onPressed: () => _onTypePressed(context),
@@ -239,6 +240,7 @@ class JobTag extends StatelessWidget {
       icon: icon,
       label: Text(
         label,
+        overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: const TextStyle(
           color: Colors.grey,
