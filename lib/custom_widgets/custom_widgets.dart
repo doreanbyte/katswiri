@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 export 'job_model_widgets.dart';
 export 'job_list_retriever.dart';
+export 'tabbed_sources.dart';
 
 class Spinner extends StatelessWidget {
   const Spinner({super.key});
