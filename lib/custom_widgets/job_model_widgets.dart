@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
 import 'package:flutter/material.dart';
 import 'package:katswiri/screens/job_detail_screen.dart';
+import 'package:katswiri/screens/job_tag_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/sources.dart';
@@ -200,7 +201,18 @@ class JobTagsSection extends StatelessWidget {
         Expanded(
           child: JobTag(
             icon: const Icon(Icons.location_pin),
-            onPressed: () => _onLocationPressed(context),
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                JobTagScreen.route,
+                arguments: {
+                  'title': job.location,
+                  'filter': {
+                    'location': job.location,
+                  },
+                },
+              );
+            },
             label: job.location.isNotEmpty ? job.location : 'Unknown',
           ),
         ),
@@ -208,17 +220,24 @@ class JobTagsSection extends StatelessWidget {
           flex: hide ? 2 : 1,
           child: JobTag(
             icon: const Icon(Icons.work),
-            onPressed: () => _onTypePressed(context),
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                JobTagScreen.route,
+                arguments: {
+                  'title': job.type,
+                  'filter': {
+                    'type': job.type,
+                  },
+                },
+              );
+            },
             label: job.type.isNotEmpty ? job.type : 'Unknown',
           ),
         ),
       ],
     );
   }
-
-  void _onLocationPressed(BuildContext context) {}
-
-  void _onTypePressed(BuildContext context) {}
 }
 
 class JobTag extends StatelessWidget {

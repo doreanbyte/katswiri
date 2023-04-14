@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/screens/webview_screen.dart';
+import 'package:katswiri/screens/job_tag_screen.dart';
 import 'package:katswiri/sources/sources.dart';
 
 import 'bottom_navigation.dart';
@@ -54,6 +55,19 @@ class Katswiri extends StatelessWidget {
               builder: (context) => WebViewScreen(
                 title: title,
                 url: url,
+              ),
+            );
+            break;
+          case JobTagScreen.route:
+            final arguments = settings.arguments as Map<String, dynamic>;
+            final String title = arguments['title'] as String;
+            final Map<String, String> filter =
+                arguments['filter'] as Map<String, String>;
+
+            pageRoute = MaterialPageRoute(
+              builder: (context) => JobTagScreen(
+                title: title,
+                filter: filter,
               ),
             );
             break;
