@@ -90,6 +90,14 @@ class _JobListRetrieverState extends State<JobListRetriever>
       );
     }
 
+    if (_jobs.isEmpty && !_loading) {
+      widgets.add(
+        const Center(
+          child: Text('No results found'),
+        ),
+      );
+    }
+
     return RefreshIndicator(
       backgroundColor: Colors.black,
       onRefresh: _onRefresh,

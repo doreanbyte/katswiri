@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:katswiri/screens/explore_jobs_screen.dart';
+import 'package:katswiri/screens/browse_jobs_screen.dart';
 import 'package:katswiri/screens/saved_jobs_screen.dart';
 import 'package:katswiri/screens/history_screen.dart';
 import 'package:katswiri/screens/search_screen.dart';
@@ -7,7 +7,7 @@ import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';
 
 enum Page {
-  explore,
+  browse,
   history,
   saved,
 }
@@ -38,7 +38,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         child: IndexedStack(
           index: _selectedIndex,
           children: [
-            ExploreJobsScreen(
+            BrowseJobsScreen(
               onSourceChange: (source) {
                 _setSource(source);
               },
@@ -86,12 +86,12 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
   AppBar _buildAppBar(BuildContext context, Page page) {
     switch (page) {
-      case Page.explore:
+      case Page.browse:
         return AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: const Text(
-            'Explore',
+            'Browse',
             style: TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.w600,

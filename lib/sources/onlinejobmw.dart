@@ -84,15 +84,18 @@ class OnlineJobMW extends Source {
         logo:
             element.querySelector('.company_logo')?.attributes['src']?.trim() ??
                 '',
-        position:
-            element.querySelector('.job_listing-title')?.text.trim() ?? '',
+        position: element.querySelector('.job_listing-title')?.text.trim() ??
+            element.querySelector('.position > h3')?.text.trim() ??
+            '',
         companyName: element
                 .querySelector('.job_listing-company > strong')
                 ?.text
                 .trim() ??
-            '',
+            element.querySelector('.company > strong')?.text.trim() ??
+            'Unknown',
         location:
             element.querySelector('.job_listing-location > a')?.text.trim() ??
+                element.querySelector('.location')?.text.trim() ??
                 '',
         type: element.querySelector('li.job-type')?.text.trim() ?? '',
         posted: element.querySelector('.job_listing-date')?.text.trim() ?? '',
