@@ -29,6 +29,8 @@ class JobTile extends StatelessWidget {
         onTapUp: (_) => _onTapUp(context),
         child: JobTileComponent(
           job: job,
+          sourceIndex: getSources()
+              .indexWhere((element) => element.title == source.title),
         ),
       ),
     );
@@ -47,10 +49,12 @@ class JobTile extends StatelessWidget {
 class JobTileComponent extends StatelessWidget {
   const JobTileComponent({
     required this.job,
+    required this.sourceIndex,
     super.key,
   });
 
   final Job job;
+  final int sourceIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +81,10 @@ class JobTileComponent extends StatelessWidget {
                         const SizedBox(
                           height: 8.0,
                         ),
-                        JobTagsSection(job),
+                        JobTagsSection(
+                          job,
+                          initialIndex: sourceIndex,
+                        ),
                       ],
                     ),
                   ),
@@ -189,10 +196,16 @@ class JobCompanySection extends StatelessWidget {
 }
 
 class JobTagsSection extends StatelessWidget {
-  const JobTagsSection(this.job, {this.hide = true, super.key});
+  const JobTagsSection(
+    this.job, {
+    required this.initialIndex,
+    this.hide = true,
+    super.key,
+  });
 
   final Job job;
   final bool hide;
+  final int initialIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -210,6 +223,7 @@ class JobTagsSection extends StatelessWidget {
                   'filter': {
                     'location': job.location,
                   },
+                  'initialIndex': initialIndex,
                 },
               );
             },
@@ -229,6 +243,7 @@ class JobTagsSection extends StatelessWidget {
                   'filter': {
                     'type': job.type,
                   },
+                  'initialIndex': initialIndex,
                 },
               );
             },

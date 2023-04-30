@@ -63,11 +63,13 @@ class Katswiri extends StatelessWidget {
             final String title = arguments['title'] as String;
             final Map<String, String> filter =
                 arguments['filter'] as Map<String, String>;
+            final int initialIndex = arguments['initialIndex'] as int;
 
             pageRoute = MaterialPageRoute(
               builder: (context) => JobTagScreen(
                 title: title,
                 filter: filter,
+                initialIndex: initialIndex,
               ),
             );
             break;

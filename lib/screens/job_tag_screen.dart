@@ -6,12 +6,14 @@ class JobTagScreen extends StatelessWidget {
     super.key,
     required this.title,
     required this.filter,
+    required this.initialIndex,
   });
 
   static const route = '/tag';
 
   final String title;
   final Map<String, String> filter;
+  final int initialIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class JobTagScreen extends StatelessWidget {
       body: SafeArea(
         child: TabbedSources(
           filter: filter,
+          initialIndex: initialIndex,
         ),
       ),
     );

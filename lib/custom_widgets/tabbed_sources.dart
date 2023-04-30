@@ -7,10 +7,12 @@ class TabbedSources extends StatefulWidget {
     this.onSourceChange,
     super.key,
     this.filter,
+    this.initialIndex = 0,
   });
 
   final void Function(Source)? onSourceChange;
   final Map<String, String>? filter;
+  final int initialIndex;
 
   @override
   State<TabbedSources> createState() => _TabbedSourcesState();
@@ -25,6 +27,7 @@ class _TabbedSourcesState extends State<TabbedSources>
   @override
   void initState() {
     _tabController = TabController(
+      initialIndex: widget.initialIndex,
       length: _sources.length,
       vsync: this,
     );

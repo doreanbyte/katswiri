@@ -120,7 +120,11 @@ class _JobDetailComponentState extends State<JobDetailComponent>
       height: MediaQuery.of(context).size.height,
       child: Column(
         children: [
-          JobLeadSection(widget.job),
+          JobLeadSection(
+            widget.job,
+            initialIndex: getSources()
+                .indexWhere((element) => element.title == widget.source.title),
+          ),
           TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             isScrollable: true,
@@ -163,9 +167,14 @@ class _JobDetailComponentState extends State<JobDetailComponent>
 }
 
 class JobLeadSection extends StatelessWidget {
-  const JobLeadSection(this.job, {super.key});
+  const JobLeadSection(
+    this.job, {
+    required this.initialIndex,
+    super.key,
+  });
 
   final Job job;
+  final int initialIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -227,6 +236,7 @@ class JobLeadSection extends StatelessWidget {
             ),
             JobTagsSection(
               job,
+              initialIndex: initialIndex,
               hide: false,
             ),
             Align(
