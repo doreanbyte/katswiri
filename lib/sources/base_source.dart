@@ -8,7 +8,11 @@ abstract class Source {
 
   Countries get country => Countries.any;
 
-  Future<Job> fetchJob(String url);
+  Future<Job> fetchJob(String url, {bool refresh = false});
 
-  Future<List<Job>> fetchJobs({int page, Map<String, String>? filter});
+  Future<List<Job>> fetchJobs({
+    int page,
+    Map<String, String>? filter,
+    bool refresh = false,
+  });
 }

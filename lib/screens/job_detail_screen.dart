@@ -317,6 +317,7 @@ class _DescriptionSectionState extends State<DescriptionSection>
                         style: const TextStyle(
                           fontSize: 16.0,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),

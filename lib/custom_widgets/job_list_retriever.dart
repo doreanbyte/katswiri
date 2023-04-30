@@ -29,6 +29,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
   bool _loading = true;
   bool _hasError = false;
   String _errMsg = '';
+  bool _refresh = false;
 
   late final StreamController<List<Job>> _streamController;
   late final ScrollController _scrollController;
@@ -90,7 +91,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
       );
     }
 
-    if (_jobs.isEmpty && !_loading) {
+    if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
       widgets.add(
         const Center(
           child: Text('No results found'),
@@ -119,6 +120,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
       final jobs = await _source.fetchJobs(
         page: _page,
         filter: widget.filter,
+        refresh: _refresh,
       );
 
       _streamController.sink.add(jobs);
@@ -152,6 +154,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
     setState(() {
       _page++;
       _loading = false;
+      _refresh = false;
     });
   }
 
@@ -179,6 +182,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
       _page = 1;
       _loading = true;
       _errMsg = '';
+      _refresh = true;
     });
 
     _getJobs();

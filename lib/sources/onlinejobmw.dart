@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:html/parser.dart' show parseFragment;
 
+import 'package:katswiri/dio_request.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/base_source.dart';
 import 'package:katswiri/sources/source_countries.dart';
@@ -28,12 +29,17 @@ class OnlineJobMW extends Source {
       };
 
   @override
-  Future<Job> fetchJob(String url) async {
+  Future<Job> fetchJob(String url, {bool refresh = false}) async {
     final Job job;
-    final response = await http.get(Uri.parse(url), headers: _headers);
+    final dio = DioRequest.getInstance(refresh: refresh);
+    final response = await dio.get<String>(
+      url,
+      options: Options(
+        headers: _headers,
+      ),
+    );
 
-    final $ = parseFragment(response.body);
-
+    final $ = parseFragment(response.data);
     job = Job(
       logo: $.querySelector('.company_logo')?.attributes['src']?.trim() ?? '',
       position: $.querySelector('.page-title')?.text.trim() ?? '',
@@ -54,17 +60,16 @@ class OnlineJobMW extends Source {
   }
 
   @override
-  Future<List<Job>> fetchJobs({
-    int page = 1,
-    Map<String, String>? filter,
-  }) async {
-    final listingsUri = Uri.https(host, 'jm-ajax/get_listings');
+  Future<List<Job>> fetchJobs(
+      {int page = 1, Map<String, String>? filter, bool refresh = false}) async {
+    final listingsUri = 'https://$host/jm-ajax/get_listings';
     final List<Job> jobs = [];
 
-    final response = await http.post(
+    final dio = DioRequest.getInstance(refresh: refresh);
+    final response = await dio.post<String>(
       listingsUri,
-      headers: _headers,
-      body: {
+      options: Options(headers: _headers),
+      data: {
         'page': '$page',
         'per_page': '6',
         'orderby': 'featured',
@@ -75,7 +80,7 @@ class OnlineJobMW extends Source {
       },
     );
 
-    final json = jsonDecode(response.body);
+    final json = jsonDecode(response.data as String);
     final html = json['html'];
     final $ = parseFragment(html);
 
