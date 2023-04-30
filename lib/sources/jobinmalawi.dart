@@ -79,7 +79,7 @@ class JobInMalawi extends Source {
       options: Options(
         headers: _headers,
       ),
-      data: {
+      data: FormData.fromMap({
         'page': '$page',
         'per_page': '10',
         'orderby': 'featured',
@@ -87,7 +87,7 @@ class JobInMalawi extends Source {
         'show_pagination': 'false',
         if (filter?['position'] != null) 'search_keywords': filter?['position'],
         if (filter?['location'] != null) 'search_location': filter?['location'],
-      },
+      }),
     );
 
     final json = jsonDecode(response.data as String);

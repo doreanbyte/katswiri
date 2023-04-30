@@ -56,7 +56,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.explore_outlined),
             activeIcon: Icon(Icons.explore_rounded),
-            label: 'Explore',
+            label: 'Browse',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history_outlined),

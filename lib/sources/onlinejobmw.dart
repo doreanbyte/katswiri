@@ -69,7 +69,7 @@ class OnlineJobMW extends Source {
     final response = await dio.post<String>(
       listingsUri,
       options: Options(headers: _headers),
-      data: {
+      data: FormData.fromMap({
         'page': '$page',
         'per_page': '6',
         'orderby': 'featured',
@@ -77,7 +77,7 @@ class OnlineJobMW extends Source {
         'show_pagination': 'false',
         if (filter?['position'] != null) 'search_keywords': filter?['position'],
         if (filter?['location'] != null) 'search_location': filter?['location'],
-      },
+      }),
     );
 
     final json = jsonDecode(response.data as String);
