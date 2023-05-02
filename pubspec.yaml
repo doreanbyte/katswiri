@@ -40,6 +40,8 @@ dependencies:
   sqflite: ^2.2.6
   dio: ^5.1.1
   dio_cache_interceptor: ^3.4.2
+  path_provider: ^2.0.14
+  shared_preferences: ^2.1.0
 
 dev_dependencies:
   flutter_test:
