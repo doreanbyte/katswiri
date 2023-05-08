@@ -41,7 +41,8 @@ class DBManager {
 
     await db.execute('''
       CREATE TABLE saved (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY,
+        save_time INTEGER NOT NULL,
         job_id INTEGER,
         FOREIGN KEY (job_id) REFERENCES job (id) ON DELETE CASCADE
       )
