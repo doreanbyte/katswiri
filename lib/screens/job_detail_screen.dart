@@ -8,7 +8,7 @@ import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';
 import 'package:share_plus/share_plus.dart';
 
-class JobDetailScreen extends StatelessWidget {
+class JobDetailScreen extends StatefulWidget {
   const JobDetailScreen({
     super.key,
     required this.job,
@@ -21,6 +21,11 @@ class JobDetailScreen extends StatelessWidget {
   static const route = '/job_detail';
 
   @override
+  State<JobDetailScreen> createState() => _JobDetailScreenState();
+}
+
+class _JobDetailScreenState extends State<JobDetailScreen> {
+  @override
   Widget build(BuildContext context) {
     final iconColor = Theme.of(context).iconTheme.color;
 
@@ -28,7 +33,7 @@ class JobDetailScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text(source.title),
+        title: Text(widget.source.title),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -42,8 +47,8 @@ class JobDetailScreen extends StatelessWidget {
           IconButton(
             onPressed: () async {
               await Share.share(
-                job.url,
-                subject: job.position,
+                widget.job.url,
+                subject: widget.job.position,
               );
             },
             icon: Icon(
@@ -51,15 +56,15 @@ class JobDetailScreen extends StatelessWidget {
               color: iconColor,
             ),
           ),
-          SaveJobButton(job: job),
+          SaveJobButton(job: widget.job),
           IconButton(
             onPressed: () {
               Navigator.pushNamed(
                 context,
                 WebViewScreen.route,
                 arguments: {
-                  'url': job.url,
-                  'title': job.position,
+                  'url': widget.job.url,
+                  'title': widget.job.position,
                 },
               );
             },
@@ -72,8 +77,8 @@ class JobDetailScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: JobDetailComponent(
-          job: job,
-          source: source,
+          job: widget.job,
+          source: widget.source,
         ),
       ),
     );
