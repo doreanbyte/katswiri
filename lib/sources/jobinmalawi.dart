@@ -47,18 +47,18 @@ class JobInMalawi extends Source {
               ?.attributes['src']
               ?.trim() ??
           '',
-      position: $.querySelector('.entry-title')?.text.trim() ?? '',
-      companyName: $.querySelector('p.name > strong')?.text.trim() ?? '',
-      location: $.querySelector('.location > a')?.text.trim() ?? '',
-      type: $.querySelector('li.job-type')?.text.trim() ?? '',
-      posted: $.querySelector('.date-posted > time')?.text.trim() ?? '',
+      position: $.querySelector('.entry-title')?.text.trim() ?? 'Unknown',
+      companyName: $.querySelector('p.name > strong')?.text.trim() ?? 'Unknown',
+      location: $.querySelector('.location > a')?.text.trim() ?? 'Unknown',
+      type: $.querySelector('li.job-type')?.text.trim() ?? 'Unknown',
+      posted: $.querySelector('.date-posted > time')?.text.trim() ?? 'Unknown',
       description: $
               .querySelector('.job_description')
               ?.outerHtml
               .replaceAll(
                   '(adsbygoogle = window.adsbygoogle || []).push({});', '')
               .trim() ??
-          '',
+          'Unknown',
     );
 
     return job;
@@ -99,12 +99,13 @@ class JobInMalawi extends Source {
         logo:
             element.querySelector('.company_logo')?.attributes['src']?.trim() ??
                 '',
-        position: element.querySelector('.position > h3')?.text.trim() ?? '',
-        companyName:
-            element.querySelector('.company > strong')?.text.trim() ?? '',
-        location: element.querySelector('.location')?.text.trim() ?? '',
-        type: element.querySelector('li.job-type')?.text.trim() ?? '',
-        posted: element.querySelector('.date > time')?.text.trim() ?? '',
+        position:
+            element.querySelector('.position > h3')?.text.trim() ?? 'Unknown',
+        companyName: element.querySelector('.company > strong')?.text.trim() ??
+            'Unknown',
+        location: element.querySelector('.location')?.text.trim() ?? 'Unknown',
+        type: element.querySelector('li.job-type')?.text.trim() ?? 'Unknown',
+        posted: element.querySelector('.date > time')?.text.trim() ?? 'Unknown',
         url: element.querySelector('a')?.attributes['href'] ?? '',
       );
 

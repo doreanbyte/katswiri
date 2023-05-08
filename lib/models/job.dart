@@ -23,7 +23,7 @@ class Job {
     return {
       'logo': logo,
       'position': position,
-      'companyName': companyName,
+      'company_name': companyName,
       'location': location,
       'type': type,
       'posted': posted,
@@ -33,14 +33,14 @@ class Job {
   }
 
   factory Job.fromMap(Map<String, dynamic> job) => Job(
-        logo: job['logo'] ?? '',
-        position: job['position'] ?? '',
-        companyName: job['companyName'] ?? '',
-        location: job['location'] ?? '',
-        type: job['type'] ?? '',
-        posted: job['posted'] ?? '',
+        logo: job['logo'] ?? 'Unknown',
+        position: job['position'] ?? 'Unknown',
+        companyName: job['companyName'] ?? 'Unknown',
+        location: job['location'] ?? 'Unknown',
+        type: job['type'] ?? 'Unknown',
+        posted: job['posted'] ?? 'Unknown',
         url: job['url'] ?? '',
-        description: job['description'] ?? '',
+        description: job['description'] ?? 'Unknown',
       );
 
   factory Job.empty() => const Job(

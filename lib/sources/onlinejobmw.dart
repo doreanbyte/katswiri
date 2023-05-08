@@ -42,18 +42,18 @@ class OnlineJobMW extends Source {
     final $ = parseFragment(response.data);
     job = Job(
       logo: $.querySelector('.company_logo')?.attributes['src']?.trim() ?? '',
-      position: $.querySelector('.page-title')?.text.trim() ?? '',
-      companyName: $.querySelector('.job-company')?.text.trim() ?? '',
-      location: $.querySelector('.location > a')?.text.trim() ?? '',
-      type: $.querySelector('li.job-type')?.text.trim() ?? '',
-      posted: $.querySelector('.date-posted')?.text.trim() ?? '',
+      position: $.querySelector('.page-title')?.text.trim() ?? 'Unknown',
+      companyName: $.querySelector('.job-company')?.text.trim() ?? 'Unknown',
+      location: $.querySelector('.location > a')?.text.trim() ?? 'Unknown',
+      type: $.querySelector('li.job-type')?.text.trim() ?? 'Unknown',
+      posted: $.querySelector('.date-posted')?.text.trim() ?? 'Unknown',
       description: $
               .querySelector('.job_listing-description')
               ?.outerHtml
               .replaceAll(
                   '(adsbygoogle = window.adsbygoogle || []).push({});', '')
               .trim() ??
-          '',
+          'Unknown',
     );
 
     return job;
@@ -91,7 +91,7 @@ class OnlineJobMW extends Source {
                 '',
         position: element.querySelector('.job_listing-title')?.text.trim() ??
             element.querySelector('.position > h3')?.text.trim() ??
-            '',
+            'Unknown',
         companyName: element
                 .querySelector('.job_listing-company > strong')
                 ?.text
@@ -101,9 +101,10 @@ class OnlineJobMW extends Source {
         location:
             element.querySelector('.job_listing-location > a')?.text.trim() ??
                 element.querySelector('.location')?.text.trim() ??
-                '',
-        type: element.querySelector('li.job-type')?.text.trim() ?? '',
-        posted: element.querySelector('.job_listing-date')?.text.trim() ?? '',
+                'Unknown',
+        type: element.querySelector('li.job-type')?.text.trim() ?? 'Unknown',
+        posted: element.querySelector('.job_listing-date')?.text.trim() ??
+            'Unknown',
         url: element.querySelector('a')?.attributes['href'] ?? '',
       );
 
