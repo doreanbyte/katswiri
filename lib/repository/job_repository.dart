@@ -9,13 +9,7 @@ class JobRepository {
 
   static Future<void> saveHistory(Job job) async {}
 
-  static Future<void> saveJob(Job job) async {}
-
-  static Future<Job> historyJob(Job job) async {
-    return Job.empty();
-  }
-
-  static Future<Job> savedJob(Job job) async {
+  static Future<Job> fromHistory(Job job) async {
     return Job.empty();
   }
 
@@ -23,7 +17,21 @@ class JobRepository {
     return [Job.empty()];
   }
 
+  static Future<void> clearJobFromHistory(Job job) async {}
+
+  static Future<void> clearHistory() async {}
+
+  static Future<void> saveJob(Job job) async {}
+
+  static Future<Job> fromSaves(Job job) async {
+    return Job.empty();
+  }
+
   static Future<List<Job>> savedJobs() async {
     return [Job.empty()];
   }
+
+  static Future<void> clearJobFromSaved(Job job) async {}
+
+  static Future<void> clearSaves() async {}
 }

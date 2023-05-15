@@ -60,7 +60,6 @@ class DBManager {
   Future<Database> _initDatabase() async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, _databaseName);
-    Sqflite.setDebugModeOn();
 
     return openDatabase(
       path,
