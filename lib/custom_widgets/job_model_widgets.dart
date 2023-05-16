@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
 import 'package:flutter/material.dart';
+import 'package:katswiri/repository/repository.dart';
 import 'package:katswiri/screens/job_detail_screen.dart';
 import 'package:katswiri/screens/job_tag_screen.dart';
 import 'package:share_plus/share_plus.dart';
@@ -36,14 +37,18 @@ class JobTile extends StatelessWidget {
     );
   }
 
-  void _onTapUp(BuildContext context) => Navigator.pushNamed(
-        context,
-        JobDetailScreen.route,
-        arguments: {
-          'job': job,
-          'source': source,
-        },
-      );
+  void _onTapUp(BuildContext context) {
+    JobHistoryRepository.saveHistory(job);
+
+    Navigator.pushNamed(
+      context,
+      JobDetailScreen.route,
+      arguments: {
+        'job': job,
+        'source': source,
+      },
+    );
+  }
 }
 
 class JobTileComponent extends StatelessWidget {
