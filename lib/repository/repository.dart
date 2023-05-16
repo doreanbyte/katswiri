@@ -1,1 +1,116 @@
-export 'job_repository.dart';
+import 'package:katswiri/db_manager.dart';
+import 'package:katswiri/models/models.dart';
+import 'package:sqflite/sqflite.dart';
+
+const _jobTable = 'job';
+const _historyTable = 'history';
+const _savedTable = 'saved';
+
+class JobHistoryRepository {
+  /// Saves a job to the history table in the database. Checks if the job exists
+  /// in the database and if not creates it and retrieves the id of the last insert
+  /// item in the jobs table. This is then used in conjunction with the history table
+  /// inserting the job id into it with the related history table columns. And in
+  /// this case the viewed column of the history table is a DateTime timestamp
+  static Future<void> saveHistory(Job job) async {
+    final db = await DBManager.instance.database;
+    final jobExists = await db.rawQuery(
+      'SELECT id FROM $_jobTable WHERE url = ?',
+      [job.url],
+    );
+
+    int jobId;
+
+    if (jobExists.isEmpty) {
+      jobId = await db.insert(
+        _jobTable,
+        job.toMap(),
+      );
+    } else {
+      jobId = jobExists.first['id'] as int;
+    }
+
+    await db.insert(
+      _historyTable,
+      {
+        'viewed': DateTime.now().millisecondsSinceEpoch,
+        'job_id': jobId,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  /// Retrieves a job from the history table in the database.
+  static Future<Job> fromHistory(Job job) async {
+    final db = await DBManager.instance.database;
+    final historyResult = await db.rawQuery(
+      '''
+      SELECT * FROM $_jobTable
+      INNER JOIN $_historyTable
+      ON $_jobTable.id = $_historyTable.job_id
+      WHERE $_jobTable.url = ? LIMIT 1
+      ''',
+      [job.url],
+    );
+
+    if (historyResult.isNotEmpty) {
+      return Job.fromMap(historyResult.first);
+    }
+
+    return Job.empty();
+  }
+
+  /// Retrieves a list of jobs that have been viewed by the user from the history table in the database.
+  static Future<List<Job>> viewedJobs() async {
+    final db = await DBManager.instance.database;
+    final viewedResult = await db.rawQuery(
+      '''
+      SELECT * FROM $_jobTable
+      INNER JOIN $_historyTable
+      ON $_jobTable.id = $_historyTable.job_id
+      ''',
+    );
+
+    return viewedResult.map((job) => Job.fromMap(job)).toList();
+  }
+
+  /// Removes a job from the history table in the database.
+  static Future<void> clearJobFromHistory(Job job) async {
+    final db = await DBManager.instance.database;
+    await db.delete(
+      _historyTable,
+      where: 'job_id IN (SELECT id FROM $_jobTable WHERE url = ?)',
+      whereArgs: [job.url],
+    );
+  }
+
+  /// Clears all the jobs from the history table in the database.
+  static Future<void> clearHistory() async {
+    final db = await DBManager.instance.database;
+    await db.delete(_historyTable);
+  }
+}
+
+class SavedJobRepository {
+  /// Saves a job to the saved table in the database. Before saving the job a check
+  /// is made to see if the job is in the job table, if not it is created and then
+  /// the id from it is used in the saved table, where the save_time column of the
+  /// saved table is a timestamp
+  static Future<void> saveJob(Job job) async {}
+
+  /// Retrieves a job from the saved table in the database.
+  static Future<Job> fromSaves(Job job) async {
+    return Job.empty();
+  }
+
+  /// Retrieves a list of jobs that have been saved by the user from the saved table in the database.
+  static Future<List<Job>> savedJobs() async {
+    return [Job.empty()];
+  }
+
+  /// Removes a job from the saved table in the database.
+  static Future<void> clearJobFromSaved(Job job) async {}
+
+  /// Clears all the jobs from the saved table in the database.
+  static Future<void> clearSaves() async {}
+}
