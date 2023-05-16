@@ -19,7 +19,7 @@ class Job {
   final String url;
   final String description;
 
-  Map<String, dynamic> toMap() {
+  Map<String, Object?> toMap() {
     return {
       'logo': logo,
       'position': position,
