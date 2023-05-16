@@ -38,7 +38,7 @@ class JobTile extends StatelessWidget {
   }
 
   void _onTapUp(BuildContext context) {
-    JobHistoryRepository.saveHistory(job);
+    JobHistoryRepo.saveHistory(job);
 
     Navigator.pushNamed(
       context,

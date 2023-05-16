@@ -6,8 +6,8 @@ const _jobTable = 'job';
 const _historyTable = 'history';
 const _savedTable = 'saved';
 
-class JobHistoryRepository {
-  JobHistoryRepository._();
+class JobHistoryRepo {
+  JobHistoryRepo._();
 
   /// Saves a job to the history table in the database. Checks if the job exists
   /// in the database and if not creates it and retrieves the id of the last insert
@@ -35,7 +35,7 @@ class JobHistoryRepository {
     await db.insert(
       _historyTable,
       {
-        'viewed': DateTime.now().millisecondsSinceEpoch,
+        'time_viewed': DateTime.now().millisecondsSinceEpoch,
         'job_id': jobId,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -95,8 +95,8 @@ class JobHistoryRepository {
   }
 }
 
-class SavedJobRepository {
-  SavedJobRepository._();
+class SavedJobRepo {
+  SavedJobRepo._();
 
   /// Saves a job to the saved table in the database. Before saving the job a check
   /// is made to see if the job is in the job table, if not it is created and then
@@ -123,7 +123,7 @@ class SavedJobRepository {
     await db.insert(
       _savedTable,
       {
-        'save_time': DateTime.now().millisecondsSinceEpoch,
+        'time_saved': DateTime.now().millisecondsSinceEpoch,
         'job_id': jobId,
       },
       conflictAlgorithm: ConflictAlgorithm.ignore,
