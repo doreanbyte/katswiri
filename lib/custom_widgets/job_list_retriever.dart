@@ -31,14 +31,20 @@ class _JobListRetrieverState extends State<JobListRetriever>
   String _errMsg = '';
   bool _refresh = false;
 
-  late final StreamController<List<Job>> _streamController;
+  late final StreamController<List<Job>> _streamController =
+      StreamController.broadcast();
   late final ScrollController _scrollController;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     _source = widget.source;
-    _streamController = StreamController.broadcast();
-    _streamController.stream.listen(_onData, onError: _onError);
+    _streamController.stream.listen(
+      _onData,
+      onError: _onError,
+    );
 
     _scrollController = ScrollController()..addListener(_onScrollEnd);
 
@@ -56,9 +62,6 @@ class _JobListRetrieverState extends State<JobListRetriever>
   }
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
     super.build(context);
 
@@ -68,8 +71,8 @@ class _JobListRetrieverState extends State<JobListRetriever>
     );
   }
 
-  Widget _builder(BuildContext context, AsyncSnapshot<List<Job>> snapshot) {
-    final List<Widget> widgets = _jobs
+  Widget _builder(BuildContext context, _) {
+    final List<Widget> jobTileList = _jobs
         .map<Widget>((job) => JobTile(
               job: job,
               source: _source,
@@ -77,13 +80,13 @@ class _JobListRetrieverState extends State<JobListRetriever>
         .toList();
 
     if (_loading) {
-      widgets.add(
+      jobTileList.add(
         const Spinner(),
       );
     }
 
     if (_hasError) {
-      widgets.add(
+      jobTileList.add(
         ErrorButton(
           errorMessage: _errMsg,
           onRetryPressed: _onRetryPressed,
@@ -92,9 +95,9 @@ class _JobListRetrieverState extends State<JobListRetriever>
     }
 
     if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
-      widgets.add(
+      jobTileList.add(
         const Center(
-          child: Text('No results found'),
+          child: Text('No Results Found'),
         ),
       );
     }
@@ -107,10 +110,8 @@ class _JobListRetrieverState extends State<JobListRetriever>
         addRepaintBoundaries: false,
         controller: _scrollController,
         padding: const EdgeInsets.only(top: 4.0),
-        itemBuilder: (context, index) {
-          return widgets[index];
-        },
-        itemCount: widgets.length,
+        itemBuilder: (context, index) => jobTileList[index],
+        itemCount: jobTileList.length,
       ),
     );
   }
