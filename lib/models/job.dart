@@ -35,7 +35,7 @@ class Job {
   factory Job.fromMap(Map<String, Object?> job) => Job(
         logo: job['logo'] as String,
         position: job['position'] as String,
-        companyName: job['companyName'] as String,
+        companyName: job['company_name'] as String,
         location: job['location'] as String,
         type: job['type'] as String,
         posted: job['posted'] as String,
