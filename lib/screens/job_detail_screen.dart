@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/models/models.dart';
+import 'package:katswiri/repository/repository.dart';
 import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';
 import 'package:share_plus/share_plus.dart';
@@ -285,6 +286,13 @@ class _DescriptionSectionState extends State<DescriptionSection>
   bool _hasError = false;
   String _errMsg = '';
 
+  /// [initState] override responsible for creating [StreamController] to listen
+  /// for events on data retrieval with [_onData] and error events with [_onError]
+  /// makes a call to [_getJob] to retrieve the [Job] from [widget.source] if it
+  /// is found that the [_job.description] is empty. Otherwise the call is not made
+  /// but a call is made to [JobHistoryRepo.saveHistory] to update the history
+  /// table of this [Job] being viewed by the user, sets [_loading] to true or false
+  /// based on whether the [Job.description] is empty
   @override
   void initState() {
     _streamController = StreamController.broadcast();
@@ -292,7 +300,14 @@ class _DescriptionSectionState extends State<DescriptionSection>
     _job = widget.job;
 
     super.initState();
-    _getJob();
+
+    if (_job.description.isEmpty) {
+      _loading = true;
+      _getJob();
+    } else {
+      _loading = false;
+      JobHistoryRepo.saveHistory(_job);
+    }
   }
 
   @override
@@ -364,9 +379,12 @@ class _DescriptionSectionState extends State<DescriptionSection>
     );
   }
 
+  /// Retrieves the job from [widget.source] and stores the result into the
+  /// history table
   void _getJob() async {
     try {
       final job = await widget.source.fetchJob(_job.url);
+      await JobHistoryRepo.saveHistory(job);
       _streamController.sink.add(job);
     } catch (e) {
       _streamController.sink.addError(e);
