@@ -53,4 +53,26 @@ class Job {
         url: '',
         description: '',
       );
+
+  Job copyWith({
+    String? logo,
+    String? position,
+    String? companyName,
+    String? location,
+    String? type,
+    String? posted,
+    String? url,
+    String? description,
+  }) {
+    return Job(
+      logo: logo ?? this.logo,
+      position: position ?? this.position,
+      companyName: companyName ?? this.companyName,
+      location: location ?? this.location,
+      type: type ?? this.type,
+      posted: posted ?? this.posted,
+      url: url ?? this.url,
+      description: description ?? this.description,
+    );
+  }
 }
