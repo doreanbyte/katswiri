@@ -383,7 +383,13 @@ class _DescriptionSectionState extends State<DescriptionSection>
   /// history table
   void _getJob() async {
     try {
-      final job = await widget.source.fetchJob(_job.url);
+      var job = await widget.source.fetchJob(_job.url);
+      // Keep the url we used to get to the job page
+      job = job.copyWith(
+        url: _job.url,
+        logo: _job.logo,
+        position: _job.position,
+      );
       await JobHistoryRepo.saveHistory(job);
       _streamController.sink.add(job);
     } catch (e) {
@@ -392,15 +398,7 @@ class _DescriptionSectionState extends State<DescriptionSection>
   }
 
   void _onData(Job job) {
-    _job = Job(
-      logo: _job.logo,
-      position: _job.position,
-      companyName: _job.companyName,
-      location: _job.location,
-      type: _job.type,
-      posted: _job.posted,
-      description: job.description,
-    );
+    _job = job;
 
     setState(() {
       _loading = false;
