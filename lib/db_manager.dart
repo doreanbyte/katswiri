@@ -16,7 +16,8 @@ class DBManager {
   static Database? _database;
 
   Future<void> _onCreate(Database db, int version) async {
-    await db.execute('''
+    await db.execute(
+      '''
       CREATE TABLE job (
         id INTEGER PRIMARY KEY,
         logo TEXT,
@@ -28,29 +29,48 @@ class DBManager {
         url TEXT UNIQUE,
         description TEXT
       )
-    ''');
+      ''',
+    );
 
-    await db.execute('''
+    await db.execute(
+      '''
       CREATE TABLE history (
         id INTEGER PRIMARY KEY,
         time_viewed INTEGER NOT NULL,
-        job_id INTEGER,
+        job_id INTEGER UNIQUE,
         FOREIGN KEY (job_id) REFERENCES job (id) ON DELETE CASCADE
       )
-    ''');
+      ''',
+    );
 
-    await db.execute('''
+    await db.execute(
+      '''
       CREATE TABLE saved (
         id INTEGER PRIMARY KEY,
         time_saved INTEGER NOT NULL,
-        job_id INTEGER,
+        job_id INTEGER UNIQUE,
         FOREIGN KEY (job_id) REFERENCES job (id) ON DELETE CASCADE
       )
-    ''');
+      ''',
+    );
 
-    await db.execute('''
-      CREATE UNIQUE INDEX job_url_idx ON job (url)
-    ''');
+    await db.execute(
+      '''
+      CREATE UNIQUE INDEX job_idx ON job (id, url)
+      ''',
+    );
+
+    await db.execute(
+      '''
+      CREATE UNIQUE INDEX history_idx ON history (id, job_id)
+      ''',
+    );
+
+    await db.execute(
+      '''
+      CREATE UNIQUE INDEX saved_idx ON saved (id, job_id)
+      ''',
+    );
   }
 
   FutureOr<void> _onConfigure(Database db) async {
