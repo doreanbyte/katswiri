@@ -389,6 +389,7 @@ class _DescriptionSectionState extends State<DescriptionSection>
         url: _job.url,
         logo: _job.logo,
         position: _job.position,
+        posted: _job.posted,
       );
       await JobHistoryRepo.saveHistory(job);
       _streamController.sink.add(job);
