@@ -25,7 +25,7 @@ class DBManager {
         company_name TEXT,
         location TEXT,
         type TEXT,
-        posted TEXT,
+        posted INTEGER,
         url TEXT UNIQUE,
         description TEXT
       )

@@ -3,8 +3,8 @@ import 'package:katswiri/models/models.dart' show Job;
 /// [postedDate] takes a [Job] and checks the posted field and converts it to its
 /// [DateTime] equivalent such that given a posted date of say 6 hours it will
 /// try to find and evaluate it to the [DateTime] presentation
-DateTime postedDate(Job job) {
-  var posted = job.posted.toLowerCase();
+DateTime postedDate(String posted) {
+  posted = posted.toLowerCase();
   posted = posted
       .replaceAll('posted', '')
       .replaceAll('ago', '')

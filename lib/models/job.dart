@@ -1,3 +1,5 @@
+import 'package:katswiri/utils/utils.dart';
+
 class Job {
   const Job({
     required this.logo,
@@ -26,7 +28,7 @@ class Job {
       'company_name': companyName,
       'location': location,
       'type': type,
-      'posted': posted,
+      'posted': postedDate(posted).millisecondsSinceEpoch,
       'url': url,
       'description': description,
     };
@@ -38,7 +40,9 @@ class Job {
         companyName: job['company_name'] as String,
         location: job['location'] as String,
         type: job['type'] as String,
-        posted: job['posted'] as String,
+        posted: getTimeAgo(
+          DateTime.fromMillisecondsSinceEpoch(job['posted'] as int),
+        ),
         url: job['url'] as String,
         description: job['description'] as String,
       );
