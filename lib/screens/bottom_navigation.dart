@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:katswiri/repository/repository.dart';
 import 'package:katswiri/screens/browse_jobs_screen.dart';
 import 'package:katswiri/screens/saved_jobs_screen.dart';
 import 'package:katswiri/screens/history_screen.dart';
@@ -181,7 +182,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Clear History'),
+          title: const Text(
+            'Clear History',
+            style: TextStyle(color: Colors.green),
+          ),
           content: const Text('Are you sure you want to clear your history?'),
           backgroundColor: Colors.black,
           actions: [
@@ -197,7 +201,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             TextButton(
               child: const Text('Yes'),
               onPressed: () {
-                Navigator.of(context).pop();
+                JobHistoryRepo.clearHistory()
+                    .then((_) => Navigator.of(context).pop());
               },
             ),
           ],
@@ -211,7 +216,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Clear Saved Jobs'),
+          title: const Text(
+            'Clear Saved Jobs',
+            style: TextStyle(color: Colors.green),
+          ),
           content:
               const Text('Are you sure you want to clear your saved jobs?'),
           backgroundColor: Colors.black,
@@ -222,12 +230,13 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () async {
-                Navigator.of(context).pop();
+                SavedJobRepo.clearSaves()
+                    .then((_) => Navigator.of(context).pop());
               },
             ),
             TextButton(
               child: const Text('Yes'),
-              onPressed: () {
+              onPressed: () async {
                 Navigator.of(context).pop();
               },
             ),
