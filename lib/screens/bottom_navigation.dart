@@ -141,6 +141,15 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               letterSpacing: -.4,
             ),
           ),
+          actions: [
+            IconButton(
+              onPressed: () => _showClearHistory(context),
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.green,
+              ),
+            ),
+          ],
         );
       case Page.saved:
         return AppBar(
@@ -154,7 +163,77 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               letterSpacing: -.4,
             ),
           ),
+          actions: [
+            IconButton(
+              onPressed: () => _showClearSaved(context),
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.green,
+              ),
+            ),
+          ],
         );
     }
+  }
+
+  Future<void> _showClearHistory(BuildContext context) async {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Clear History'),
+          content: const Text('Are you sure you want to clear your history?'),
+          backgroundColor: Colors.black,
+          actions: [
+            TextButton(
+              child: const Text(
+                'No',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showClearSaved(BuildContext context) async {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Clear Saved Jobs'),
+          content:
+              const Text('Are you sure you want to clear your saved jobs?'),
+          backgroundColor: Colors.black,
+          actions: [
+            TextButton(
+              child: const Text(
+                'No',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
