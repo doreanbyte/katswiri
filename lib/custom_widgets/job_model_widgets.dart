@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
 import 'package:flutter/material.dart';
+import 'package:katswiri/repository/repository.dart';
 import 'package:katswiri/screens/job_detail_screen.dart';
 import 'package:katswiri/screens/job_tag_screen.dart';
 import 'package:share_plus/share_plus.dart';
@@ -336,15 +337,15 @@ class SaveJobButtonState extends State<SaveJobButton>
     with SingleTickerProviderStateMixin {
   late final StreamController<bool> _streamController;
 
+  bool _isSaved = false;
+
   @override
   void initState() {
     _streamController = StreamController.broadcast();
     _streamController.stream.listen(_onData);
+
     super.initState();
-    Future.delayed(
-      Duration.zero,
-      () => _getStatus(),
-    );
+    _getStatus();
   }
 
   @override
@@ -362,15 +363,15 @@ class SaveJobButtonState extends State<SaveJobButton>
   }
 
   void _onData(bool status) {
-    setState(() {});
+    setState(() {
+      _isSaved = status;
+    });
   }
 
-  Widget _builder(BuildContext context, AsyncSnapshot<bool> snapshot) {
-    final isSaved = snapshot.data ?? false;
-
+  Widget _builder(BuildContext context, _) {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: isSaved
+      child: _isSaved
           ? IconButton(
               key: const ValueKey('saved'),
               onPressed: () => _handleUnSave(widget.job),
@@ -386,18 +387,18 @@ class SaveJobButtonState extends State<SaveJobButton>
     );
   }
 
-  //TODO: Implement this method
   void _getStatus() async {
-    _streamController.sink.add(false);
+    final isSaved = await SavedJobRepo.isSaved(widget.job);
+    _streamController.sink.add(isSaved);
   }
 
-  //TODO: Implement this method
   void _handleSave(Job job) async {
+    await SavedJobRepo.saveJob(job);
     _streamController.sink.add(true);
   }
 
-  //TODO: Implement this method
   void _handleUnSave(Job job) async {
+    await SavedJobRepo.clearJobFromSaved(job);
     _streamController.sink.add(false);
   }
 }
