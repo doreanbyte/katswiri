@@ -24,9 +24,10 @@ class JobHistoryRepo {
     int jobId;
 
     if (jobExists.isEmpty) {
+      final jobMap = job.toMap();
       jobId = await db.insert(
         _jobTable,
-        job.toMap(),
+        jobMap,
       );
     } else {
       jobId = jobExists.first['id'] as int;
@@ -112,9 +113,10 @@ class SavedJobRepo {
     int jobId;
 
     if (jobExists.isEmpty) {
+      final jobMap = job.toMap();
       jobId = await db.insert(
         _jobTable,
-        job.toMap(),
+        jobMap,
       );
     } else {
       jobId = jobExists.first['id'] as int;

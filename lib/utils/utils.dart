@@ -1,6 +1,4 @@
-import 'package:katswiri/models/models.dart' show Job;
-
-/// [postedDate] takes a [Job] and checks the posted field and converts it to its
+/// [postedDate] takes a [String] and checks the posted field and converts it to its
 /// [DateTime] equivalent such that given a posted date of say 6 hours it will
 /// try to find and evaluate it to the [DateTime] presentation
 DateTime postedDate(String posted) {
@@ -31,37 +29,41 @@ DateTime postedDate(String posted) {
     return now;
   }
 
+  DateTime difference;
+
   if (posted.contains('sec')) {
-    return now.subtract(
+    difference = now.subtract(
       Duration(seconds: period),
     );
   } else if (posted.contains('min')) {
-    return now.subtract(
+    difference = now.subtract(
       Duration(minutes: period),
     );
   } else if (posted.contains('hour')) {
-    return now.subtract(
+    difference = now.subtract(
       Duration(hours: period),
     );
   } else if (posted.contains('day')) {
-    return now.subtract(
+    difference = now.subtract(
       Duration(days: period),
     );
   } else if (posted.contains('week')) {
-    return now.subtract(
+    difference = now.subtract(
       Duration(days: period * 7),
     );
   } else if (posted.contains('month')) {
-    return now.subtract(
+    difference = now.subtract(
       Duration(days: period * 30),
     );
   } else if (posted.contains('year')) {
-    return now.subtract(
+    difference = now.subtract(
       Duration(days: period * 365),
     );
   } else {
-    return now;
+    difference = now;
   }
+
+  return difference;
 }
 
 int _getMonthNumber(String monthName) {
