@@ -8,7 +8,7 @@ class BrowseJobsScreen extends StatelessWidget {
     this.onSourceChange,
   });
 
-  static const route = '/explore_jobs';
+  static const route = '/browse';
   final void Function(Source)? onSourceChange;
 
   @override

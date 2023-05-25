@@ -10,6 +10,7 @@ class DioRequest {
         maxSize: 10485760,
         maxEntrySize: 1048576,
       );
+
       final cacheOptions = CacheOptions(
         maxStale: const Duration(minutes: 5),
         store: cacheStore,
@@ -18,7 +19,9 @@ class DioRequest {
       );
 
       _dio = Dio()
-        ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
+        ..interceptors.add(
+          DioCacheInterceptor(options: cacheOptions),
+        );
     }
 
     return _dio!;

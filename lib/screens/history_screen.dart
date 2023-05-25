@@ -9,7 +9,7 @@ import 'package:katswiri/sources/sources.dart';
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
 
-  static const route = '/saved_jobs';
+  static const route = '/history';
 
   @override
   State<HistoryScreen> createState() => _HistoryScreenState();
@@ -69,7 +69,7 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
   }
 
   Widget _builder(BuildContext context, _) {
-    final List<Widget> jobTileList = _jobs
+    final List<Widget> widgetList = _jobs
         .map<Widget>((job) => JobTile(
               job: job,
               source: getSources().firstWhere(
@@ -79,13 +79,13 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
         .toList();
 
     if (_loading) {
-      jobTileList.add(
+      widgetList.add(
         const Spinner(),
       );
     }
 
     if (_hasError) {
-      jobTileList.add(
+      widgetList.add(
         ErrorButton(
           errorMessage: _errMsg,
           onRetryPressed: _onRetryPressed,
@@ -94,8 +94,10 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
     }
 
     if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
-      const Center(
-        child: Text('No Recently Viewed Jobs'),
+      widgetList.add(
+        const Center(
+          child: Text('No Recently Viewed Jobs'),
+        ),
       );
     }
 
@@ -106,15 +108,19 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
         addAutomaticKeepAlives: false,
         addRepaintBoundaries: false,
         padding: const EdgeInsets.only(top: 4.0),
-        itemBuilder: (context, index) => jobTileList[index],
-        itemCount: jobTileList.length,
+        itemBuilder: (context, index) => widgetList[index],
+        itemCount: widgetList.length,
       ),
     );
   }
 
   void _getHistory() async {
-    final jobs = await JobHistoryRepo.viewedJobs();
-    _streamController.sink.add(jobs);
+    try {
+      final jobs = await JobHistoryRepo.viewedJobs();
+      _streamController.sink.add(jobs);
+    } catch (e) {
+      _streamController.addError(e);
+    }
   }
 
   void _onData(List<Job> jobs) {
