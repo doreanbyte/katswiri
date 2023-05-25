@@ -194,7 +194,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                 'No',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () async {
+              onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
@@ -229,15 +229,15 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                 'No',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () async {
-                SavedJobRepo.clearSaves()
-                    .then((_) => Navigator.of(context).pop());
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
             TextButton(
               child: const Text('Yes'),
-              onPressed: () async {
-                Navigator.of(context).pop();
+              onPressed: () {
+                SavedJobRepo.clearSaves()
+                    .then((_) => Navigator.of(context).pop());
               },
             ),
           ],
