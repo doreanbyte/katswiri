@@ -11,10 +11,14 @@ class JobListRetriever extends StatefulWidget {
     super.key,
     required this.source,
     this.filter,
+    this.primary,
+    this.physics,
   });
 
   final Source source;
   final Map<String, String>? filter;
+  final bool? primary;
+  final ScrollPhysics? physics;
 
   @override
   State<JobListRetriever> createState() => _JobListRetrieverState();
@@ -33,7 +37,8 @@ class _JobListRetrieverState extends State<JobListRetriever>
 
   late final StreamController<List<Job>> _streamController =
       StreamController.broadcast();
-  late final ScrollController _scrollController;
+
+  late final ScrollController _scrollController = ScrollController();
 
   @override
   bool get wantKeepAlive => true;
@@ -46,7 +51,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
       onError: _onError,
     );
 
-    _scrollController = ScrollController()..addListener(_onScrollEnd);
+    _scrollController.addListener(_onScrollEnd);
 
     super.initState();
     _getJobs();
@@ -56,6 +61,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
   void dispose() {
     _streamController.close();
     _scrollController.removeListener(_onScrollEnd);
+
     _scrollController.dispose();
 
     super.dispose();
@@ -115,6 +121,9 @@ class _JobListRetrieverState extends State<JobListRetriever>
           addRepaintBoundaries: false,
           controller: _scrollController,
           padding: const EdgeInsets.only(top: 4.0),
+          primary: widget.primary,
+          physics: widget.physics,
+          shrinkWrap: true,
           itemBuilder: (context, index) => widgetList[index],
           itemCount: widgetList.length,
         ),
