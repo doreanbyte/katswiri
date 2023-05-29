@@ -72,32 +72,51 @@ class _JobListRetrieverState extends State<JobListRetriever>
   }
 
   Widget _builder(BuildContext context, _) {
-    final List<Widget> jobTileList = _jobs
-        .map<Widget>((job) => JobTile(
-              job: job,
-              source: _source,
-            ))
-        .toList();
+    final Widget child;
 
-    if (_loading) {
-      jobTileList.add(
-        const Spinner(),
+    if (_loading && _jobs.isEmpty) {
+      child = const Center(
+        child: CircularProgressIndicator(),
       );
-    }
+    } else {
+      final List<Widget> widgetList = _jobs
+          .map<Widget>((job) => JobTile(
+                job: job,
+                source: _source,
+              ))
+          .toList();
 
-    if (_hasError) {
-      jobTileList.add(
-        ErrorButton(
-          errorMessage: _errMsg,
-          onRetryPressed: _onRetryPressed,
-        ),
-      );
-    }
+      if (_loading) {
+        widgetList.add(
+          const Spinner(),
+        );
+      }
 
-    if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
-      jobTileList.add(
-        const Center(
-          child: Text('No Results Found'),
+      if (_hasError) {
+        widgetList.add(
+          ErrorButton(
+            errorMessage: _errMsg,
+            onRetryPressed: _onRetryPressed,
+          ),
+        );
+      }
+
+      if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
+        widgetList.add(
+          const Center(
+            child: Text('No Results Found'),
+          ),
+        );
+      }
+
+      child = Center(
+        child: ListView.builder(
+          addAutomaticKeepAlives: false,
+          addRepaintBoundaries: false,
+          controller: _scrollController,
+          padding: const EdgeInsets.only(top: 4.0),
+          itemBuilder: (context, index) => widgetList[index],
+          itemCount: widgetList.length,
         ),
       );
     }
@@ -105,14 +124,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
     return RefreshIndicator(
       backgroundColor: Colors.black,
       onRefresh: _onRefresh,
-      child: ListView.builder(
-        addAutomaticKeepAlives: false,
-        addRepaintBoundaries: false,
-        controller: _scrollController,
-        padding: const EdgeInsets.only(top: 4.0),
-        itemBuilder: (context, index) => jobTileList[index],
-        itemCount: jobTileList.length,
-      ),
+      child: child,
     );
   }
 

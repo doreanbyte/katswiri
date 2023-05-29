@@ -69,34 +69,52 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
   }
 
   Widget _builder(BuildContext context, _) {
-    final List<Widget> widgetList = _jobs
-        .map<Widget>((job) => JobTile(
-              job: job,
-              source: getSources().firstWhere(
-                (source) => job.url.contains(source.host),
-              ),
-            ))
-        .toList();
+    final Widget child;
 
-    if (_loading) {
-      widgetList.add(
-        const Spinner(),
+    if (_loading && _jobs.isEmpty) {
+      child = const Center(
+        child: CircularProgressIndicator(),
       );
-    }
+    } else {
+      final List<Widget> widgetList = _jobs
+          .map<Widget>((job) => JobTile(
+                job: job,
+                source: getSources().firstWhere(
+                  (source) => job.url.contains(source.host),
+                ),
+              ))
+          .toList();
 
-    if (_hasError) {
-      widgetList.add(
-        ErrorButton(
-          errorMessage: _errMsg,
-          onRetryPressed: _onRetryPressed,
-        ),
-      );
-    }
+      if (_loading) {
+        widgetList.add(
+          const Spinner(),
+        );
+      }
 
-    if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
-      widgetList.add(
-        const Center(
-          child: Text('No Recently Viewed Jobs'),
+      if (_hasError) {
+        widgetList.add(
+          ErrorButton(
+            errorMessage: _errMsg,
+            onRetryPressed: _onRetryPressed,
+          ),
+        );
+      }
+
+      if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
+        widgetList.add(
+          const Center(
+            child: Text('No Recently Viewed Jobs'),
+          ),
+        );
+      }
+
+      child = Center(
+        child: ListView.builder(
+          addAutomaticKeepAlives: false,
+          addRepaintBoundaries: false,
+          padding: const EdgeInsets.only(top: 4.0),
+          itemBuilder: (context, index) => widgetList[index],
+          itemCount: widgetList.length,
         ),
       );
     }
@@ -104,13 +122,7 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
     return RefreshIndicator(
       backgroundColor: Colors.black,
       onRefresh: _onRefresh,
-      child: ListView.builder(
-        addAutomaticKeepAlives: false,
-        addRepaintBoundaries: false,
-        padding: const EdgeInsets.only(top: 4.0),
-        itemBuilder: (context, index) => widgetList[index],
-        itemCount: widgetList.length,
-      ),
+      child: child,
     );
   }
 
