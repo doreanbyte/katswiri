@@ -105,7 +105,7 @@ class JobTileComponent extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),

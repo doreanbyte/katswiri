@@ -33,7 +33,6 @@ class Job {
       'posted': postedDate(posted).millisecondsSinceEpoch,
       'url': url,
       'description': description,
-      'tag': tag,
     };
   }
 

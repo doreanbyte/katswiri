@@ -38,8 +38,8 @@ class _TabbedSourcesState extends State<TabbedSources>
 
   @override
   void dispose() {
-    _tabController.dispose();
     _tabController.removeListener(_handleTabSelection);
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -142,6 +142,7 @@ class _TabBarViewSectionState extends State<TabBarViewSection> {
             (source) => JobListRetriever(
               source: source,
               filter: widget.filter,
+              physics: const BouncingScrollPhysics(),
             ),
           )
           .toList(),
