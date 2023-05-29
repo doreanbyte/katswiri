@@ -1,3 +1,7 @@
+import 'dart:math';
+
+final random = Random();
+
 /// [postedDate] takes a [String] and checks the posted field and converts it to its
 /// [DateTime] equivalent such that given a posted date of say 6 hours it will
 /// try to find and evaluate it to the [DateTime] presentation
@@ -108,4 +112,11 @@ String getTimeAgo(DateTime dateTime) {
     final years = (difference.inDays / 365).floor();
     return '$years ${years == 1 ? 'year' : 'years'} ago';
   }
+}
+
+/// Given [url] attempt to create a unique tag that will be used by Hero widgets
+/// tag property to make transitions between smoother.
+String getHeroTag(String url) {
+  String heroTag = '$url${random.nextInt(url.length)}';
+  return heroTag;
 }
