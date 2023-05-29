@@ -7,6 +7,7 @@ import 'package:katswiri/dio_request.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/base_source.dart';
 import 'package:katswiri/sources/source_countries.dart';
+import 'package:katswiri/utils/utils.dart';
 
 class JobInMalawi extends Source {
   @override
@@ -59,6 +60,7 @@ class JobInMalawi extends Source {
                   '(adsbygoogle = window.adsbygoogle || []).push({});', '')
               .trim() ??
           'Unknown',
+      tag: getHeroTag(url),
     );
 
     return job;
@@ -95,6 +97,8 @@ class JobInMalawi extends Source {
     final $ = parseFragment(html);
 
     $.querySelectorAll('li.job_listing').forEach((element) {
+      final url = element.querySelector('a')?.attributes['href'] ?? '';
+
       final job = Job(
         logo:
             element.querySelector('.company_logo')?.attributes['src']?.trim() ??
@@ -106,7 +110,8 @@ class JobInMalawi extends Source {
         location: element.querySelector('.location')?.text.trim() ?? 'Unknown',
         type: element.querySelector('li.job-type')?.text.trim() ?? 'Unknown',
         posted: element.querySelector('.date > time')?.text.trim() ?? 'Unknown',
-        url: element.querySelector('a')?.attributes['href'] ?? '',
+        url: url,
+        tag: getHeroTag(url),
       );
 
       if (!job.location.contains(RegExp('Information|Parasites'))) {

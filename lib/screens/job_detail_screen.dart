@@ -203,7 +203,7 @@ class JobLeadSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Hero(
-                  tag: job.url,
+                  tag: job.tag as Object,
                   child: JobThumbnailImage(
                     job: job,
                     size: 36.0,
@@ -390,6 +390,7 @@ class _DescriptionSectionState extends State<DescriptionSection>
         logo: _job.logo,
         position: _job.position,
         posted: _job.posted,
+        tag: _job.tag,
       );
       await JobHistoryRepo.saveHistory(job);
       _streamController.sink.add(job);

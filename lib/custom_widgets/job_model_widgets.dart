@@ -153,7 +153,7 @@ class JobCompanySection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Hero(
-          tag: job.url,
+          tag: job.tag as Object,
           child: JobThumbnailImage(
             job: job,
             size: 36.0,

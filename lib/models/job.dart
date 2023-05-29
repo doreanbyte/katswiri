@@ -10,6 +10,7 @@ class Job {
     required this.posted,
     this.url = '',
     this.description = '',
+    required this.tag,
   });
 
   final String logo;
@@ -20,6 +21,7 @@ class Job {
   final String posted;
   final String url;
   final String description;
+  final Object? tag;
 
   Map<String, Object?> toMap() {
     return {
@@ -31,6 +33,7 @@ class Job {
       'posted': postedDate(posted).millisecondsSinceEpoch,
       'url': url,
       'description': description,
+      'tag': tag,
     };
   }
 
@@ -45,6 +48,7 @@ class Job {
         ),
         url: job['url'] as String,
         description: job['description'] as String,
+        tag: getHeroTag(job['url'] as String),
       );
 
   factory Job.empty() => const Job(
@@ -56,6 +60,7 @@ class Job {
         posted: '',
         url: '',
         description: '',
+        tag: null,
       );
 
   Job copyWith({
@@ -67,6 +72,7 @@ class Job {
     String? posted,
     String? url,
     String? description,
+    Object? tag,
   }) {
     return Job(
       logo: logo ?? this.logo,
@@ -77,6 +83,7 @@ class Job {
       posted: posted ?? this.posted,
       url: url ?? this.url,
       description: description ?? this.description,
+      tag: tag ?? this.tag,
     );
   }
 }
