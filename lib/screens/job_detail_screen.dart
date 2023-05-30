@@ -134,25 +134,28 @@ class _JobDetailComponentState extends State<JobDetailComponent>
           initialIndex: getSources()
               .indexWhere((element) => element.title == widget.source.title),
         ),
-        TabBar(
-          indicatorSize: TabBarIndicatorSize.tab,
-          isScrollable: true,
-          labelStyle: const TextStyle(
-            fontSize: 14.0,
-            fontWeight: FontWeight.w500,
+        Container(
+          margin: const EdgeInsets.only(bottom: 4.0),
+          child: TabBar(
+            indicatorSize: TabBarIndicatorSize.tab,
+            isScrollable: true,
+            labelStyle: const TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w500,
+            ),
+            unselectedLabelStyle: const TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w500,
+            ),
+            indicatorWeight: 3.0,
+            labelColor: Colors.green,
+            unselectedLabelColor: Colors.white70,
+            controller: _tabController,
+            tabs: const [
+              Tab(text: 'Description'),
+              Tab(text: 'Related'),
+            ],
           ),
-          unselectedLabelStyle: const TextStyle(
-            fontSize: 14.0,
-            fontWeight: FontWeight.w500,
-          ),
-          indicatorWeight: 3.0,
-          labelColor: Colors.green,
-          unselectedLabelColor: Colors.white70,
-          controller: _tabController,
-          tabs: const [
-            Tab(text: 'Description'),
-            Tab(text: 'Related'),
-          ],
         ),
         Expanded(
           child: TabBarView(

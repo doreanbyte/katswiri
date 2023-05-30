@@ -110,8 +110,6 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
 
       child = Center(
         child: ListView.builder(
-          addAutomaticKeepAlives: false,
-          addRepaintBoundaries: false,
           padding: const EdgeInsets.only(top: 4.0),
           itemBuilder: (context, index) => widgetList[index],
           itemCount: widgetList.length,

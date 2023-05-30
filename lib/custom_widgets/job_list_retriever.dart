@@ -116,8 +116,6 @@ class _JobListRetrieverState extends State<JobListRetriever>
       }
 
       child = ListView.builder(
-        addAutomaticKeepAlives: false,
-        addRepaintBoundaries: false,
         controller: _scrollController,
         padding: const EdgeInsets.only(top: 4.0),
         primary: widget.primary,
