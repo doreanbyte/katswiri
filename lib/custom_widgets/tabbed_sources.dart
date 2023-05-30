@@ -142,7 +142,6 @@ class _TabBarViewSectionState extends State<TabBarViewSection> {
             (source) => JobListRetriever(
               source: source,
               filter: widget.filter,
-              physics: const BouncingScrollPhysics(),
             ),
           )
           .toList(),

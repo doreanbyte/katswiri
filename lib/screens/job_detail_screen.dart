@@ -127,52 +127,49 @@ class _JobDetailComponentState extends State<JobDetailComponent>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        children: [
-          JobLeadSection(
-            widget.job,
-            initialIndex: getSources()
-                .indexWhere((element) => element.title == widget.source.title),
+    return Column(
+      children: [
+        JobLeadSection(
+          widget.job,
+          initialIndex: getSources()
+              .indexWhere((element) => element.title == widget.source.title),
+        ),
+        TabBar(
+          indicatorSize: TabBarIndicatorSize.tab,
+          isScrollable: true,
+          labelStyle: const TextStyle(
+            fontSize: 14.0,
+            fontWeight: FontWeight.w500,
           ),
-          TabBar(
-            indicatorSize: TabBarIndicatorSize.tab,
-            isScrollable: true,
-            labelStyle: const TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w500,
-            ),
-            unselectedLabelStyle: const TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w500,
-            ),
-            indicatorWeight: 3.0,
-            labelColor: Colors.green,
-            unselectedLabelColor: Colors.white70,
+          unselectedLabelStyle: const TextStyle(
+            fontSize: 14.0,
+            fontWeight: FontWeight.w500,
+          ),
+          indicatorWeight: 3.0,
+          labelColor: Colors.green,
+          unselectedLabelColor: Colors.white70,
+          controller: _tabController,
+          tabs: const [
+            Tab(text: 'Description'),
+            Tab(text: 'Related'),
+          ],
+        ),
+        Expanded(
+          child: TabBarView(
             controller: _tabController,
-            tabs: const [
-              Tab(text: 'Description'),
-              Tab(text: 'Related'),
+            children: [
+              DescriptionSection(
+                widget.job,
+                widget.source,
+              ),
+              RelatedSection(
+                {'position': widget.job.position},
+                widget.source,
+              ),
             ],
           ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                DescriptionSection(
-                  widget.job,
-                  widget.source,
-                ),
-                RelatedSection(
-                  {'position': widget.job.position},
-                  widget.source,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -196,7 +193,7 @@ class JobLeadSection extends StatelessWidget {
       color: const Color.fromARGB(96, 64, 64, 64),
       child: Container(
         padding: const EdgeInsets.all(8.0),
-        height: 128.0,
+        height: 136.0,
         child: ListView(
           children: [
             Row(

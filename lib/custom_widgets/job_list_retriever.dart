@@ -115,18 +115,16 @@ class _JobListRetrieverState extends State<JobListRetriever>
         );
       }
 
-      child = Center(
-        child: ListView.builder(
-          addAutomaticKeepAlives: false,
-          addRepaintBoundaries: false,
-          controller: _scrollController,
-          padding: const EdgeInsets.only(top: 4.0),
-          primary: widget.primary,
-          physics: widget.physics,
-          shrinkWrap: true,
-          itemBuilder: (context, index) => widgetList[index],
-          itemCount: widgetList.length,
-        ),
+      child = ListView.builder(
+        addAutomaticKeepAlives: false,
+        addRepaintBoundaries: false,
+        controller: _scrollController,
+        padding: const EdgeInsets.only(top: 4.0),
+        primary: widget.primary,
+        physics: widget.physics,
+        shrinkWrap: true,
+        itemBuilder: (context, index) => widgetList[index],
+        itemCount: widgetList.length,
       );
     }
 
