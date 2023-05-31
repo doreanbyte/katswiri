@@ -105,6 +105,7 @@ class SavedJobRepo {
   /// saved table is a timestamp
   static Future<void> saveJob(Job job) async {
     final db = await DBManager.instance.database;
+    final jobMap = job.toMap();
     final jobExists = await db.rawQuery(
       'SELECT id FROM $_jobTable WHERE url = ?',
       [job.url],
@@ -113,13 +114,24 @@ class SavedJobRepo {
     int jobId;
 
     if (jobExists.isEmpty) {
-      final jobMap = job.toMap();
       jobId = await db.insert(
         _jobTable,
         jobMap,
       );
     } else {
       jobId = jobExists.first['id'] as int;
+
+      // In the case where the description is empty it is likely that the job
+      // was saved without it being viewed first, this will check if that is the
+      // and with the job retrieved we update the description column
+      final description = jobExists.first['description'] as String;
+
+      if (description.isEmpty) {
+        await db.insert(
+          _jobTable,
+          jobMap,
+        );
+      }
     }
 
     await db.insert(
