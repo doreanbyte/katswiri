@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:katswiri/utils/utils.dart';
 
 class Job {
@@ -85,4 +86,31 @@ class Job {
       tag: tag ?? this.tag,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Job &&
+          runtimeType == other.runtimeType &&
+          logo == other.logo &&
+          position == other.position &&
+          companyName == other.companyName &&
+          location == other.location &&
+          type == other.type &&
+          posted == other.posted &&
+          url == other.url &&
+          description == other.description &&
+          const DeepCollectionEquality().equals(tag, other.tag);
+
+  @override
+  int get hashCode =>
+      logo.hashCode ^
+      position.hashCode ^
+      companyName.hashCode ^
+      location.hashCode ^
+      type.hashCode ^
+      posted.hashCode ^
+      url.hashCode ^
+      description.hashCode ^
+      tag.hashCode;
 }
