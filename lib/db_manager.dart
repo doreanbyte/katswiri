@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:synchronized/synchronized.dart';
 
-class DBManager {
+final class DBManager {
   const DBManager._();
 
   static const _databaseName = 'katswiri.db';
