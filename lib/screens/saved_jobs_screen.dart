@@ -100,7 +100,7 @@ class _SavedJobsListRetrieverState extends State<SavedJobsListRetriever> {
       if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
         widgetList.add(
           const Center(
-            child: Text('No Recently Saved Jobs'),
+            child: Text('No Recently Saved Jobs\nSwipe Down to Refresh List'),
           ),
         );
       }

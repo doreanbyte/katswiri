@@ -103,7 +103,7 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
       if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
         widgetList.add(
           const Center(
-            child: Text('No Recently Viewed Jobs'),
+            child: Text('No Recently Viewed Jobs\nSwipe Down to Refresh List'),
           ),
         );
       }
