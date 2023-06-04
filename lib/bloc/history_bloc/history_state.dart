@@ -36,5 +36,7 @@ class HistoryLoaded extends HistoryState {
 
 /// [HistoryError] is the state of failure from trying to load the history list
 class HistoryError extends HistoryState {
-  const HistoryError();
+  const HistoryError(this.error);
+
+  final String error;
 }

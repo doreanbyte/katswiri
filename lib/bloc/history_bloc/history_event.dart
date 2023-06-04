@@ -5,21 +5,21 @@ sealed class HistoryEvent {
   const HistoryEvent();
 }
 
-/// [HistoryFetch] an event that triggers the bloc to perform the search for jobs
+/// [FetchHistory] an event that triggers the bloc to perform the search for jobs
 /// and return a new state containing the jobs in the history table
-class HistoryFetch extends HistoryEvent {
-  const HistoryFetch();
+class FetchHistory extends HistoryEvent {
+  const FetchHistory();
 }
 
-/// [HistoryDelete] event triggers the deletion of viewed jobs from the history
+/// [DeleteHistory] event triggers the deletion of viewed jobs from the history
 /// table
-class HistoryDelete extends HistoryEvent {
-  const HistoryDelete();
+class DeleteHistory extends HistoryEvent {
+  const DeleteHistory();
 }
 
-/// [HistoryAdd] event that triggers an addition of the job into the history database
-class HistoryAdd extends HistoryEvent {
-  const HistoryAdd(this.job);
+/// [AddHistory] event that triggers an addition of the job into the history database
+class AddHistory extends HistoryEvent {
+  const AddHistory(this.job);
 
   final Job job;
 }
