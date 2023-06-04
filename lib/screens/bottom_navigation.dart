@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:katswiri/repository/repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/screens/browse_jobs_screen.dart';
 import 'package:katswiri/screens/saved_jobs_screen.dart';
 import 'package:katswiri/screens/history_screen.dart';
@@ -166,7 +167,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           ),
           actions: [
             IconButton(
-              onPressed: () => _showClearSaved(context),
+              onPressed: () => _showClearSavedJobs(context),
               icon: const Icon(
                 Icons.delete,
                 color: Colors.green,
@@ -201,8 +202,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             TextButton(
               child: const Text('Yes'),
               onPressed: () {
-                JobHistoryRepo.clearHistory()
-                    .then((_) => Navigator.of(context).pop());
+                final jobHistoryBloc = BlocProvider.of<HistoryBloc>(context);
+                jobHistoryBloc.add(const ClearHistory());
               },
             ),
           ],
@@ -211,7 +212,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     );
   }
 
-  Future<void> _showClearSaved(BuildContext context) async {
+  Future<void> _showClearSavedJobs(BuildContext context) async {
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -236,8 +237,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             TextButton(
               child: const Text('Yes'),
               onPressed: () {
-                SavedJobRepo.clearSaves()
-                    .then((_) => Navigator.of(context).pop());
+                final savedJobBloc = BlocProvider.of<SavedJobsBloc>(context);
+                savedJobBloc.add(const DeleteSavedJobs());
               },
             ),
           ],
