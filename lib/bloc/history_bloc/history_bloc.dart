@@ -20,7 +20,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       }
     });
 
-    on<DeleteHistory>((event, emit) async {
+    on<ClearHistory>((event, emit) async {
       try {
         emit(const HistoryLoading());
         await JobHistoryRepo.clearHistory();
@@ -30,7 +30,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       }
     });
 
-    on<AddHistory>((event, emit) async {
+    on<AddToHistory>((event, emit) async {
       try {
         await JobHistoryRepo.saveHistory(event.job);
         final jobs = await JobHistoryRepo.viewedJobs();

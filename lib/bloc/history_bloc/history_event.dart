@@ -11,15 +11,15 @@ class FetchHistory extends HistoryEvent {
   const FetchHistory();
 }
 
-/// [DeleteHistory] event triggers the deletion of viewed jobs from the history
+/// [ClearHistory] event triggers the deletion of viewed jobs from the history
 /// table
-class DeleteHistory extends HistoryEvent {
-  const DeleteHistory();
+class ClearHistory extends HistoryEvent {
+  const ClearHistory();
 }
 
-/// [AddHistory] event that triggers an addition of the job into the history database
-class AddHistory extends HistoryEvent {
-  const AddHistory(this.job);
+/// [AddToHistory] event that triggers an addition of the job into the history database
+class AddToHistory extends HistoryEvent {
+  const AddToHistory(this.job);
 
   final Job job;
 }
