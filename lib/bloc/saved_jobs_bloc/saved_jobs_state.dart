@@ -35,5 +35,7 @@ class SavedJobsLoaded extends SavedJobsState {
 
 /// [SavedJobsError] represents the error state for the states
 class SavedJobsError extends SavedJobsState {
-  const SavedJobsError();
+  const SavedJobsError(this.error);
+
+  final String error;
 }
