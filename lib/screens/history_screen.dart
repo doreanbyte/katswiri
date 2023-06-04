@@ -49,7 +49,7 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
 
         switch (historyState) {
           case HistoryLoaded(jobs: final jobs):
-            final widgets = buildWidgets(jobs);
+            final widgets = _buildWidgets(jobs);
             child = Center(
               child: ListView.builder(
                 padding: const EdgeInsets.only(top: 4.0),
@@ -82,7 +82,7 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
     );
   }
 
-  List<Widget> buildWidgets(List<Job> jobs) {
+  List<Widget> _buildWidgets(List<Job> jobs) {
     return switch (jobs.isNotEmpty) {
       true => jobs
           .map<Widget>((job) => JobTile(
@@ -107,7 +107,7 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
     historyBloc.add(const FetchHistory());
   }
 
-  void _onRetryPressed(BuildContext context) {}
+  void _onRetryPressed(BuildContext context) => _getHistory(context);
 
-  Future<void> _onRefresh(BuildContext context) async {}
+  Future<void> _onRefresh(BuildContext context) async => _getHistory(context);
 }
