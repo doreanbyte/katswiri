@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/models/models.dart';
-import 'package:katswiri/repository/repository.dart';
+import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/sources/sources.dart';
 
 class SavedJobsScreen extends StatefulWidget {
@@ -34,134 +35,76 @@ class SavedJobsListRetriever extends StatefulWidget {
 }
 
 class _SavedJobsListRetrieverState extends State<SavedJobsListRetriever> {
-  late final StreamController<List<Job>> _streamController =
-      StreamController.broadcast();
-  final List<Job> _jobs = [];
-
-  bool _loading = true;
-  bool _hasError = false;
-  String _errMsg = '';
-
-  @override
-  void initState() {
-    _streamController.stream.listen(
-      _onData,
-      onError: _onError,
-    );
-
-    super.initState();
-    _getSaved();
-  }
-
-  @override
-  void dispose() {
-    _streamController.close();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: _streamController.stream,
-      builder: _builder,
+    return BlocConsumer<SavedJobsBloc, SavedJobsState>(
+      listener: (context, savedJobsState) {
+        if (savedJobsState is SavedJobsInitial) {
+          _getSavedJobs(context);
+        }
+      },
+      builder: (context, savedJobsState) {
+        final Widget child;
+
+        switch (savedJobsState) {
+          case SavedJobsLoaded(jobs: final jobs):
+            final widgets = _buildWidgets(jobs);
+            child = Center(
+              child: ListView.builder(
+                padding: const EdgeInsets.only(top: 4.0),
+                itemBuilder: (context, index) => widgets[index],
+                itemCount: widgets.length,
+              ),
+            );
+            break;
+          case SavedJobsError(error: final error):
+            child = Center(
+              child: ErrorButton(
+                errorMessage: error,
+                onRetryPressed: () => _onRetryPressed(context),
+              ),
+            );
+          default:
+            child = const Center(
+              child: CircularProgressIndicator(),
+            );
+            break;
+        }
+
+        return RefreshIndicator(
+          onRefresh: () async => _onRefresh(context),
+          child: child,
+        );
+      },
     );
   }
 
-  Widget _builder(BuildContext context, _) {
-    final Widget child;
-
-    if (_loading && _jobs.isEmpty) {
-      child = const Center(
-        child: CircularProgressIndicator(),
-      );
-    } else {
-      final List<Widget> widgetList = _jobs
+  List<Widget> _buildWidgets(List<Job> jobs) {
+    return switch (jobs.isNotEmpty) {
+      true => jobs
           .map<Widget>((job) => JobTile(
                 job: job,
                 source: getSources().firstWhere(
                   (source) => job.url.contains(source.host),
                 ),
               ))
-          .toList();
-
-      if (_loading) {
-        widgetList.add(const Spinner());
-      }
-
-      if (_hasError) {
-        widgetList.add(
-          ErrorButton(
-            errorMessage: _errMsg,
-            onRetryPressed: _onRetryPressed,
-          ),
-        );
-      }
-
-      if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
-        widgetList.add(
+          .toList(),
+      false => [
           const Center(
-            child: Text('No Recently Saved Jobs\nSwipe Down to Refresh List'),
+            child: Text(
+              'No Recently Saved Jobs\nSwipe Down to Refresh List',
+            ),
           ),
-        );
-      }
-
-      child = Center(
-        child: ListView.builder(
-          padding: const EdgeInsets.only(top: 4.0),
-          itemBuilder: (context, index) => widgetList[index],
-          itemCount: widgetList.length,
-        ),
-      );
-    }
-
-    return RefreshIndicator(
-      backgroundColor: Colors.black,
-      onRefresh: _onRefresh,
-      child: child,
-    );
+        ],
+    };
   }
 
-  void _getSaved() async {
-    try {
-      final jobs = await SavedJobRepo.savedJobs();
-      _streamController.sink.add(jobs);
-    } catch (e) {
-      _streamController.addError(e);
-    }
+  void _getSavedJobs(BuildContext context) {
+    final savedJobsBloc = BlocProvider.of<SavedJobsBloc>(context);
+    savedJobsBloc.add(const FetchSavedJobs());
   }
 
-  void _onData(List<Job> jobs) {
-    _jobs.addAll(jobs);
+  void _onRetryPressed(BuildContext context) => _getSavedJobs(context);
 
-    setState(() {
-      _loading = false;
-    });
-  }
-
-  void _onError(Object error, StackTrace stackTrace) {
-    setState(() {
-      _loading = false;
-      _hasError = true;
-      _errMsg = error.toString();
-    });
-  }
-
-  void _onRetryPressed() {
-    setState(() {
-      _hasError = false;
-      _errMsg = '';
-      _loading = true;
-    });
-
-    _getSaved();
-  }
-
-  Future<void> _onRefresh() async {
-    setState(() {
-      _jobs.clear();
-      _loading = true;
-    });
-
-    _getSaved();
-  }
+  Future<void> _onRefresh(BuildContext context) async => _getSavedJobs(context);
 }
