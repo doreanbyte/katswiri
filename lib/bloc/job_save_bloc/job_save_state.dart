@@ -30,5 +30,7 @@ class JobIsSaved extends JobSaveState {
 /// [JobSaveError] a failure state, likely a problem occurred while trying to
 /// modify the database
 class JobSaveError extends JobSaveState {
-  const JobSaveError();
+  const JobSaveError(this.error);
+
+  final String error;
 }

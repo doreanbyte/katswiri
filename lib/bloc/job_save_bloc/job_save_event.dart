@@ -21,3 +21,11 @@ class SaveJobEvent extends JobSaveEvent {
 
   final Job job;
 }
+
+/// [CheckIsSavedEvent] triggers an event that makes the bloc return the state of
+/// whether a job is saved or not.
+class CheckIsSavedEvent extends JobSaveEvent {
+  const CheckIsSavedEvent(this.job);
+
+  final Job job;
+}
