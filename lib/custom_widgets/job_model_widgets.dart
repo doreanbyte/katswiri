@@ -1,9 +1,8 @@
-import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
 import 'package:flutter/material.dart';
-import 'package:katswiri/repository/repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/screens/job_detail_screen.dart';
 import 'package:katswiri/screens/job_tag_screen.dart';
 import 'package:share_plus/share_plus.dart';
@@ -335,70 +334,54 @@ class SaveJobButton extends StatefulWidget {
 
 class SaveJobButtonState extends State<SaveJobButton>
     with SingleTickerProviderStateMixin {
-  late final StreamController<bool> _streamController;
-
-  bool _isSaved = false;
-
-  @override
-  void initState() {
-    _streamController = StreamController.broadcast();
-    _streamController.stream.listen(_onData);
-
-    super.initState();
-    _getStatus();
-  }
-
-  @override
-  void dispose() {
-    _streamController.close();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      builder: _builder,
-      stream: _streamController.stream,
-    );
-  }
-
-  void _onData(bool status) {
-    setState(() {
-      _isSaved = status;
-    });
-  }
-
-  Widget _builder(BuildContext context, _) {
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
-      child: _isSaved
-          ? IconButton(
-              key: const ValueKey('saved'),
-              onPressed: () => _handleUnSave(widget.job),
-              icon: const Icon(Icons.bookmark_rounded),
-              color: Colors.green,
-            )
-          : IconButton(
-              key: const ValueKey('unsaved'),
-              onPressed: () => _handleSave(widget.job),
-              icon: const Icon(Icons.bookmark_outline),
-              color: Colors.green,
+    return BlocConsumer<JobSaveBloc, JobSaveState>(
+      listener: (context, jobSaveState) {
+        if (jobSaveState is JobSaveInitial) {
+          _getStatus(context);
+        }
+      },
+      builder: (context, jobSaveState) {
+        return switch (jobSaveState) {
+          JobIsSaved(status: final status) => AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: status
+                  ? IconButton(
+                      key: const ValueKey('saved'),
+                      onPressed: () => _handleUnSave(context),
+                      icon: const Icon(Icons.bookmark_rounded),
+                      color: Colors.green,
+                    )
+                  : IconButton(
+                      key: const ValueKey('unsaved'),
+                      onPressed: () => _handleSave(context),
+                      icon: const Icon(Icons.bookmark_outline),
+                      color: Colors.green,
+                    ),
             ),
+          _ => const IconButton(
+              color: Colors.green,
+              icon: Icon(Icons.bookmark_outline),
+              onPressed: null,
+            )
+        };
+      },
     );
   }
 
-  void _getStatus() async {
-    final isSaved = await SavedJobRepo.isSaved(widget.job);
-    _streamController.sink.add(isSaved);
+  void _getStatus(BuildContext context) {
+    final jobSaveBloc = BlocProvider.of<JobSaveBloc>(context);
+    jobSaveBloc.add(CheckIsSavedEvent(widget.job));
   }
 
-  void _handleSave(Job job) async {
-    await SavedJobRepo.saveJob(job);
-    _streamController.sink.add(true);
+  void _handleSave(BuildContext context) {
+    final jobSaveBloc = BlocProvider.of<JobSaveBloc>(context);
+    jobSaveBloc.add(SaveJobEvent(widget.job));
   }
 
-  void _handleUnSave(Job job) async {
-    await SavedJobRepo.clearJobFromSaved(job);
-    _streamController.sink.add(false);
+  void _handleUnSave(BuildContext context) {
+    final jobSaveBloc = BlocProvider.of<JobSaveBloc>(context);
+    jobSaveBloc.add(UnsaveJobEvent(widget.job));
   }
 }
