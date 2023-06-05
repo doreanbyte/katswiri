@@ -371,17 +371,14 @@ class SaveJobButtonState extends State<SaveJobButton>
   }
 
   void _getStatus(BuildContext context) {
-    final jobSaveBloc = BlocProvider.of<JobSaveBloc>(context);
-    jobSaveBloc.add(CheckIsSavedEvent(widget.job));
+    context.read<JobSaveBloc>().add(CheckIsSavedEvent(widget.job));
   }
 
   void _handleSave(BuildContext context) {
-    final jobSaveBloc = BlocProvider.of<JobSaveBloc>(context);
-    jobSaveBloc.add(SaveJobEvent(widget.job));
+    context.read<JobSaveBloc>().add(SaveJobEvent(widget.job));
   }
 
   void _handleUnSave(BuildContext context) {
-    final jobSaveBloc = BlocProvider.of<JobSaveBloc>(context);
-    jobSaveBloc.add(UnsaveJobEvent(widget.job));
+    context.read<JobSaveBloc>().add(UnsaveJobEvent(widget.job));
   }
 }

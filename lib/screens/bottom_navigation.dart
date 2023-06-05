@@ -202,8 +202,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             TextButton(
               child: const Text('Yes'),
               onPressed: () {
-                final jobHistoryBloc = BlocProvider.of<HistoryBloc>(context);
-                jobHistoryBloc.add(const ClearHistory());
+                context.read<HistoryBloc>().add(const ClearHistory());
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -237,8 +237,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             TextButton(
               child: const Text('Yes'),
               onPressed: () {
-                final savedJobBloc = BlocProvider.of<SavedJobsBloc>(context);
-                savedJobBloc.add(const DeleteSavedJobs());
+                context.read<SavedJobsBloc>().add(const DeleteSavedJobs());
+                Navigator.of(context).pop();
               },
             ),
           ],

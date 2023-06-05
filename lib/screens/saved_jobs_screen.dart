@@ -100,8 +100,7 @@ class _SavedJobsListRetrieverState extends State<SavedJobsListRetriever> {
   }
 
   void _getSavedJobs(BuildContext context) {
-    final savedJobsBloc = BlocProvider.of<SavedJobsBloc>(context);
-    savedJobsBloc.add(const FetchSavedJobs());
+    context.read<SavedJobsBloc>().add(const FetchSavedJobs());
   }
 
   void _onRetryPressed(BuildContext context) => _getSavedJobs(context);

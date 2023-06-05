@@ -103,8 +103,7 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
   }
 
   void _getHistory(BuildContext context) {
-    final historyBloc = BlocProvider.of<HistoryBloc>(context);
-    historyBloc.add(const FetchHistory());
+    context.read<HistoryBloc>().add(const FetchHistory());
   }
 
   void _onRetryPressed(BuildContext context) => _getHistory(context);
