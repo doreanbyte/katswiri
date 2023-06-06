@@ -132,11 +132,6 @@ class _JobDetailComponentState extends State<JobDetailComponent>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        JobLeadSection(
-          widget.job,
-          initialIndex: getSources()
-              .indexWhere((element) => element.title == widget.source.title),
-        ),
         Expanded(
           child: TabBarView(
             children: [
@@ -175,7 +170,7 @@ class JobLeadSection extends StatelessWidget {
       color: const Color.fromARGB(96, 64, 64, 64),
       child: Container(
         padding: const EdgeInsets.all(8.0),
-        height: 136.0,
+        height: 138.0,
         child: ListView(
           children: [
             Row(
@@ -210,7 +205,7 @@ class JobLeadSection extends StatelessWidget {
                       ),
                       Text(
                         job.position,
-                        maxLines: 3,
+                        maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: 17.0,
@@ -265,52 +260,61 @@ class _DescriptionSectionState extends State<DescriptionSection>
   Widget build(BuildContext context) {
     super.build(context);
     return SingleChildScrollView(
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        color: const Color.fromARGB(96, 64, 64, 64),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BlocProvider(
-            create: (_) => JobDescriptionBloc()
-              ..add(
-                FetchJobDescription(
-                  job: widget.job,
-                  source: widget.source,
+      child: Column(
+        children: [
+          JobLeadSection(
+            widget.job,
+            initialIndex: getSources()
+                .indexWhere((element) => element.title == widget.source.title),
+          ),
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            color: const Color.fromARGB(96, 64, 64, 64),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BlocProvider(
+                create: (_) => JobDescriptionBloc()
+                  ..add(
+                    FetchJobDescription(
+                      job: widget.job,
+                      source: widget.source,
+                    ),
+                  ),
+                child: BlocConsumer<JobDescriptionBloc, JobDescriptionState>(
+                  listener: (context, jobDescriptionState) {},
+                  builder: (context, jobDescriptionState) {
+                    return switch (jobDescriptionState) {
+                      JobDescriptionLoaded(job: final job) => switch (
+                            job.description.isNotEmpty) {
+                          true => HtmlWidget(
+                              job.description,
+                              textStyle: const TextStyle(
+                                fontSize: 14.0,
+                              ),
+                              onTapUrl: (url) {
+                                return true;
+                              },
+                            ),
+                          _ => Container()
+                        },
+                      JobDescriptionError(error: final error) => Center(
+                          child: ErrorButton(
+                            errorMessage: error,
+                            onRetryPressed: () => _onRetryPressed(context),
+                          ),
+                        ),
+                      _ => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                    };
+                  },
                 ),
               ),
-            child: BlocConsumer<JobDescriptionBloc, JobDescriptionState>(
-              listener: (context, jobDescriptionState) {},
-              builder: (context, jobDescriptionState) {
-                return switch (jobDescriptionState) {
-                  JobDescriptionLoaded(job: final job) => switch (
-                        job.description.isNotEmpty) {
-                      true => HtmlWidget(
-                          job.description,
-                          textStyle: const TextStyle(
-                            fontSize: 14.0,
-                          ),
-                          onTapUrl: (url) {
-                            return true;
-                          },
-                        ),
-                      _ => Container()
-                    },
-                  JobDescriptionError(error: final error) => Center(
-                      child: ErrorButton(
-                        errorMessage: error,
-                        onRetryPressed: () => _onRetryPressed(context),
-                      ),
-                    ),
-                  _ => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                };
-              },
             ),
           ),
-        ),
+        ],
       ),
     );
   }
