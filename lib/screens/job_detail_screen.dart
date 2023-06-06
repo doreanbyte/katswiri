@@ -34,56 +34,78 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
   Widget build(BuildContext context) {
     final iconColor = Theme.of(context).iconTheme.color;
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(widget.source.title),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.chevron_left_outlined,
-            color: iconColor,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await Share.share(
-                widget.job.url,
-                subject: widget.job.position,
-              );
-            },
-            icon: Icon(
-              Icons.share_sharp,
-              color: iconColor,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          bottom: const TabBar(
+            indicatorSize: TabBarIndicatorSize.tab,
+            isScrollable: true,
+            labelStyle: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w500,
             ),
+            unselectedLabelStyle: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w500,
+            ),
+            indicatorWeight: 3.0,
+            labelColor: Colors.green,
+            unselectedLabelColor: Colors.white70,
+            tabs: [
+              Tab(text: 'DESCRIPTION'),
+              Tab(text: 'RELATED'),
+            ],
           ),
-          SaveJobButton(job: widget.job),
-          IconButton(
+          title: Text(widget.source.title),
+          leading: IconButton(
             onPressed: () {
-              Navigator.pushNamed(
-                context,
-                WebViewScreen.route,
-                arguments: {
-                  'url': widget.job.url,
-                  'title': widget.job.position,
-                },
-              );
+              Navigator.pop(context);
             },
             icon: Icon(
-              Icons.public_outlined,
+              Icons.chevron_left_outlined,
               color: iconColor,
             ),
           ),
-        ],
-      ),
-      body: SafeArea(
-        child: JobDetailComponent(
-          job: widget.job,
-          source: widget.source,
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await Share.share(
+                  widget.job.url,
+                  subject: widget.job.position,
+                );
+              },
+              icon: Icon(
+                Icons.share_sharp,
+                color: iconColor,
+              ),
+            ),
+            SaveJobButton(job: widget.job),
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  WebViewScreen.route,
+                  arguments: {
+                    'url': widget.job.url,
+                    'title': widget.job.position,
+                  },
+                );
+              },
+              icon: Icon(
+                Icons.public_outlined,
+                color: iconColor,
+              ),
+            ),
+          ],
+        ),
+        body: SafeArea(
+          child: JobDetailComponent(
+            job: widget.job,
+            source: widget.source,
+          ),
         ),
       ),
     );
@@ -106,24 +128,6 @@ class JobDetailComponent extends StatefulWidget {
 
 class _JobDetailComponentState extends State<JobDetailComponent>
     with TickerProviderStateMixin {
-  late final TabController _tabController;
-
-  @override
-  void initState() {
-    _tabController = TabController(
-      length: 2,
-      vsync: this,
-    );
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -133,32 +137,8 @@ class _JobDetailComponentState extends State<JobDetailComponent>
           initialIndex: getSources()
               .indexWhere((element) => element.title == widget.source.title),
         ),
-        Container(
-          margin: const EdgeInsets.only(bottom: 4.0),
-          child: TabBar(
-            indicatorSize: TabBarIndicatorSize.tab,
-            isScrollable: true,
-            labelStyle: const TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w500,
-            ),
-            unselectedLabelStyle: const TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w500,
-            ),
-            indicatorWeight: 3.0,
-            labelColor: Colors.green,
-            unselectedLabelColor: Colors.white70,
-            controller: _tabController,
-            tabs: const [
-              Tab(text: 'Description'),
-              Tab(text: 'Related'),
-            ],
-          ),
-        ),
         Expanded(
           child: TabBarView(
-            controller: _tabController,
             children: [
               DescriptionSection(
                 widget.job,
