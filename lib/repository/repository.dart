@@ -7,7 +7,7 @@ const _historyTable = 'history';
 const _savedTable = 'saved';
 
 class JobHistoryRepo {
-  JobHistoryRepo._();
+  const JobHistoryRepo._();
 
   /// Saves a job to the history table in the database. Checks if the job exists
   /// in the database and if not creates it and retrieves the id of the last insert
@@ -97,7 +97,7 @@ class JobHistoryRepo {
 }
 
 class SavedJobRepo {
-  SavedJobRepo._();
+  const SavedJobRepo._();
 
   /// Saves a job to the saved table in the database. Before saving the job a check
   /// is made to see if the job is in the job table, if not it is created and then
