@@ -16,9 +16,12 @@ class Katswiri extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => HistoryBloc()),
-        BlocProvider(create: (_) => SavedJobsBloc()),
-        BlocProvider(create: (_) => JobSaveBloc()),
+        BlocProvider(
+          create: (_) => HistoryBloc()..add(const FetchHistory()),
+        ),
+        BlocProvider(
+          create: (_) => SavedJobsBloc()..add(const FetchSavedJobs()),
+        ),
       ],
       child: MaterialApp(
         title: 'Katswiri',
