@@ -107,7 +107,7 @@ class SavedJobRepo {
     final db = await DBManager.instance.database;
     final jobMap = job.toMap();
     final jobExists = await db.rawQuery(
-      'SELECT id FROM $_jobTable WHERE url = ?',
+      'SELECT id, description FROM $_jobTable WHERE url = ?',
       [job.url],
     );
 
@@ -120,8 +120,15 @@ class SavedJobRepo {
       );
     } else {
       jobId = jobExists.first['id'] as int;
+      final description = jobExists.first['description'] as String;
 
-      await _updateSavedJob(jobExists, db, jobMap);
+      if (description.isEmpty && job.description.isNotEmpty) {
+        await db.insert(
+          _jobTable,
+          jobMap,
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
     }
 
     await db.insert(
@@ -132,24 +139,6 @@ class SavedJobRepo {
       },
       conflictAlgorithm: ConflictAlgorithm.ignore,
     );
-  }
-
-  /// In the case where the description is empty it is likely that the job
-  /// was saved without it being viewed first, this will check if that is the
-  /// and with the job retrieved we update the description column
-  static Future<void> _updateSavedJob(
-    List<Map<String, Object?>> jobExists,
-    Database db,
-    Map<String, Object?> jobMap,
-  ) async {
-    final description = jobExists.first['description'] as String;
-
-    if (description.isEmpty) {
-      await db.insert(
-        _jobTable,
-        jobMap,
-      );
-    }
   }
 
   /// Retrieves a job from the saved table in the database.
