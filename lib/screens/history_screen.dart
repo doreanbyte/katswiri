@@ -39,39 +39,26 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HistoryBloc, HistoryState>(
-      listener: (context, historyState) {
-        if (historyState is HistoryInitial) {
-          _getHistory(context);
-        }
-      },
+      listener: (context, historyState) {},
       builder: (context, historyState) {
-        final Widget child;
-
-        switch (historyState) {
-          case HistoryLoaded(jobs: final jobs):
-            final widgets = _buildWidgets(jobs);
-            child = Center(
+        final Widget child = switch (historyState) {
+          HistoryLoaded(jobs: final jobs) => Center(
               child: ListView.builder(
                 padding: const EdgeInsets.only(top: 4.0),
-                itemBuilder: (context, index) => widgets[index],
-                itemCount: widgets.length,
+                itemBuilder: (context, index) => _buildWidgets(jobs)[index],
+                itemCount: _buildWidgets(jobs).length,
               ),
-            );
-            break;
-          case HistoryError(error: final error):
-            child = Center(
+            ),
+          HistoryError(error: final error) => Center(
               child: ErrorButton(
                 errorMessage: error,
                 onRetryPressed: () => _onRetryPressed(context),
               ),
-            );
-            break;
-          default:
-            child = const Center(
+            ),
+          _ => const Center(
               child: CircularProgressIndicator(),
-            );
-            break;
-        }
+            ),
+        };
 
         return RefreshIndicator(
           backgroundColor: Colors.black,
@@ -96,6 +83,7 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
           const Center(
             child: Text(
               'No Recently Viewed Jobs\nSwipe Down to Refresh List',
+              textAlign: TextAlign.center,
             ),
           ),
         ],
