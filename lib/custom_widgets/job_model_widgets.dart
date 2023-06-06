@@ -336,42 +336,38 @@ class SaveJobButtonState extends State<SaveJobButton>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<JobSaveBloc, JobSaveState>(
-      listener: (context, jobSaveState) {
-        if (jobSaveState is JobSaveInitial) {
-          _getStatus(context);
-        }
-      },
-      builder: (context, jobSaveState) {
-        return switch (jobSaveState) {
-          JobIsSaved(status: final status) => AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: status
-                  ? IconButton(
-                      key: const ValueKey('saved'),
-                      onPressed: () => _handleUnSave(context),
-                      icon: const Icon(Icons.bookmark_rounded),
-                      color: Colors.green,
-                    )
-                  : IconButton(
-                      key: const ValueKey('unsaved'),
-                      onPressed: () => _handleSave(context),
-                      icon: const Icon(Icons.bookmark_outline),
-                      color: Colors.green,
-                    ),
-            ),
-          _ => const IconButton(
-              color: Colors.green,
-              icon: Icon(Icons.bookmark_outline),
-              onPressed: null,
-            )
-        };
-      },
+    return BlocProvider(
+      create: (_) => JobSaveBloc()..add(CheckIsSavedEvent(widget.job)),
+      lazy: false,
+      child: BlocConsumer<JobSaveBloc, JobSaveState>(
+        listener: (context, jobSaveState) {},
+        builder: (context, jobSaveState) {
+          return switch (jobSaveState) {
+            JobIsSaved(status: final status) => AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: status
+                    ? IconButton(
+                        key: const ValueKey('saved'),
+                        onPressed: () => _handleUnSave(context),
+                        icon: const Icon(Icons.bookmark_rounded),
+                        color: Colors.green,
+                      )
+                    : IconButton(
+                        key: const ValueKey('unsaved'),
+                        onPressed: () => _handleSave(context),
+                        icon: const Icon(Icons.bookmark_outline),
+                        color: Colors.green,
+                      ),
+              ),
+            _ => const IconButton(
+                color: Colors.green,
+                icon: Icon(Icons.bookmark_outline),
+                onPressed: null,
+              )
+          };
+        },
+      ),
     );
-  }
-
-  void _getStatus(BuildContext context) {
-    context.read<JobSaveBloc>().add(CheckIsSavedEvent(widget.job));
   }
 
   void _handleSave(BuildContext context) {
