@@ -22,6 +22,9 @@ class Katswiri extends StatelessWidget {
         BlocProvider(
           create: (_) => SavedJobsBloc()..add(const FetchSavedJobs()),
         ),
+        BlocProvider(
+          create: (_) => JobSaveBloc()..add(const CheckSavedJobs()),
+        ),
       ],
       child: MaterialApp(
         title: 'Katswiri',
