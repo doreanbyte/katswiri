@@ -340,46 +340,44 @@ class SaveJobButtonState extends State<SaveJobButton>
   Widget build(BuildContext context) {
     return BlocConsumer<JobSaveBloc, JobSaveState>(
       listener: (context, jobSaveState) {},
-      builder: (context, jobSaveState) {
-        return switch (jobSaveState) {
-          SavedJobsList(jobs: final jobs) => AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: switch (
-                  jobs.firstWhereOrNull((job) => job.url == widget.job.url)) {
-                Job() => IconButton(
-                    key: const ValueKey('saved'),
-                    onPressed: () => _handleUnSave(context),
-                    icon: const Icon(Icons.bookmark_rounded),
-                    color: Colors.green,
-                  ),
-                _ => IconButton(
-                    key: const ValueKey('unsaved'),
-                    onPressed: () => _handleSave(context),
-                    icon: const Icon(Icons.bookmark_outline),
-                    color: Colors.green,
-                  ),
-              },
-            ),
-          _ => const IconButton(
-              color: Colors.green,
-              icon: Icon(Icons.bookmark_outline),
-              onPressed: null,
-            )
-        };
+      builder: (context, jobSaveState) => switch (jobSaveState) {
+        SavedJobsList(jobs: final jobs) => AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: switch (
+                jobs.firstWhereOrNull((job) => job.url == widget.job.url)) {
+              Job() => IconButton(
+                  key: const ValueKey('saved'),
+                  onPressed: () => _handleUnSave(context),
+                  icon: const Icon(Icons.bookmark_rounded),
+                  color: Colors.green,
+                ),
+              _ => IconButton(
+                  key: const ValueKey('unsaved'),
+                  onPressed: () => _handleSave(context),
+                  icon: const Icon(Icons.bookmark_outline),
+                  color: Colors.green,
+                ),
+            },
+          ),
+        _ => const IconButton(
+            color: Colors.green,
+            icon: Icon(Icons.bookmark_outline),
+            onPressed: null,
+          )
       },
     );
   }
 
   void _handleSave(BuildContext context) {
     context.read<JobSaveBloc>().add(SaveJobEvent(widget.job));
-    Future.delayed(const Duration(milliseconds: 50)).then((_) {
+    Future.delayed(const Duration(milliseconds: 100)).then((_) {
       context.read<SavedJobsBloc>().add(const FetchSavedJobs());
     });
   }
 
   void _handleUnSave(BuildContext context) {
     context.read<JobSaveBloc>().add(UnsaveJobEvent(widget.job));
-    Future.delayed(const Duration(milliseconds: 50)).then((_) {
+    Future.delayed(const Duration(milliseconds: 100)).then((_) {
       context.read<SavedJobsBloc>().add(const FetchSavedJobs());
     });
   }
