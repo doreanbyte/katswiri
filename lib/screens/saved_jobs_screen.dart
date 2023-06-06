@@ -38,11 +38,7 @@ class _SavedJobsListRetrieverState extends State<SavedJobsListRetriever> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SavedJobsBloc, SavedJobsState>(
-      listener: (context, savedJobsState) {
-        if (savedJobsState is SavedJobsInitial) {
-          _getSavedJobs(context);
-        }
-      },
+      listener: (context, savedJobsState) {},
       builder: (context, savedJobsState) {
         final Widget child;
 
@@ -93,6 +89,7 @@ class _SavedJobsListRetrieverState extends State<SavedJobsListRetriever> {
           const Center(
             child: Text(
               'No Recently Saved Jobs\nSwipe Down to Refresh List',
+              textAlign: TextAlign.center,
             ),
           ),
         ],
