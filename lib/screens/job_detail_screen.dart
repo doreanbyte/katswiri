@@ -1,13 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/models/models.dart';
-import 'package:katswiri/repository/repository.dart';
 import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';
-import 'package:share_plus/share_plus.dart';
 
 class JobDetailScreen extends StatefulWidget {
   const JobDetailScreen({
@@ -279,43 +278,6 @@ class DescriptionSection extends StatefulWidget {
 
 class _DescriptionSectionState extends State<DescriptionSection>
     with AutomaticKeepAliveClientMixin<DescriptionSection> {
-  late final StreamController<Job> _streamController;
-
-  Job _job = Job.empty();
-  bool _loading = true;
-  bool _hasError = false;
-  String _errMsg = '';
-
-  /// [initState] override responsible for creating [StreamController] to listen
-  /// for events on data retrieval with [_onData] and error events with [_onError]
-  /// makes a call to [_getJob] to retrieve the [Job] from [widget.source] if it
-  /// is found that the [_job.description] is empty. Otherwise the call is not made
-  /// but a call is made to [JobHistoryRepo.saveHistory] to update the history
-  /// table of this [Job] being viewed by the user, sets [_loading] to true or false
-  /// based on whether the [Job.description] is empty
-  @override
-  void initState() {
-    _streamController = StreamController.broadcast();
-    _streamController.stream.listen(_onData, onError: _onError);
-    _job = widget.job;
-
-    super.initState();
-
-    if (_job.description.isEmpty) {
-      _loading = true;
-      _getJob();
-    } else {
-      _loading = false;
-      JobHistoryRepo.saveHistory(_job);
-    }
-  }
-
-  @override
-  void dispose() {
-    _streamController.close();
-    super.dispose();
-  }
-
   @override
   bool get wantKeepAlive => true;
 
@@ -330,98 +292,61 @@ class _DescriptionSectionState extends State<DescriptionSection>
         color: const Color.fromARGB(96, 64, 64, 64),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: StreamBuilder<Job>(
-            stream: _streamController.stream,
-            builder: (context, snapshot) {
-              if (_loading) {
-                return const Spinner();
-              }
-
-              if (_hasError) {
-                return Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      RetryButton(
-                        onRetryPressed: _onRetryPressed,
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        _errMsg,
-                        style: const TextStyle(
-                          fontSize: 16.0,
+          child: BlocProvider(
+            create: (_) => JobDescriptionBloc()
+              ..add(
+                FetchJobDescription(
+                  job: widget.job,
+                  source: widget.source,
+                ),
+              ),
+            child: BlocConsumer<JobDescriptionBloc, JobDescriptionState>(
+              listener: (context, jobDescriptionState) {},
+              builder: (context, jobDescriptionState) {
+                return switch (jobDescriptionState) {
+                  JobDescriptionLoaded(job: final job) => switch (
+                        job.description.isNotEmpty) {
+                      true => HtmlWidget(
+                          job.description,
+                          textStyle: const TextStyle(
+                            fontSize: 14.0,
+                          ),
+                          onTapUrl: (url) {
+                            return true;
+                          },
                         ),
-                        textAlign: TextAlign.center,
+                      _ => Container()
+                    },
+                  JobDescriptionError(error: final error) => Center(
+                      child: ErrorButton(
+                        errorMessage: error,
+                        onRetryPressed: () => _onRetryPressed(context),
                       ),
-                    ],
-                  ),
-                );
-              }
-
-              if (_job.description.isNotEmpty) {
-                return HtmlWidget(
-                  _job.description,
-                  textStyle: const TextStyle(
-                    fontSize: 14.0,
-                  ),
-                  onTapUrl: (url) {
-                    return true;
-                  },
-                );
-              } else {
-                return Container();
-              }
-            },
+                    ),
+                  _ => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                };
+              },
+            ),
           ),
         ),
       ),
     );
   }
 
-  /// Retrieves the job from [widget.source] and stores the result into the
-  /// history table
-  void _getJob() async {
-    try {
-      var job = await widget.source.fetchJob(_job.url);
-      // Keep the url we used to get to the job page
-      job = job.copyWith(
-        url: _job.url,
-        logo: _job.logo,
-        position: _job.position,
-        posted: _job.posted,
-        tag: _job.tag,
-      );
-      await JobHistoryRepo.saveHistory(job);
-      _streamController.sink.add(job);
-    } catch (e) {
-      _streamController.sink.addError(e);
-    }
+  /// Send [FetchJobDescription] to [JobDescriptionBloc] to get job description
+  void _getJob(BuildContext context) {
+    context.read<JobDescriptionBloc>().add(
+          FetchJobDescription(
+            job: widget.job,
+            source: widget.source,
+          ),
+        );
   }
 
-  void _onData(Job job) {
-    _job = job;
-
-    setState(() {
-      _loading = false;
-    });
-  }
-
-  void _onError(Object error, StackTrace stackTrace) {
-    setState(() {
-      _loading = false;
-      _hasError = true;
-      _errMsg = error.toString();
-    });
-  }
-
-  void _onRetryPressed() {
-    setState(() {
-      _hasError = false;
-      _errMsg = '';
-      _loading = true;
-    });
-    _getJob();
+  void _onRetryPressed(BuildContext context) {
+    _getJob(context);
   }
 }
 
