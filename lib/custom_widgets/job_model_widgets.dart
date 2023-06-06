@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:katswiri/bloc/bloc.dart';
@@ -37,6 +38,7 @@ class JobTile extends StatelessWidget {
   }
 
   void _onTapUp(BuildContext context) {
+    context.read<HistoryBloc>().add(AddToHistory(job));
     Navigator.pushNamed(
       context,
       JobDetailScreen.route,
@@ -336,45 +338,49 @@ class SaveJobButtonState extends State<SaveJobButton>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => JobSaveBloc()..add(CheckIsSavedEvent(widget.job)),
-      lazy: false,
-      child: BlocConsumer<JobSaveBloc, JobSaveState>(
-        listener: (context, jobSaveState) {},
-        builder: (context, jobSaveState) {
-          return switch (jobSaveState) {
-            JobIsSaved(status: final status) => AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: status
-                    ? IconButton(
-                        key: const ValueKey('saved'),
-                        onPressed: () => _handleUnSave(context),
-                        icon: const Icon(Icons.bookmark_rounded),
-                        color: Colors.green,
-                      )
-                    : IconButton(
-                        key: const ValueKey('unsaved'),
-                        onPressed: () => _handleSave(context),
-                        icon: const Icon(Icons.bookmark_outline),
-                        color: Colors.green,
-                      ),
-              ),
-            _ => const IconButton(
-                color: Colors.green,
-                icon: Icon(Icons.bookmark_outline),
-                onPressed: null,
-              )
-          };
-        },
-      ),
+    return BlocConsumer<JobSaveBloc, JobSaveState>(
+      listener: (context, jobSaveState) {},
+      builder: (context, jobSaveState) {
+        return switch (jobSaveState) {
+          SavedJobsList(jobs: final jobs) => AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: switch (
+                  jobs.firstWhereOrNull((job) => job.url == widget.job.url)) {
+                Job() => IconButton(
+                    key: const ValueKey('saved'),
+                    onPressed: () => _handleUnSave(context),
+                    icon: const Icon(Icons.bookmark_rounded),
+                    color: Colors.green,
+                  ),
+                _ => IconButton(
+                    key: const ValueKey('unsaved'),
+                    onPressed: () => _handleSave(context),
+                    icon: const Icon(Icons.bookmark_outline),
+                    color: Colors.green,
+                  ),
+              },
+            ),
+          _ => const IconButton(
+              color: Colors.green,
+              icon: Icon(Icons.bookmark_outline),
+              onPressed: null,
+            )
+        };
+      },
     );
   }
 
   void _handleSave(BuildContext context) {
     context.read<JobSaveBloc>().add(SaveJobEvent(widget.job));
+    Future.delayed(const Duration(milliseconds: 50)).then((_) {
+      context.read<SavedJobsBloc>().add(const FetchSavedJobs());
+    });
   }
 
   void _handleUnSave(BuildContext context) {
     context.read<JobSaveBloc>().add(UnsaveJobEvent(widget.job));
+    Future.delayed(const Duration(milliseconds: 50)).then((_) {
+      context.read<SavedJobsBloc>().add(const FetchSavedJobs());
+    });
   }
 }

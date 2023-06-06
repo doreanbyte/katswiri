@@ -10,27 +10,19 @@ class JobSaveInitial extends JobSaveState {
   const JobSaveInitial();
 }
 
-/// [JobIsSaved] state to keep track of whether the job is saved or unsaved
-class JobIsSaved extends JobSaveState {
-  const JobIsSaved(this.status);
+/// [SavedJobsList] state to keep track of whether the job is saved or unsaved
+class SavedJobsList extends JobSaveState {
+  const SavedJobsList(this.jobs);
 
-  final bool status;
+  final List<Job> jobs;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is JobIsSaved &&
+      other is SavedJobsList &&
           runtimeType == other.runtimeType &&
-          status == other.status;
+          const DeepCollectionEquality().equals(jobs, other.jobs);
 
   @override
-  int get hashCode => status.hashCode;
-}
-
-/// [JobSaveError] a failure state, likely a problem occurred while trying to
-/// modify the database
-class JobSaveError extends JobSaveState {
-  const JobSaveError(this.error);
-
-  final String error;
+  int get hashCode => const DeepCollectionEquality().hash(jobs);
 }
