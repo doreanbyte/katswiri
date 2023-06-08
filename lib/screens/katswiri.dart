@@ -25,77 +25,64 @@ class Katswiri extends StatelessWidget {
         BlocProvider(
           create: (_) => SaveJobBloc()..add(const CheckSavedJobs()),
         ),
-      ],
-      child: MaterialApp(
-        title: 'Katswiri',
-        theme: ThemeData(
-          backgroundColor: Colors.black12,
-          scaffoldBackgroundColor: Colors.black87,
-          primarySwatch: Colors.green,
-          textTheme: Theme.of(context).textTheme.apply(
-                bodyColor: Colors.white,
-                displayColor: Colors.white,
-              ),
-          iconTheme: IconTheme.of(context).copyWith(
-            color: Colors.green,
-          ),
-          primaryColor: Colors.green,
+        BlocProvider(
+          create: (_) => ThemeBloc()..add(const GetThemeEvent()),
         ),
-        home: const BottomNavigationScreen(),
-        onGenerateRoute: (settings) {
-          final MaterialPageRoute pageRoute;
-          final path = settings.name as String;
-
-          switch (path) {
-            case JobDetailScreen.route:
-              final arguments = settings.arguments as Map<String, dynamic>;
-
-              final job = arguments['job'] as Job;
-              final source = arguments['source'] as Source;
-
-              pageRoute = MaterialPageRoute(
-                builder: (context) => JobDetailScreen(
-                  job: job,
-                  source: source,
-                ),
-              );
-              break;
-            case WebViewScreen.route:
-              final arguments = settings.arguments as Map<String, dynamic>;
-              final String url = arguments['url'] as String;
-              final String title = arguments['title'] as String;
-
-              pageRoute = MaterialPageRoute(
-                builder: (context) => WebViewScreen(
-                  title: title,
-                  url: url,
-                ),
-              );
-              break;
-            case JobTagScreen.route:
-              final arguments = settings.arguments as Map<String, dynamic>;
-              final String title = arguments['title'] as String;
-              final Map<String, String> filter =
-                  arguments['filter'] as Map<String, String>;
-              final int initialIndex = arguments['initialIndex'] as int;
-
-              pageRoute = MaterialPageRoute(
-                builder: (context) => JobTagScreen(
-                  title: title,
-                  filter: filter,
-                  initialIndex: initialIndex,
-                ),
-              );
-              break;
-            default:
-              pageRoute = MaterialPageRoute(
-                builder: (context) => const BottomNavigationScreen(),
-              );
-          }
-
-          return pageRoute;
-        },
+      ],
+      child: BlocBuilder<ThemeBloc, AppThemeState>(
+        builder: _buildWithTheme,
       ),
+    );
+  }
+
+  Widget _buildWithTheme(BuildContext context, AppThemeState state) {
+    return MaterialApp(
+      title: 'Katswiri',
+      theme: ThemeData(
+        backgroundColor: Colors.black12,
+        scaffoldBackgroundColor: Colors.black87,
+        primarySwatch: Colors.green,
+        textTheme: Theme.of(context).textTheme.apply(
+              bodyColor: Colors.white,
+              displayColor: Colors.white,
+            ),
+        iconTheme: IconTheme.of(context).copyWith(
+          color: Colors.green,
+        ),
+        primaryColor: Colors.green,
+      ),
+      home: const BottomNavigationScreen(),
+      onGenerateRoute: (settings) => switch ((
+        settings.name,
+        settings.arguments,
+      )) {
+        (JobDetailScreen.route, {'job': Job job, 'source': Source source}) =>
+          MaterialPageRoute(
+            builder: (context) => JobDetailScreen(job: job, source: source),
+          ),
+        (WebViewScreen.route, {'url': String url, 'title': String title}) =>
+          MaterialPageRoute(
+            builder: (context) => WebViewScreen(title: title, url: url),
+          ),
+        (
+          JobTagScreen.route,
+          {
+            'title': String title,
+            'filter': Map<String, String> filter,
+            'initialIndex': int initialIndex
+          }
+        ) =>
+          MaterialPageRoute(
+            builder: (context) => JobTagScreen(
+              title: title,
+              filter: filter,
+              initialIndex: initialIndex,
+            ),
+          ),
+        (_, _) => MaterialPageRoute(
+            builder: (context) => const BottomNavigationScreen(),
+          )
+      },
     );
   }
 }
