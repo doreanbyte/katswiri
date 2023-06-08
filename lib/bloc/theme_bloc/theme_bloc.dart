@@ -1,6 +1,5 @@
 library theme_bloc;
 
-import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:katswiri/app_theme.dart';

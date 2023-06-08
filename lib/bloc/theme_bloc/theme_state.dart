@@ -9,17 +9,17 @@ class InitialThemeState extends AppThemeState {
 }
 
 class ThemeState extends AppThemeState {
-  const ThemeState(this.themeData);
+  const ThemeState({required this.appTheme});
 
-  final ThemeData themeData;
+  final AppTheme appTheme;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is ThemeState &&
           runtimeType == other.runtimeType &&
-          const DeepCollectionEquality().equals(themeData, other.themeData);
+          const DeepCollectionEquality().equals(appTheme, other.appTheme);
 
   @override
-  int get hashCode => const DeepCollectionEquality().hash(themeData);
+  int get hashCode => const DeepCollectionEquality().hash(appTheme);
 }
