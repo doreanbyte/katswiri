@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:katswiri/app_theme.dart';
 import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/screens/webview_screen.dart';
@@ -35,54 +36,45 @@ class Katswiri extends StatelessWidget {
     );
   }
 
-  Widget _buildWithTheme(BuildContext context, AppThemeState state) {
-    return MaterialApp(
-      title: 'Katswiri',
-      theme: ThemeData(
-        backgroundColor: Colors.black12,
-        scaffoldBackgroundColor: Colors.black87,
-        primarySwatch: Colors.green,
-        textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: Colors.white,
-              displayColor: Colors.white,
+  Widget _buildWithTheme(BuildContext context, AppThemeState state) =>
+      MaterialApp(
+        title: 'Katswiri',
+        theme: switch (state) {
+          ThemeState(appTheme: final appTheme) =>
+            buildAppTheme(context, appTheme),
+          _ => buildAppTheme(context, AppTheme.greenLight),
+        },
+        home: const BottomNavigationScreen(),
+        onGenerateRoute: (settings) => switch ((
+          settings.name,
+          settings.arguments,
+        )) {
+          (JobDetailScreen.route, {'job': Job job, 'source': Source source}) =>
+            MaterialPageRoute(
+              builder: (context) => JobDetailScreen(job: job, source: source),
             ),
-        iconTheme: IconTheme.of(context).copyWith(
-          color: Colors.green,
-        ),
-        primaryColor: Colors.green,
-      ),
-      home: const BottomNavigationScreen(),
-      onGenerateRoute: (settings) => switch ((
-        settings.name,
-        settings.arguments,
-      )) {
-        (JobDetailScreen.route, {'job': Job job, 'source': Source source}) =>
-          MaterialPageRoute(
-            builder: (context) => JobDetailScreen(job: job, source: source),
-          ),
-        (WebViewScreen.route, {'url': String url, 'title': String title}) =>
-          MaterialPageRoute(
-            builder: (context) => WebViewScreen(title: title, url: url),
-          ),
-        (
-          JobTagScreen.route,
-          {
-            'title': String title,
-            'filter': Map<String, String> filter,
-            'initialIndex': int initialIndex
-          }
-        ) =>
-          MaterialPageRoute(
-            builder: (context) => JobTagScreen(
-              title: title,
-              filter: filter,
-              initialIndex: initialIndex,
+          (WebViewScreen.route, {'url': String url, 'title': String title}) =>
+            MaterialPageRoute(
+              builder: (context) => WebViewScreen(title: title, url: url),
             ),
-          ),
-        (_, _) => MaterialPageRoute(
-            builder: (context) => const BottomNavigationScreen(),
-          )
-      },
-    );
-  }
+          (
+            JobTagScreen.route,
+            {
+              'title': String title,
+              'filter': Map<String, String> filter,
+              'initialIndex': int initialIndex
+            }
+          ) =>
+            MaterialPageRoute(
+              builder: (context) => JobTagScreen(
+                title: title,
+                filter: filter,
+                initialIndex: initialIndex,
+              ),
+            ),
+          (_, _) => MaterialPageRoute(
+              builder: (context) => const BottomNavigationScreen(),
+            )
+        },
+      );
 }
