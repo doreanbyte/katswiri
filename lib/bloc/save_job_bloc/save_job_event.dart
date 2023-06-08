@@ -1,4 +1,4 @@
-part of 'job_save_bloc.dart';
+part of 'save_job_bloc.dart';
 
 /// [JobSaveEvent] sealed class from which other SaveJobEvent subsclasses will
 /// inherit from

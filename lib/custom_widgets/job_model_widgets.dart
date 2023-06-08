@@ -338,7 +338,7 @@ class SaveJobButtonState extends State<SaveJobButton>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<JobSaveBloc, JobSaveState>(
+    return BlocConsumer<SaveJobBloc, SaveJobState>(
       listener: (context, jobSaveState) {},
       builder: (context, jobSaveState) => switch (jobSaveState) {
         SavedJobsList(jobs: final jobs) => AnimatedSwitcher(
@@ -369,14 +369,14 @@ class SaveJobButtonState extends State<SaveJobButton>
   }
 
   void _handleSave(BuildContext context) {
-    context.read<JobSaveBloc>().add(SaveJobEvent(widget.job));
+    context.read<SaveJobBloc>().add(SaveJobEvent(widget.job));
     Future.delayed(const Duration(milliseconds: 100)).then((_) {
       context.read<SavedJobsBloc>().add(const FetchSavedJobs());
     });
   }
 
   void _handleUnSave(BuildContext context) {
-    context.read<JobSaveBloc>().add(UnsaveJobEvent(widget.job));
+    context.read<SaveJobBloc>().add(UnsaveJobEvent(widget.job));
     Future.delayed(const Duration(milliseconds: 100)).then((_) {
       context.read<SavedJobsBloc>().add(const FetchSavedJobs());
     });

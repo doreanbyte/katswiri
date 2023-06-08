@@ -1,17 +1,17 @@
-part of 'job_save_bloc.dart';
+part of 'save_job_bloc.dart';
 
-/// [JobSaveState] the derived class for other state classes to inherit from
-sealed class JobSaveState {
-  const JobSaveState();
+/// [SaveJobState] the derived class for other state classes to inherit from
+sealed class SaveJobState {
+  const SaveJobState();
 }
 
-/// [JobSaveInitial] the initial state of the status of the job being saved
-class JobSaveInitial extends JobSaveState {
-  const JobSaveInitial();
+/// [SaveJobInitial] the initial state of the status of the job being saved
+class SaveJobInitial extends SaveJobState {
+  const SaveJobInitial();
 }
 
 /// [SavedJobsList] state to keep track of whether the job is saved or unsaved
-class SavedJobsList extends JobSaveState {
+class SavedJobsList extends SaveJobState {
   const SavedJobsList(this.jobs);
 
   final List<Job> jobs;

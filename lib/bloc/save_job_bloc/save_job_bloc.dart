@@ -7,11 +7,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/repository/repository.dart';
 
-part 'job_save_event.dart';
-part 'job_save_state.dart';
+part 'save_job_event.dart';
+part 'save_job_state.dart';
 
-class JobSaveBloc extends Bloc<JobSaveEvent, JobSaveState> {
-  JobSaveBloc() : super(const JobSaveInitial()) {
+class SaveJobBloc extends Bloc<JobSaveEvent, SaveJobState> {
+  SaveJobBloc() : super(const SaveJobInitial()) {
     on<UnsaveJobEvent>((event, emit) async {
       try {
         await SavedJobRepo.clearJobFromSaved(event.job);
