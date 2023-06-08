@@ -40,8 +40,10 @@ class Katswiri extends StatelessWidget {
       MaterialApp(
         title: 'Katswiri',
         theme: switch (state) {
-          ThemeState(appTheme: final appTheme) =>
-            buildAppTheme(context, appTheme),
+          ThemeState(appTheme: final appTheme) => buildAppTheme(
+              context,
+              appTheme,
+            ),
           _ => buildAppTheme(context, AppTheme.greenLight),
         },
         home: const BottomNavigationScreen(),
