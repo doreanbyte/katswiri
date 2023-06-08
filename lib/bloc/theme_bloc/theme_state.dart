@@ -1,22 +1,22 @@
 part of 'theme_bloc.dart';
 
-sealed class ThemeState {
-  const ThemeState();
+sealed class AppThemeState {
+  const AppThemeState();
 }
 
-class InitialThemeState extends ThemeState {
+class InitialThemeState extends AppThemeState {
   const InitialThemeState();
 }
 
-class AppThemeState extends ThemeState {
-  const AppThemeState(this.themeData);
+class ThemeState extends AppThemeState {
+  const ThemeState(this.themeData);
 
   final ThemeData themeData;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AppThemeState &&
+      other is ThemeState &&
           runtimeType == other.runtimeType &&
           const DeepCollectionEquality().equals(themeData, other.themeData);
 
