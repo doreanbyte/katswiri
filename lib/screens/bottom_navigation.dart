@@ -96,12 +96,13 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         return AppBar(
           elevation: 0,
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          title: const Text(
+          title: Text(
             'Browse',
             style: TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.w600,
               letterSpacing: -.4,
+              color: Theme.of(context).primaryColor,
             ),
           ),
           actions: [
@@ -139,12 +140,13 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         return AppBar(
           elevation: 0,
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          title: const Text(
+          title: Text(
             'History',
             style: TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.w600,
               letterSpacing: -.4,
+              color: Theme.of(context).primaryColor,
             ),
           ),
           actions: [
@@ -161,12 +163,13 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         return AppBar(
           elevation: 0,
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          title: const Text(
+          title: Text(
             'Saved',
             style: TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.w600,
               letterSpacing: -.4,
+              color: Theme.of(context).primaryColor,
             ),
           ),
           actions: [

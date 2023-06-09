@@ -43,11 +43,11 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             isScrollable: true,
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.w500,
             ),
-            unselectedLabelStyle: TextStyle(
+            unselectedLabelStyle: const TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.w500,
             ),
@@ -58,12 +58,17 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
             unselectedLabelColor: Theme.of(
               context,
             ).tabBarTheme.unselectedLabelColor,
-            tabs: [
+            tabs: const [
               Tab(text: 'DESCRIPTION'),
               Tab(text: 'RELATED'),
             ],
           ),
-          title: Text(widget.source.title),
+          title: Text(
+            widget.source.title,
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);

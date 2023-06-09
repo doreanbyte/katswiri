@@ -24,7 +24,7 @@ class RetryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: onRetryPressed,
-      icon: Icon(Icons.refresh),
+      icon: const Icon(Icons.refresh),
       color: Theme.of(context).primaryColor,
       iconSize: 38.0,
       splashColor: Theme.of(context).splashColor,
