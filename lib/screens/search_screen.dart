@@ -3,15 +3,6 @@ import 'package:katswiri/custom_widgets/custom_widgets.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   @override
-  ThemeData appBarTheme(BuildContext context) {
-    return Theme.of(context).copyWith(
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.black87,
-      ),
-    );
-  }
-
-  @override
   List<Widget>? buildActions(BuildContext context) {
     if (query.isEmpty) {
       return [Container()];
@@ -22,9 +13,9 @@ class CustomSearchDelegate extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-        icon: const Icon(
+        icon: Icon(
           Icons.close,
-          color: Colors.green,
+          color: Theme.of(context).primaryColor,
         ),
       )
     ];
@@ -36,9 +27,9 @@ class CustomSearchDelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: const Icon(
+      icon: Icon(
         Icons.chevron_left,
-        color: Colors.green,
+        color: Theme.of(context).primaryColor,
       ),
     );
   }

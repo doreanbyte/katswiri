@@ -68,7 +68,7 @@ class _SavedJobsListRetrieverState extends State<SavedJobsListRetriever> {
         }
 
         return RefreshIndicator(
-          backgroundColor: Colors.black,
+          backgroundColor: Theme.of(context).colorScheme.background,
           onRefresh: () async => _onRefresh(context),
           child: child,
         );

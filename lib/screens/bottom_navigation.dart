@@ -51,8 +51,12 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xFF000000),
-        unselectedItemColor: Colors.grey,
+        backgroundColor: Theme.of(
+          context,
+        ).bottomNavigationBarTheme.backgroundColor,
+        unselectedItemColor: Theme.of(
+          context,
+        ).bottomNavigationBarTheme.unselectedItemColor,
         currentIndex: _selectedIndex,
         items: const [
           BottomNavigationBarItem(
@@ -91,7 +95,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       case Page.browse:
         return AppBar(
           elevation: 0,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           title: const Text(
             'Browse',
             style: TextStyle(
@@ -108,9 +112,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                   delegate: CustomSearchDelegate(),
                 );
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.search_outlined,
-                color: Colors.green,
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
             IconButton(
@@ -124,9 +128,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                   },
                 );
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.public_outlined,
-                color: Colors.green,
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
           ],
@@ -134,7 +138,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       case Page.history:
         return AppBar(
           elevation: 0,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           title: const Text(
             'History',
             style: TextStyle(
@@ -146,9 +150,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           actions: [
             IconButton(
               onPressed: () => _showClearHistory(context),
-              icon: const Icon(
+              icon: Icon(
                 Icons.delete,
-                color: Colors.green,
+                color: Theme.of(context).primaryColor,
               ),
             ),
           ],
@@ -156,7 +160,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       case Page.saved:
         return AppBar(
           elevation: 0,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           title: const Text(
             'Saved',
             style: TextStyle(
@@ -168,9 +172,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           actions: [
             IconButton(
               onPressed: () => _showClearSavedJobs(context),
-              icon: const Icon(
+              icon: Icon(
                 Icons.delete,
-                color: Colors.green,
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
           ],
@@ -183,17 +187,18 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text(
+          title: Text(
             'Clear History',
-            style: TextStyle(color: Colors.green),
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
           ),
           content: const Text('Are you sure you want to clear your history?'),
-          backgroundColor: Colors.black,
+          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
           actions: [
             TextButton(
               child: const Text(
                 'No',
-                style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -217,18 +222,19 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text(
+          title: Text(
             'Clear Saved Jobs',
-            style: TextStyle(color: Colors.green),
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
           ),
           content:
               const Text('Are you sure you want to clear your saved jobs?'),
-          backgroundColor: Colors.black,
+          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
           actions: [
             TextButton(
               child: const Text(
                 'No',
-                style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
                 Navigator.of(context).pop();

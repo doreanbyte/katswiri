@@ -102,8 +102,8 @@ class _TabBarSectionState extends State<TabBarSection> {
         fontWeight: FontWeight.w500,
       ),
       indicatorWeight: 3.0,
-      labelColor: Theme.of(context).primaryColor,
-      unselectedLabelColor: Colors.white70,
+      labelColor: Theme.of(context).tabBarTheme.labelColor,
+      unselectedLabelColor: Theme.of(context).tabBarTheme.unselectedLabelColor,
       controller: widget.controller,
       tabs: widget.sources
           .map<Widget>(

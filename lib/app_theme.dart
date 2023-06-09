@@ -8,6 +8,8 @@ enum AppTheme {
 ThemeData buildAppTheme(BuildContext context, AppTheme appTheme) =>
     switch (appTheme) {
       AppTheme.greenLight => ThemeData(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           brightness: Brightness.light,
           backgroundColor: Colors.white,
           scaffoldBackgroundColor: Colors.white,
@@ -19,10 +21,14 @@ ThemeData buildAppTheme(BuildContext context, AppTheme appTheme) =>
           iconTheme: const IconThemeData(
             color: Colors.green,
           ),
+          primaryIconTheme: const IconThemeData(
+            color: Colors.green,
+          ),
           primaryColor: Colors.green,
           iconButtonTheme: IconButtonThemeData(
             style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.green),
+              foregroundColor:
+                  MaterialStateProperty.all<Color>(Colors.transparent),
               overlayColor:
                   MaterialStateProperty.all<Color>(Colors.transparent),
             ),
@@ -54,6 +60,8 @@ ThemeData buildAppTheme(BuildContext context, AppTheme appTheme) =>
           ),
         ),
       AppTheme.greenDark => ThemeData(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           brightness: Brightness.dark,
           backgroundColor: Colors.black12,
           scaffoldBackgroundColor: Colors.black87,

@@ -39,8 +39,8 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.transparent,
-          bottom: const TabBar(
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             isScrollable: true,
             labelStyle: TextStyle(
@@ -52,8 +52,12 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
               fontWeight: FontWeight.w500,
             ),
             indicatorWeight: 3.0,
-            labelColor: Colors.green,
-            unselectedLabelColor: Colors.white70,
+            labelColor: Theme.of(
+              context,
+            ).tabBarTheme.labelColor,
+            unselectedLabelColor: Theme.of(
+              context,
+            ).tabBarTheme.unselectedLabelColor,
             tabs: [
               Tab(text: 'DESCRIPTION'),
               Tab(text: 'RELATED'),
@@ -167,7 +171,7 @@ class JobLeadSection extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
-      color: const Color.fromARGB(96, 64, 64, 64),
+      color: Theme.of(context).cardTheme.color,
       child: Container(
         padding: const EdgeInsets.all(8.0),
         height: 138.0,
@@ -194,8 +198,8 @@ class JobLeadSection extends StatelessWidget {
                         job.companyName,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.green,
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w500,
                         ),
@@ -228,8 +232,8 @@ class JobLeadSection extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: Text(
                 job.posted,
-                style: const TextStyle(
-                  color: Colors.grey,
+                style: TextStyle(
+                  color: Theme.of(context).secondaryHeaderColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -271,7 +275,7 @@ class _DescriptionSectionState extends State<DescriptionSection>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),
-            color: const Color.fromARGB(96, 64, 64, 64),
+            color: Theme.of(context).cardTheme.color,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: BlocProvider(

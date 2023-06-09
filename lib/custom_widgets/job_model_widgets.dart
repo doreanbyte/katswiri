@@ -22,17 +22,12 @@ class JobTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTextStyle(
-      style: const TextStyle(
-        color: Colors.white,
-      ),
-      child: GestureDetector(
-        onTapUp: (_) => _onTapUp(context),
-        child: JobTileComponent(
-          job: job,
-          sourceIndex: getSources()
-              .indexWhere((element) => element.title == source.title),
-        ),
+    return GestureDetector(
+      onTapUp: (_) => _onTapUp(context),
+      child: JobTileComponent(
+        job: job,
+        sourceIndex:
+            getSources().indexWhere((element) => element.title == source.title),
       ),
     );
   }
@@ -66,7 +61,7 @@ class JobTileComponent extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
-      color: const Color.fromARGB(96, 64, 64, 64),
+      color: Theme.of(context).cardTheme.color,
       child: Container(
         padding: const EdgeInsets.all(8.0),
         height: 128.0,
@@ -101,8 +96,8 @@ class JobTileComponent extends StatelessWidget {
               child: Text(
                 job.posted,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.grey,
+                style: TextStyle(
+                  color: Theme.of(context).secondaryHeaderColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -171,8 +166,8 @@ class JobCompanySection extends StatelessWidget {
                 job.companyName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.green,
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
                   fontSize: 14.0,
                   fontWeight: FontWeight.w500,
                 ),
@@ -280,8 +275,8 @@ class JobTag extends StatelessWidget {
         label,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
-        style: const TextStyle(
-          color: Colors.grey,
+        style: TextStyle(
+          color: Theme.of(context).secondaryHeaderColor,
         ),
       ),
     );
@@ -349,19 +344,19 @@ class SaveJobButtonState extends State<SaveJobButton>
                   key: const ValueKey('saved'),
                   onPressed: () => _handleUnSave(context),
                   icon: const Icon(Icons.bookmark_rounded),
-                  color: Colors.green,
+                  color: Theme.of(context).primaryColor,
                 ),
               _ => IconButton(
                   key: const ValueKey('unsaved'),
                   onPressed: () => _handleSave(context),
                   icon: const Icon(Icons.bookmark_outline),
-                  color: Colors.green,
+                  color: Theme.of(context).iconTheme.color,
                 ),
             },
           ),
-        _ => const IconButton(
-            color: Colors.green,
-            icon: Icon(Icons.bookmark_outline),
+        _ => IconButton(
+            color: Theme.of(context).primaryColor,
+            icon: const Icon(Icons.bookmark_outline),
             onPressed: null,
           )
       },

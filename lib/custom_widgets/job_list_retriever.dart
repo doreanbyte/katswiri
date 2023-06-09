@@ -127,7 +127,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
     }
 
     return RefreshIndicator(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).colorScheme.background,
       onRefresh: _onRefresh,
       child: child,
     );
