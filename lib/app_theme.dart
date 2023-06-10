@@ -10,26 +10,15 @@ ThemeData buildAppTheme(
   AppTheme appTheme,
 ) =>
     ThemeData(
-      splashColor: switch (appTheme) {
-        AppTheme.greenLight || AppTheme.greenDark => Colors.transparent,
-      },
-      highlightColor: switch (appTheme) {
-        AppTheme.greenLight || AppTheme.greenDark => Colors.transparent,
-      },
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       brightness: switch (appTheme) {
         AppTheme.greenLight => Brightness.light,
         AppTheme.greenDark => Brightness.dark,
       },
-      backgroundColor: switch (appTheme) {
-        AppTheme.greenLight => Colors.white,
-        AppTheme.greenDark => Colors.black12,
-      },
       scaffoldBackgroundColor: switch (appTheme) {
         AppTheme.greenLight => Colors.white,
         AppTheme.greenDark => Colors.black87,
-      },
-      primarySwatch: switch (appTheme) {
-        AppTheme.greenLight || AppTheme.greenDark => Colors.green,
       },
       textTheme: Theme.of(context).textTheme.apply(
             bodyColor: switch (appTheme) {
@@ -41,19 +30,13 @@ ThemeData buildAppTheme(
               AppTheme.greenDark => Colors.white,
             },
           ),
-      iconTheme: IconThemeData(
-        color: switch (appTheme) {
-          AppTheme.greenLight || AppTheme.greenDark => Colors.green,
-        },
+      iconTheme: const IconThemeData(
+        color: Colors.green,
       ),
-      primaryIconTheme: IconThemeData(
-        color: switch (appTheme) {
-          AppTheme.greenLight || AppTheme.greenDark => Colors.green,
-        },
+      primaryIconTheme: const IconThemeData(
+        color: Colors.green,
       ),
-      primaryColor: switch (appTheme) {
-        AppTheme.greenLight || AppTheme.greenDark => Colors.green,
-      },
+      primaryColor: Colors.green,
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
           foregroundColor: switch (appTheme) {
@@ -82,9 +65,7 @@ ThemeData buildAppTheme(
           AppTheme.greenDark => const Color.fromARGB(96, 64, 64, 64),
         },
       ),
-      secondaryHeaderColor: switch (appTheme) {
-        AppTheme.greenLight || AppTheme.greenDark => Colors.grey,
-      },
+      secondaryHeaderColor: Colors.grey,
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: switch (appTheme) {
@@ -113,6 +94,14 @@ ThemeData buildAppTheme(
         backgroundColor: switch (appTheme) {
           AppTheme.greenLight => Colors.white,
           AppTheme.greenDark => Colors.black,
+        },
+      ),
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: Colors.green,
+      ).copyWith(
+        background: switch (appTheme) {
+          AppTheme.greenLight => Colors.white,
+          AppTheme.greenDark => Colors.black12,
         },
       ),
     );
