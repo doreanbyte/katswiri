@@ -115,19 +115,17 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                     return switch (appTheme) {
                       AppTheme.greenLight => IconButton(
                           key: const ValueKey('green_light'),
-                          onPressed: () {
-                            context.read<ThemeBloc>().add(
-                                  const ThemeChangedEvent(
-                                    AppTheme.greenDark,
-                                  ),
-                                );
-                          },
+                          onPressed: () => context
+                              .read<ThemeBloc>()
+                              .add(const ThemeChangedEvent(AppTheme.greenDark)),
                           icon: const Icon(Icons.bookmark_rounded),
                           color: Theme.of(context).primaryColor,
                         ),
                       AppTheme.greenDark => IconButton(
                           key: const ValueKey('green_dark'),
-                          onPressed: () {},
+                          onPressed: () => context.read<ThemeBloc>().add(
+                                const ThemeChangedEvent(AppTheme.greenLight),
+                              ),
                           icon: const Icon(Icons.bookmark_rounded),
                           color: Theme.of(context).primaryColor,
                         ),
