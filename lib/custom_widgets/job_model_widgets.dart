@@ -333,8 +333,7 @@ class SaveJobButtonState extends State<SaveJobButton>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SaveJobBloc, SaveJobState>(
-      listener: (context, jobSaveState) {},
+    return BlocBuilder<SaveJobBloc, SaveJobState>(
       builder: (context, jobSaveState) => switch (jobSaveState) {
         SavedJobsList(jobs: final jobs) => AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),

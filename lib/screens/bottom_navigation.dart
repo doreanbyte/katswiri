@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:katswiri/app_theme.dart';
 import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/screens/browse_jobs_screen.dart';
 import 'package:katswiri/screens/saved_jobs_screen.dart';
@@ -106,6 +107,37 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             ),
           ),
           actions: [
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: BlocBuilder<ThemeBloc, AppThemeState>(
+                builder: (context, state) {
+                  if (state case ThemeState(appTheme: final appTheme)) {
+                    return switch (appTheme) {
+                      AppTheme.greenLight => IconButton(
+                          key: const ValueKey('green_light'),
+                          onPressed: () {
+                            context.read<ThemeBloc>().add(
+                                  const ThemeChangedEvent(
+                                    AppTheme.greenDark,
+                                  ),
+                                );
+                          },
+                          icon: const Icon(Icons.bookmark_rounded),
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      AppTheme.greenDark => IconButton(
+                          key: const ValueKey('green_dark'),
+                          onPressed: () {},
+                          icon: const Icon(Icons.bookmark_rounded),
+                          color: Theme.of(context).primaryColor,
+                        ),
+                    };
+                  }
+
+                  return Container();
+                },
+              ),
+            ),
             IconButton(
               onPressed: () {
                 showSearch(
