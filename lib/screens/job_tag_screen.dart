@@ -21,7 +21,10 @@ class JobTagScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        title: Text(title),
+        title: Text(
+          title,
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
         leading: IconButton(
           icon: Icon(
             Icons.chevron_left,
