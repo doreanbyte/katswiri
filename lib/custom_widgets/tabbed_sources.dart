@@ -8,11 +8,13 @@ class TabbedSources extends StatefulWidget {
     super.key,
     this.filter,
     this.initialIndex = 0,
+    this.sortJobs = true,
   });
 
   final void Function(Source)? onSourceChange;
   final Map<String, String>? filter;
   final int initialIndex;
+  final bool sortJobs;
 
   @override
   State<TabbedSources> createState() => _TabbedSourcesState();
@@ -59,6 +61,7 @@ class _TabbedSourcesState extends State<TabbedSources>
             tabController: _tabController,
             sources: _sources,
             filter: widget.filter,
+            sortJobs: widget.sortJobs,
           ),
         ),
       ],
@@ -122,12 +125,14 @@ class TabBarViewSection extends StatefulWidget {
     required this.tabController,
     required this.sources,
     this.filter,
+    this.sortJobs = true,
     super.key,
   });
 
   final TabController tabController;
   final List<Source> sources;
   final Map<String, String>? filter;
+  final bool sortJobs;
 
   @override
   State<TabBarViewSection> createState() => _TabBarViewSectionState();
@@ -143,6 +148,7 @@ class _TabBarViewSectionState extends State<TabBarViewSection> {
             (source) => JobListRetriever(
               source: source,
               filter: widget.filter,
+              sortJobs: widget.sortJobs,
             ),
           )
           .toList(),

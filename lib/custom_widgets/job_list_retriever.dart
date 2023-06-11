@@ -13,12 +13,14 @@ class JobListRetriever extends StatefulWidget {
     this.filter,
     this.primary,
     this.physics,
+    this.sortJobs = true,
   });
 
   final Source source;
   final Map<String, String>? filter;
   final bool? primary;
   final ScrollPhysics? physics;
+  final bool sortJobs;
 
   @override
   State<JobListRetriever> createState() => _JobListRetrieverState();
@@ -193,9 +195,12 @@ class _JobListRetrieverState extends State<JobListRetriever>
 
   void _onData(List<Job> jobs) {
     _jobs.addAll(jobs);
-    _jobs.sort(
-      (a, b) => postedDate(b.posted).compareTo(postedDate(a.posted)),
-    );
+
+    if (widget.sortJobs) {
+      _jobs.sort(
+        (a, b) => postedDate(b.posted).compareTo(postedDate(a.posted)),
+      );
+    }
 
     setState(() {
       _page++;
