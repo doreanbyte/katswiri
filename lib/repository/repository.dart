@@ -1,4 +1,4 @@
-import 'package:katswiri/db_manager.dart';
+import 'package:katswiri/managers/managers.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:sqflite/sqflite.dart';
 
