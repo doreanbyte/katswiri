@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:katswiri/app_settings.dart';
 import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/app_theme.dart';
 
@@ -19,9 +20,12 @@ class ToggleThemeButton extends StatelessWidget {
               AppTheme.greenLight => IconButton(
                   tooltip: 'Change to Dark Theme',
                   key: const ValueKey('green_light'),
-                  onPressed: () => context
-                      .read<ThemeBloc>()
-                      .add(const ThemeChangedEvent(AppTheme.greenDark)),
+                  onPressed: () => context.read<ThemeBloc>().add(
+                        const ThemeChangedEvent(
+                          SelectedTheme.dark,
+                          AppTheme.greenDark,
+                        ),
+                      ),
                   icon: const Icon(Icons.brightness_2),
                   color: Theme.of(context).primaryColor,
                 ),
@@ -29,7 +33,10 @@ class ToggleThemeButton extends StatelessWidget {
                   tooltip: 'Change to Light Theme',
                   key: const ValueKey('green_dark'),
                   onPressed: () => context.read<ThemeBloc>().add(
-                        const ThemeChangedEvent(AppTheme.greenLight),
+                        const ThemeChangedEvent(
+                          SelectedTheme.light,
+                          AppTheme.greenLight,
+                        ),
                       ),
                   icon: const Icon(Icons.brightness_high),
                   color: Theme.of(context).primaryColor,

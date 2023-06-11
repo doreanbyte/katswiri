@@ -1,11 +1,11 @@
 import 'package:katswiri/managers/managers.dart';
 
-enum Theme {
+enum SelectedTheme {
   auto('Auto'),
   light('Light'),
   dark('Dark');
 
-  const Theme(this.name);
+  const SelectedTheme(this.name);
 
   final String name;
 }
@@ -20,14 +20,14 @@ enum JobView {
 }
 
 class AppSettings {
-  static setTheme(Theme theme) async {
+  static setTheme(SelectedTheme theme) async {
     final prefs = await PrefsManager.instance.prefs;
     await prefs.setString('theme', theme.name);
   }
 
-  static Future<Theme> getTheme() async {
+  static Future<SelectedTheme> getTheme() async {
     final prefs = await PrefsManager.instance.prefs;
-    final theme = Theme.values.firstWhere(
+    final theme = SelectedTheme.values.firstWhere(
       (theme) => theme.name == prefs.getString('theme'),
     );
 
@@ -53,7 +53,7 @@ class AppSettings {
     prefs.getString('theme') ??
         await prefs.setString(
           'theme',
-          Theme.auto.name,
+          SelectedTheme.auto.name,
         );
 
     prefs.getString('job_view') ??

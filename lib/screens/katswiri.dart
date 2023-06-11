@@ -27,7 +27,12 @@ class Katswiri extends StatelessWidget {
           create: (_) => SaveJobBloc()..add(const CheckSavedJobs()),
         ),
         BlocProvider(
-          create: (_) => ThemeBloc()..add(const GetThemeEvent()),
+          create: (_) => ThemeBloc()
+            ..add(
+              GetThemeEvent(
+                MediaQuery.of(context).platformBrightness == Brightness.dark,
+              ),
+            ),
         ),
       ],
       child: BlocBuilder<ThemeBloc, AppThemeState>(
