@@ -34,6 +34,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
   bool _hasError = false;
   String _errMsg = '';
   bool _refresh = false;
+  bool _showButton = false;
 
   late final StreamController<List<Job>> _streamController =
       StreamController.broadcast();
@@ -52,6 +53,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
     );
 
     _scrollController.addListener(_onScrollEnd);
+    _scrollController.addListener(_onShowToTop);
 
     super.initState();
     _getJobs();
@@ -61,6 +63,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
   void dispose() {
     _streamController.close();
     _scrollController.removeListener(_onScrollEnd);
+    _scrollController.removeListener(_onShowToTop);
 
     _scrollController.dispose();
 
@@ -71,9 +74,22 @@ class _JobListRetrieverState extends State<JobListRetriever>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return StreamBuilder<List<Job>>(
-      stream: _streamController.stream,
-      builder: _builder,
+    return Stack(
+      children: [
+        StreamBuilder<List<Job>>(
+          stream: _streamController.stream,
+          builder: _builder,
+        ),
+        if (_showButton)
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: FloatingActionButton(
+              onPressed: _scrollToTop,
+              child: const Icon(Icons.arrow_upward),
+            ),
+          ),
+      ],
     );
   }
 
@@ -163,6 +179,18 @@ class _JobListRetrieverState extends State<JobListRetriever>
     }
   }
 
+  void _onShowToTop() {
+    if (_scrollController.offset >= 100 && !_showButton) {
+      setState(() {
+        _showButton = true;
+      });
+    } else if (_scrollController.offset < 100 && _showButton) {
+      setState(() {
+        _showButton = false;
+      });
+    }
+  }
+
   void _onData(List<Job> jobs) {
     _jobs.addAll(jobs);
     _jobs.sort(
@@ -204,5 +232,13 @@ class _JobListRetrieverState extends State<JobListRetriever>
     });
 
     _getJobs();
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
   }
 }
