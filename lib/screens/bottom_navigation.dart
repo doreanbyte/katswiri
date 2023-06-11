@@ -110,6 +110,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           actions: [
             const ToggleThemeButton(),
             IconButton(
+              tooltip: 'Search for Job',
               onPressed: () {
                 showSearch(
                   context: context,
@@ -122,6 +123,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               ),
             ),
             IconButton(
+              tooltip: 'Open in Browser',
               onPressed: () {
                 Navigator.pushNamed(
                   context,

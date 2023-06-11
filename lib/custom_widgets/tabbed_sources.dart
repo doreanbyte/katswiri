@@ -92,6 +92,7 @@ class _TabBarSectionState extends State<TabBarSection> {
   Widget build(BuildContext context) {
     return TabBar(
       indicatorSize: TabBarIndicatorSize.tab,
+      indicatorColor: Theme.of(context).primaryColor,
       isScrollable: true,
       labelStyle: const TextStyle(
         fontSize: 14.0,

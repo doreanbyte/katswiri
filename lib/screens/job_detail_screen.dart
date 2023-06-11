@@ -52,6 +52,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
               fontWeight: FontWeight.w500,
             ),
             indicatorWeight: 3.0,
+            indicatorColor: Theme.of(context).primaryColor,
             labelColor: Theme.of(
               context,
             ).tabBarTheme.labelColor,

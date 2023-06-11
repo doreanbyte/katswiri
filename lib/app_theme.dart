@@ -12,12 +12,8 @@ ThemeData buildAppTheme(
     ThemeData(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      brightness: switch (appTheme) {
-        AppTheme.greenLight => Brightness.light,
-        AppTheme.greenDark => Brightness.dark,
-      },
       scaffoldBackgroundColor: switch (appTheme) {
-        AppTheme.greenLight => Colors.white,
+        AppTheme.greenLight => const Color(0xFFF2F2F2),
         AppTheme.greenDark => Colors.black87,
       },
       textTheme: Theme.of(context).textTheme.apply(
@@ -61,11 +57,14 @@ ThemeData buildAppTheme(
       ),
       cardTheme: CardTheme(
         color: switch (appTheme) {
-          AppTheme.greenLight => Colors.white,
+          AppTheme.greenLight => Colors.white70,
           AppTheme.greenDark => const Color.fromARGB(96, 64, 64, 64),
         },
       ),
-      secondaryHeaderColor: Colors.grey,
+      secondaryHeaderColor: switch (appTheme) {
+        AppTheme.greenLight => Colors.black54,
+        AppTheme.greenDark => Colors.grey,
+      },
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: switch (appTheme) {
@@ -75,7 +74,7 @@ ThemeData buildAppTheme(
       ),
       tabBarTheme: TabBarTheme(
         unselectedLabelColor: switch (appTheme) {
-          AppTheme.greenLight => Colors.grey,
+          AppTheme.greenLight => Colors.black54,
           AppTheme.greenDark => Colors.white70,
         },
         labelColor: Colors.green,
@@ -100,7 +99,7 @@ ThemeData buildAppTheme(
         primarySwatch: Colors.green,
       ).copyWith(
         background: switch (appTheme) {
-          AppTheme.greenLight => Colors.white,
+          AppTheme.greenLight => const Color(0xFFF2F2F2),
           AppTheme.greenDark => Colors.black12,
         },
       ),
