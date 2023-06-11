@@ -17,19 +17,21 @@ class ToggleThemeButton extends StatelessWidget {
           if (state case ThemeState(appTheme: final appTheme)) {
             return switch (appTheme) {
               AppTheme.greenLight => IconButton(
+                  tooltip: 'Change to Dark Theme',
                   key: const ValueKey('green_light'),
                   onPressed: () => context
                       .read<ThemeBloc>()
                       .add(const ThemeChangedEvent(AppTheme.greenDark)),
-                  icon: const Icon(Icons.bookmark_rounded),
+                  icon: const Icon(Icons.brightness_2),
                   color: Theme.of(context).primaryColor,
                 ),
               AppTheme.greenDark => IconButton(
+                  tooltip: 'Change to Light Theme',
                   key: const ValueKey('green_dark'),
                   onPressed: () => context.read<ThemeBloc>().add(
                         const ThemeChangedEvent(AppTheme.greenLight),
                       ),
-                  icon: const Icon(Icons.bookmark_rounded),
+                  icon: const Icon(Icons.brightness_high),
                   color: Theme.of(context).primaryColor,
                 ),
             };

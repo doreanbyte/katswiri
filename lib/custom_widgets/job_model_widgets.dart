@@ -296,6 +296,7 @@ class JobActions extends StatelessWidget {
       children: [
         Expanded(
           child: IconButton(
+            tooltip: 'Share Job to Others',
             onPressed: () async {
               await Share.share(
                 job.url,
@@ -340,12 +341,14 @@ class SaveJobButtonState extends State<SaveJobButton>
             child: switch (
                 jobs.firstWhereOrNull((job) => job.url == widget.job.url)) {
               Job() => IconButton(
+                  tooltip: 'Remove from Saved Jobs',
                   key: const ValueKey('saved'),
                   onPressed: () => _handleUnSave(context),
                   icon: const Icon(Icons.bookmark_rounded),
                   color: Theme.of(context).primaryColor,
                 ),
               _ => IconButton(
+                  tooltip: 'Add to Saved Jobs',
                   key: const ValueKey('unsaved'),
                   onPressed: () => _handleSave(context),
                   icon: const Icon(Icons.bookmark_outline),
