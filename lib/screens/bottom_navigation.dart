@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/screens/browse_jobs_screen.dart';
+import 'package:katswiri/screens/more_screen.dart';
 import 'package:katswiri/screens/saved_jobs_screen.dart';
 import 'package:katswiri/screens/history_screen.dart';
 import 'package:katswiri/screens/search_screen.dart';
@@ -12,6 +13,7 @@ enum Page {
   browse,
   history,
   saved,
+  more,
 }
 
 class BottomNavigationScreen extends StatefulWidget {
@@ -47,10 +49,12 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             ),
             const HistoryScreen(),
             const SavedJobsScreen(),
+            const MoreScreen(),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         backgroundColor: Theme.of(
           context,
         ).bottomNavigationBarTheme.backgroundColor,
@@ -73,6 +77,11 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             icon: Icon(Icons.bookmark_outline),
             activeIcon: Icon(Icons.bookmark_rounded),
             label: 'Saved',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.more_horiz),
+            activeIcon: Icon(Icons.more_horiz_rounded),
+            label: 'More',
           ),
         ],
         onTap: (int index) {
@@ -183,6 +192,20 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               ),
             ),
           ],
+        );
+      case Page.more:
+        return AppBar(
+          elevation: 0,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          title: Text(
+            'More',
+            style: TextStyle(
+              fontSize: 22.0,
+              fontWeight: FontWeight.w600,
+              letterSpacing: -.4,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
         );
     }
   }
