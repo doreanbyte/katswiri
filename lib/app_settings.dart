@@ -1,14 +1,5 @@
 import 'package:katswiri/managers/managers.dart';
-
-enum PreferredTheme {
-  auto('Auto'),
-  light('Light'),
-  dark('Dark');
-
-  const PreferredTheme(this.name);
-
-  final String name;
-}
+import 'package:katswiri/app_theme.dart';
 
 enum PreferredJobView {
   article('Article'),
@@ -19,7 +10,7 @@ enum PreferredJobView {
   final String type;
 }
 
-class AppSettings {
+final class AppSettings {
   static Future<void> setTheme(PreferredTheme theme) async {
     final prefs = await PrefsManager.instance.prefs;
     await prefs.setString('theme', theme.name);
