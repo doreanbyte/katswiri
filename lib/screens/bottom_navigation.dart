@@ -7,8 +7,6 @@ import 'package:katswiri/screens/history_screen.dart';
 import 'package:katswiri/screens/search_screen.dart';
 import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';
-import 'package:katswiri/custom_widgets/custom_widgets.dart'
-    show ToggleThemeButton;
 
 enum Page {
   browse,
@@ -108,7 +106,6 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             ),
           ),
           actions: [
-            const ToggleThemeButton(),
             IconButton(
               tooltip: 'Search for Job',
               onPressed: () {
