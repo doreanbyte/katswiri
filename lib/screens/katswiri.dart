@@ -35,21 +35,21 @@ class Katswiri extends StatelessWidget {
             ),
         ),
       ],
-      child: BlocBuilder<ThemeBloc, AppThemeState>(
+      child: BlocBuilder<ThemeBloc, SelectedThemeState>(
         builder: _buildWithTheme,
       ),
     );
   }
 
-  Widget _buildWithTheme(BuildContext context, AppThemeState state) =>
+  Widget _buildWithTheme(BuildContext context, SelectedThemeState state) =>
       MaterialApp(
         title: 'Katswiri',
         theme: switch (state) {
-          ThemeState(appTheme: final appTheme) => buildAppTheme(
-              context,
-              appTheme,
-            ),
-          _ => buildAppTheme(context, AppTheme.greenLight),
+          SelectedAutoTheme(isDark: final isDark) => !isDark
+              ? buildAppTheme(context, AppTheme.light)
+              : buildAppTheme(context, AppTheme.dark),
+          SelectedLightTheme() => buildAppTheme(context, AppTheme.light),
+          SelectedDarkTheme() => buildAppTheme(context, AppTheme.dark)
         },
         home: const BottomNavigationScreen(),
         onGenerateRoute: (settings) => switch ((
