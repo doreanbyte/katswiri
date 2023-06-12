@@ -1,25 +1,32 @@
 part of 'theme_bloc.dart';
 
-sealed class AppThemeState {
-  const AppThemeState();
+sealed class SelectedThemeState {
+  const SelectedThemeState();
 }
 
-class InitialThemeState extends AppThemeState {
-  const InitialThemeState();
+class SelectedLightTheme extends SelectedThemeState {
+  const SelectedLightTheme();
 }
 
-class ThemeState extends AppThemeState {
-  const ThemeState({required this.appTheme});
+class SelectedDarkTheme extends SelectedThemeState {
+  const SelectedDarkTheme();
+}
 
-  final AppTheme appTheme;
+class SelectedAutoTheme extends SelectedThemeState {
+  const SelectedAutoTheme({required this.isDark});
+
+  final bool isDark;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ThemeState &&
+      other is SelectedAutoTheme &&
           runtimeType == other.runtimeType &&
-          const DeepCollectionEquality().equals(appTheme, other.appTheme);
+          const DeepCollectionEquality().equals(
+            isDark,
+            other.isDark,
+          );
 
   @override
-  int get hashCode => const DeepCollectionEquality().hash(appTheme);
+  int get hashCode => const DeepCollectionEquality().hash(isDark);
 }
