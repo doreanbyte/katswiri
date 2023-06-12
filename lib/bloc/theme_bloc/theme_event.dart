@@ -10,9 +10,8 @@ class GetThemeEvent extends ThemeEvent {
   final bool isDark;
 }
 
-class ThemeChangedEvent extends ThemeEvent {
-  const ThemeChangedEvent(this.theme, this.appTheme);
+class ChangedThemeEvent extends ThemeEvent {
+  const ChangedThemeEvent(this.selectedTheme);
 
-  final PreferredTheme theme;
-  final AppTheme appTheme;
+  final SelectedThemeState selectedTheme;
 }
