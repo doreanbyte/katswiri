@@ -65,7 +65,7 @@ ThemeData buildAppTheme(
       ),
       cardTheme: CardTheme(
         color: switch (appTheme) {
-          AppTheme.light => Colors.white70,
+          AppTheme.light => const Color(0xFFFAFAFA),
           AppTheme.dark => const Color.fromARGB(96, 64, 64, 64),
         },
       ),
@@ -73,13 +73,6 @@ ThemeData buildAppTheme(
         AppTheme.light => Colors.black54,
         AppTheme.dark => Colors.grey,
       },
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: switch (appTheme) {
-          AppTheme.light => const Color.fromARGB(255, 15, 9, 9),
-          AppTheme.dark => Colors.white,
-        },
-      ),
       tabBarTheme: TabBarTheme(
         unselectedLabelColor: switch (appTheme) {
           AppTheme.light => Colors.black54,
@@ -93,13 +86,14 @@ ThemeData buildAppTheme(
           AppTheme.dark => const Color(0xFF000000),
         },
         unselectedItemColor: Colors.grey,
+        selectedItemColor: Colors.green,
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
       ),
       dialogTheme: DialogTheme(
         backgroundColor: switch (appTheme) {
-          AppTheme.light => Colors.white,
+          AppTheme.light => const Color(0xFFFAFAFA),
           AppTheme.dark => Colors.black,
         },
       ),
