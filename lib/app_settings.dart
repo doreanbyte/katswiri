@@ -1,47 +1,47 @@
 import 'package:katswiri/managers/managers.dart';
 
-enum SelectedTheme {
+enum PreferredTheme {
   auto('Auto'),
   light('Light'),
   dark('Dark');
 
-  const SelectedTheme(this.name);
+  const PreferredTheme(this.name);
 
   final String name;
 }
 
-enum JobView {
+enum PreferredJobView {
   article('Article'),
   browser('Browser');
 
-  const JobView(this.type);
+  const PreferredJobView(this.type);
 
   final String type;
 }
 
 class AppSettings {
-  static setTheme(SelectedTheme theme) async {
+  static Future<void> setTheme(PreferredTheme theme) async {
     final prefs = await PrefsManager.instance.prefs;
     await prefs.setString('theme', theme.name);
   }
 
-  static Future<SelectedTheme> getTheme() async {
+  static Future<PreferredTheme> getTheme() async {
     final prefs = await PrefsManager.instance.prefs;
-    final theme = SelectedTheme.values.firstWhere(
+    final theme = PreferredTheme.values.firstWhere(
       (theme) => theme.name == prefs.getString('theme'),
     );
 
     return theme;
   }
 
-  static setJobView(JobView view) async {
+  static Future<void> setJobView(PreferredJobView view) async {
     final prefs = await PrefsManager.instance.prefs;
     await prefs.setString('job_view', view.type);
   }
 
-  static Future<JobView> getJobView() async {
+  static Future<PreferredJobView> getJobView() async {
     final prefs = await PrefsManager.instance.prefs;
-    final jobView = JobView.values.firstWhere(
+    final jobView = PreferredJobView.values.firstWhere(
       (element) => element.type == prefs.getString('job_view'),
     );
 
@@ -53,13 +53,13 @@ class AppSettings {
     prefs.getString('theme') ??
         await prefs.setString(
           'theme',
-          SelectedTheme.auto.name,
+          PreferredTheme.auto.name,
         );
 
     prefs.getString('job_view') ??
         await prefs.setString(
           'job_view',
-          JobView.browser.type,
+          PreferredJobView.browser.type,
         );
   }
 }

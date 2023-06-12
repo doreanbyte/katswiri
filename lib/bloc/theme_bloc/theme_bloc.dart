@@ -14,10 +14,10 @@ class ThemeBloc extends Bloc<ThemeEvent, AppThemeState> {
       (event, emit) async {
         final theme = await AppSettings.getTheme();
         switch ((theme, event.isDark)) {
-          case (SelectedTheme.auto, false) || (SelectedTheme.light, _):
+          case (PreferredTheme.auto, false) || (PreferredTheme.light, _):
             emit(const ThemeState(appTheme: AppTheme.greenLight));
             break;
-          case (SelectedTheme.auto, true) || (SelectedTheme.dark, _):
+          case (PreferredTheme.auto, true) || (PreferredTheme.dark, _):
             emit(const ThemeState(appTheme: AppTheme.greenDark));
             break;
         }

@@ -22,7 +22,7 @@ class ToggleThemeButton extends StatelessWidget {
                   key: const ValueKey('green_light'),
                   onPressed: () => context.read<ThemeBloc>().add(
                         const ThemeChangedEvent(
-                          SelectedTheme.dark,
+                          PreferredTheme.dark,
                           AppTheme.greenDark,
                         ),
                       ),
@@ -34,7 +34,7 @@ class ToggleThemeButton extends StatelessWidget {
                   key: const ValueKey('green_dark'),
                   onPressed: () => context.read<ThemeBloc>().add(
                         const ThemeChangedEvent(
-                          SelectedTheme.light,
+                          PreferredTheme.light,
                           AppTheme.greenLight,
                         ),
                       ),
