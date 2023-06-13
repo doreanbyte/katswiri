@@ -3,9 +3,11 @@ import 'package:cached_network_image/cached_network_image.dart'
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:katswiri/app_settings.dart';
 import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/screens/job_detail_screen.dart';
 import 'package:katswiri/screens/job_tag_screen.dart';
+import 'package:katswiri/screens/webview_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/sources.dart';
@@ -34,12 +36,30 @@ class JobTile extends StatelessWidget {
 
   void _onTapUp(BuildContext context) {
     context.read<HistoryBloc>().add(AddToHistory(job));
-    Navigator.pushNamed(
-      context,
-      JobDetailScreen.route,
-      arguments: {
-        'job': job,
-        'source': source,
+    AppSettings.getJobView().then(
+      (jobView) {
+        switch (jobView) {
+          case PreferredJobView.article:
+            Navigator.pushNamed(
+              context,
+              JobDetailScreen.route,
+              arguments: {
+                'job': job,
+                'source': source,
+              },
+            );
+            break;
+          case PreferredJobView.browser:
+            Navigator.pushNamed(
+              context,
+              WebViewScreen.route,
+              arguments: {
+                'url': job.url,
+                'title': job.position,
+              },
+            );
+            break;
+        }
       },
     );
   }
