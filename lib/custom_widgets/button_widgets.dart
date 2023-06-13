@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:katswiri/app_settings.dart';
 import 'package:katswiri/app_theme.dart';
 import 'package:katswiri/bloc/bloc.dart';
 
@@ -82,6 +83,49 @@ class _ToggleThemeButtonsState extends State<ToggleThemeButtons> {
           },
         ),
       ],
+    );
+  }
+}
+
+class ToggleJobViewButtons extends StatefulWidget {
+  const ToggleJobViewButtons({super.key});
+
+  @override
+  State<ToggleJobViewButtons> createState() => _ToggleJobViewButtonsState();
+}
+
+class _ToggleJobViewButtonsState extends State<ToggleJobViewButtons> {
+  String? _selectedView;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<PreferredJobView>(
+      future: AppSettings.getJobView(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Container();
+
+        _selectedView ??= snapshot.data?.name;
+
+        return Column(
+          children: [
+            ...PreferredJobView.values
+                .map<Widget>(
+                  (view) => RadioListTile<String>(
+                    title: Text(view.name),
+                    value: view.name,
+                    groupValue: _selectedView,
+                    onChanged: (_) async {
+                      await AppSettings.setJobView(view);
+                      setState(() {
+                        _selectedView = view.name;
+                      });
+                    },
+                  ),
+                )
+                .toList(),
+          ],
+        );
+      },
     );
   }
 }
