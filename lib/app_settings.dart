@@ -5,12 +5,14 @@ enum PreferredJobView {
   article('Article'),
   browser('Browser');
 
-  const PreferredJobView(this.type);
+  const PreferredJobView(this.name);
 
-  final String type;
+  final String name;
 }
 
 final class AppSettings {
+  AppSettings._();
+
   static Future<void> setTheme(PreferredTheme theme) async {
     final prefs = await PrefsManager.instance.prefs;
     await prefs.setString('theme', theme.name);
@@ -27,13 +29,13 @@ final class AppSettings {
 
   static Future<void> setJobView(PreferredJobView view) async {
     final prefs = await PrefsManager.instance.prefs;
-    await prefs.setString('job_view', view.type);
+    await prefs.setString('job_view', view.name);
   }
 
   static Future<PreferredJobView> getJobView() async {
     final prefs = await PrefsManager.instance.prefs;
     final jobView = PreferredJobView.values.firstWhere(
-      (element) => element.type == prefs.getString('job_view'),
+      (element) => element.name == prefs.getString('job_view'),
     );
 
     return jobView;
@@ -50,7 +52,7 @@ final class AppSettings {
     prefs.getString('job_view') ??
         await prefs.setString(
           'job_view',
-          PreferredJobView.browser.type,
+          PreferredJobView.browser.name,
         );
   }
 }
