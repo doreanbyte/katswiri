@@ -31,57 +31,48 @@ class _ToggleThemeButtonsState extends State<ToggleThemeButtons> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        RadioListTile<String>(
-          title: Text(PreferredTheme.auto.name),
-          value: PreferredTheme.auto.name,
-          groupValue: _selectedTheme,
-          onChanged: (_) {
-            setState(() {
-              _selectedTheme = PreferredTheme.auto.name;
-            });
+        ...PreferredTheme.values
+            .map<Widget>(
+              (themePref) => RadioListTile(
+                title: Text(themePref.name),
+                value: themePref.name,
+                groupValue: _selectedTheme,
+                onChanged: (_) {
+                  setState(() {
+                    _selectedTheme = themePref.name;
+                  });
 
-            context.read<ThemeBloc>().add(
-                  ChangedThemeEvent(
-                    SelectedAutoTheme(
-                      isDark: MediaQuery.of(context).platformBrightness ==
-                          Brightness.dark,
-                    ),
-                  ),
-                );
-          },
-        ),
-        RadioListTile<String>(
-          title: Text(PreferredTheme.light.name),
-          value: PreferredTheme.light.name,
-          groupValue: _selectedTheme,
-          onChanged: (_) {
-            setState(() {
-              _selectedTheme = PreferredTheme.light.name;
-            });
-
-            context.read<ThemeBloc>().add(
-                  const ChangedThemeEvent(
-                    SelectedLightTheme(),
-                  ),
-                );
-          },
-        ),
-        RadioListTile<String>(
-          title: Text(PreferredTheme.dark.name),
-          value: PreferredTheme.dark.name,
-          groupValue: _selectedTheme,
-          onChanged: (_) {
-            setState(() {
-              _selectedTheme = PreferredTheme.dark.name;
-            });
-
-            context.read<ThemeBloc>().add(
-                  const ChangedThemeEvent(
-                    SelectedDarkTheme(),
-                  ),
-                );
-          },
-        ),
+                  switch (themePref) {
+                    case PreferredTheme.auto:
+                      context.read<ThemeBloc>().add(
+                            ChangedThemeEvent(
+                              SelectedAutoTheme(
+                                isDark:
+                                    MediaQuery.of(context).platformBrightness ==
+                                        Brightness.dark,
+                              ),
+                            ),
+                          );
+                      break;
+                    case PreferredTheme.light:
+                      context.read<ThemeBloc>().add(
+                            const ChangedThemeEvent(
+                              SelectedLightTheme(),
+                            ),
+                          );
+                      break;
+                    case PreferredTheme.dark:
+                      context.read<ThemeBloc>().add(
+                            const ChangedThemeEvent(
+                              SelectedDarkTheme(),
+                            ),
+                          );
+                      break;
+                  }
+                },
+              ),
+            )
+            .toList(),
       ],
     );
   }
