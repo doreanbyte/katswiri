@@ -56,11 +56,23 @@ class Katswiri extends StatelessWidget {
           settings.name,
           settings.arguments,
         )) {
-          (JobDetailScreen.route, {'job': Job job, 'source': Source source}) =>
+          (
+            JobDetailScreen.route,
+            {
+              'job': Job job,
+              'source': Source source,
+            }
+          ) =>
             MaterialPageRoute(
               builder: (context) => JobDetailScreen(job: job, source: source),
             ),
-          (WebViewScreen.route, {'url': String url, 'title': String title}) =>
+          (
+            WebViewScreen.route,
+            {
+              'url': String url,
+              'title': String title,
+            }
+          ) =>
             MaterialPageRoute(
               builder: (context) => WebViewScreen(title: title, url: url),
             ),
