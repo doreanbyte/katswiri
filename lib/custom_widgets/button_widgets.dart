@@ -28,54 +28,52 @@ class _ToggleThemeButtonsState extends State<ToggleThemeButtons> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...PreferredTheme.values
-            .map<Widget>(
-              (themePref) => RadioListTile(
-                title: Text(themePref.name),
-                value: themePref.name,
-                groupValue: _selectedTheme,
-                onChanged: (_) {
-                  setState(() {
-                    _selectedTheme = themePref.name;
-                  });
+  Widget build(BuildContext context) => Column(
+        children: [
+          ...PreferredTheme.values
+              .map<Widget>(
+                (themePref) => RadioListTile(
+                  title: Text(themePref.name),
+                  value: themePref.name,
+                  groupValue: _selectedTheme,
+                  onChanged: (_) {
+                    setState(() {
+                      _selectedTheme = themePref.name;
+                    });
 
-                  switch (themePref) {
-                    case PreferredTheme.auto:
-                      context.read<ThemeBloc>().add(
-                            ChangedThemeEvent(
-                              SelectedAutoTheme(
-                                isDark:
-                                    MediaQuery.of(context).platformBrightness ==
-                                        Brightness.dark,
+                    switch (themePref) {
+                      case PreferredTheme.auto:
+                        context.read<ThemeBloc>().add(
+                              ChangedThemeEvent(
+                                SelectedAutoTheme(
+                                  isDark: MediaQuery.of(context)
+                                          .platformBrightness ==
+                                      Brightness.dark,
+                                ),
                               ),
-                            ),
-                          );
-                      break;
-                    case PreferredTheme.light:
-                      context.read<ThemeBloc>().add(
-                            const ChangedThemeEvent(
-                              SelectedLightTheme(),
-                            ),
-                          );
-                      break;
-                    case PreferredTheme.dark:
-                      context.read<ThemeBloc>().add(
-                            const ChangedThemeEvent(
-                              SelectedDarkTheme(),
-                            ),
-                          );
-                      break;
-                  }
-                },
-              ),
-            )
-            .toList(),
-      ],
-    );
-  }
+                            );
+                        break;
+                      case PreferredTheme.light:
+                        context.read<ThemeBloc>().add(
+                              const ChangedThemeEvent(
+                                SelectedLightTheme(),
+                              ),
+                            );
+                        break;
+                      case PreferredTheme.dark:
+                        context.read<ThemeBloc>().add(
+                              const ChangedThemeEvent(
+                                SelectedDarkTheme(),
+                              ),
+                            );
+                        break;
+                    }
+                  },
+                ),
+              )
+              .toList(),
+        ],
+      );
 }
 
 class ToggleJobViewButtons extends StatefulWidget {
@@ -89,36 +87,34 @@ class _ToggleJobViewButtonsState extends State<ToggleJobViewButtons> {
   String? _selectedView;
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<PreferredJobView>(
-      future: AppSettings.getJobView(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return Container();
+  Widget build(BuildContext context) => FutureBuilder<PreferredJobView>(
+        future: AppSettings.getJobView(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return Container();
 
-        _selectedView ??= snapshot.data?.name;
+          _selectedView ??= snapshot.data?.name;
 
-        return Column(
-          children: [
-            ...PreferredJobView.values
-                .map<Widget>(
-                  (view) => RadioListTile<String>(
-                    title: Text(view.name),
-                    value: view.name,
-                    groupValue: _selectedView,
-                    onChanged: (_) async {
-                      await AppSettings.setJobView(view);
-                      setState(() {
-                        _selectedView = view.name;
-                      });
-                    },
-                  ),
-                )
-                .toList(),
-          ],
-        );
-      },
-    );
-  }
+          return Column(
+            children: [
+              ...PreferredJobView.values
+                  .map<Widget>(
+                    (view) => RadioListTile<String>(
+                      title: Text(view.name),
+                      value: view.name,
+                      groupValue: _selectedView,
+                      onChanged: (_) async {
+                        await AppSettings.setJobView(view);
+                        setState(() {
+                          _selectedView = view.name;
+                        });
+                      },
+                    ),
+                  )
+                  .toList(),
+            ],
+          );
+        },
+      );
 }
 
 class RetryButton extends StatelessWidget {
