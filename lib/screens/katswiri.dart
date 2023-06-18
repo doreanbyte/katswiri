@@ -42,61 +42,64 @@ class Katswiri extends StatelessWidget {
   }
 
   Widget _buildWithTheme(BuildContext context, SelectedThemeState state) =>
-      AppThemeBuilder(builder: (context, appTheme) {
-        return MaterialApp(
-          title: 'Katswiri',
-          debugShowCheckedModeBanner: false,
-          theme: appTheme.lightTheme,
-          darkTheme: appTheme.darkTheme,
-          themeMode: switch (state) {
-            SelectedAutoTheme() => ThemeMode.system,
-            SelectedLightTheme() => ThemeMode.light,
-            SelectedDarkTheme() => ThemeMode.dark,
-          },
-          home: const BottomNavigationScreen(),
-          onGenerateRoute: (settings) => switch ((
-            settings.name,
-            settings.arguments,
-          )) {
-            (
-              JobDetailScreen.route,
-              {
-                'job': Job job,
-                'source': Source source,
-              }
-            ) =>
-              MaterialPageRoute(
-                builder: (context) => JobDetailScreen(job: job, source: source),
-              ),
-            (
-              WebViewScreen.route,
-              {
-                'url': String url,
-                'title': String title,
-              }
-            ) =>
-              MaterialPageRoute(
-                builder: (context) => WebViewScreen(title: title, url: url),
-              ),
-            (
-              JobTagScreen.route,
-              {
-                'title': String title,
-                'filter': Map<String, String> filter,
-                'initialIndex': int initialIndex
-              }
-            ) =>
-              MaterialPageRoute(
-                builder: (context) => JobTagScreen(
-                  title: title,
-                  filter: filter,
-                  initialIndex: initialIndex,
+      AppThemeBuilder(
+        builder: (context, appTheme) {
+          return MaterialApp(
+            title: 'Katswiri',
+            debugShowCheckedModeBanner: false,
+            theme: appTheme.lightTheme,
+            darkTheme: appTheme.darkTheme,
+            themeMode: switch (state) {
+              SelectedAutoTheme() => ThemeMode.system,
+              SelectedLightTheme() => ThemeMode.light,
+              SelectedDarkTheme() => ThemeMode.dark,
+            },
+            home: const BottomNavigationScreen(),
+            onGenerateRoute: (settings) => switch ((
+              settings.name,
+              settings.arguments,
+            )) {
+              (
+                JobDetailScreen.route,
+                {
+                  'job': Job job,
+                  'source': Source source,
+                }
+              ) =>
+                MaterialPageRoute(
+                  builder: (context) =>
+                      JobDetailScreen(job: job, source: source),
                 ),
-              ),
-            (_, _) => MaterialPageRoute(
-                builder: (context) => const BottomNavigationScreen(),
-              )
-          },
-        );
-      });
+              (
+                WebViewScreen.route,
+                {
+                  'url': String url,
+                  'title': String title,
+                }
+              ) =>
+                MaterialPageRoute(
+                  builder: (context) => WebViewScreen(title: title, url: url),
+                ),
+              (
+                JobTagScreen.route,
+                {
+                  'title': String title,
+                  'filter': Map<String, String> filter,
+                  'initialIndex': int initialIndex
+                }
+              ) =>
+                MaterialPageRoute(
+                  builder: (context) => JobTagScreen(
+                    title: title,
+                    filter: filter,
+                    initialIndex: initialIndex,
+                  ),
+                ),
+              (_, _) => MaterialPageRoute(
+                  builder: (context) => const BottomNavigationScreen(),
+                )
+            },
+          );
+        },
+      );
 }
