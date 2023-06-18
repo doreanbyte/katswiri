@@ -1,6 +1,5 @@
 library theme_bloc;
 
-import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:katswiri/app_settings.dart';
 import 'package:katswiri/app_theme.dart';
@@ -9,15 +8,14 @@ part 'theme_event.dart';
 part 'theme_state.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, SelectedThemeState> {
-  ThemeBloc() : super(const SelectedAutoTheme(isDark: false)) {
+  ThemeBloc() : super(const SelectedAutoTheme()) {
     on<GetThemeEvent>(
       (event, emit) async {
         final themeSetting = await AppSettings.getTheme();
-        final isDark = event.isDark;
 
         switch (themeSetting) {
           case (PreferredTheme.auto):
-            emit(SelectedAutoTheme(isDark: isDark));
+            emit(const SelectedAutoTheme());
             break;
           case (PreferredTheme.light):
             emit(const SelectedLightTheme());

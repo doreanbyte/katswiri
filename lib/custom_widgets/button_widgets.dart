@@ -44,12 +44,8 @@ class _ToggleThemeButtonsState extends State<ToggleThemeButtons> {
                     switch (themePref) {
                       case PreferredTheme.auto:
                         context.read<ThemeBloc>().add(
-                              ChangedThemeEvent(
-                                SelectedAutoTheme(
-                                  isDark: MediaQuery.of(context)
-                                          .platformBrightness ==
-                                      Brightness.dark,
-                                ),
+                              const ChangedThemeEvent(
+                                SelectedAutoTheme(),
                               ),
                             );
                         break;

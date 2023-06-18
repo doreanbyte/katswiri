@@ -13,20 +13,13 @@ class SelectedDarkTheme extends SelectedThemeState {
 }
 
 class SelectedAutoTheme extends SelectedThemeState {
-  const SelectedAutoTheme({required this.isDark});
-
-  final bool isDark;
+  const SelectedAutoTheme();
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SelectedAutoTheme &&
-          runtimeType == other.runtimeType &&
-          const DeepCollectionEquality().equals(
-            isDark,
-            other.isDark,
-          );
+      other is SelectedAutoTheme && runtimeType == other.runtimeType;
 
   @override
-  int get hashCode => const DeepCollectionEquality().hash(isDark);
+  int get hashCode => runtimeType.hashCode;
 }
