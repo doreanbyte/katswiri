@@ -360,7 +360,10 @@ class SaveJobButtonState extends State<SaveJobButton>
                   tooltip: 'Remove from Saved Jobs',
                   key: const ValueKey('saved'),
                   onPressed: () => _handleUnSave(context),
-                  icon: const Icon(Icons.bookmark_rounded),
+                  icon: Icon(
+                    Icons.bookmark_rounded,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
                 ),
               _ => IconButton(
                   tooltip: 'Add to Saved Jobs',

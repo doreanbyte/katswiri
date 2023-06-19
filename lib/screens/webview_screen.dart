@@ -39,6 +39,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           },
           icon: Icon(
             Icons.chevron_left,
+            color: Theme.of(context).iconTheme.color,
           ),
         ),
       ),

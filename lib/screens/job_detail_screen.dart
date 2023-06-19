@@ -78,7 +78,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
             SaveJobButton(job: widget.job),
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(
+                Navigator.popAndPushNamed(
                   context,
                   WebViewScreen.route,
                   arguments: {
@@ -186,7 +186,8 @@ class JobLeadSection extends StatelessWidget {
                         job.companyName,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w500,
                         ),
