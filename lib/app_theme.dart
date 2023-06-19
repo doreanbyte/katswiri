@@ -1,6 +1,5 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:tinycolor2/tinycolor2.dart';
 
 enum PreferredTheme {
   auto('Auto'),
@@ -33,37 +32,33 @@ ThemeData buildTheme({ColorScheme? scheme, required Brightness brightness}) {
   return origin.copyWith(
     useMaterial3: true,
     colorScheme: colorScheme.copyWith(background: colorScheme.surface),
-    scaffoldBackgroundColor:
-        isDark ? colorScheme.surface.darken(2) : colorScheme.surface,
-    // tabBarTheme: TabBarTheme(
-    //   unselectedLabelColor: switch (appTheme) {
-    //     AppTheme.light => Colors.black54,
-    //     AppTheme.dark => Colors.white70,
-    //   },
-    //   labelColor: Colors.green,
-    // ),
-    // bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    //   backgroundColor: switch (appTheme) {
-    //     AppTheme.light => const Color(0xFFF0F0F0),
-    //     AppTheme.dark => const Color(0xFF000000),
-    //   },
-    //   unselectedItemColor: Colors.grey,
-    //   selectedItemColor: Colors.green,
-    // ),
-    // appBarTheme: const AppBarTheme(
-    //   backgroundColor: Colors.transparent,
-    // ),
+    scaffoldBackgroundColor: isDark ? Colors.black87 : const Color(0xFFF2F2F2),
+    tabBarTheme: origin.tabBarTheme.copyWith(
+      unselectedLabelColor: isDark ? Colors.white70 : Colors.black54,
+    ),
+    bottomNavigationBarTheme: origin.bottomNavigationBarTheme.copyWith(
+      backgroundColor:
+          isDark ? const Color(0xFF000000) : const Color(0xFFF0F0F0),
+      unselectedItemColor: Colors.grey,
+    ),
     appBarTheme: AppBarTheme(
-      backgroundColor: isDark ? defScheme.surface.darken(2) : defScheme.surface,
+      backgroundColor: Colors.transparent,
       foregroundColor: defScheme.onSurface,
       elevation: 0,
     ),
-    // dialogTheme: DialogTheme(
-    //   backgroundColor: switch (appTheme) {
-    //     AppTheme.light => const Color(0xFFFAFAFA),
-    //     AppTheme.dark => Colors.black,
-    //   },
-    // ),
+    dialogTheme: origin.dialogTheme.copyWith(
+      backgroundColor: isDark ? Colors.black : const Color(0xFFFAFAFA),
+    ),
+    iconTheme: IconThemeData(
+      color: colorScheme.primary,
+    ),
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
+    cardTheme: origin.cardTheme.copyWith(
+      color: isDark
+          ? const Color.fromARGB(96, 64, 64, 64)
+          : const Color(0xFFFAFAFA),
+    ),
   );
 }
 
