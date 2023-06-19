@@ -97,7 +97,6 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     switch (page) {
       case Page.browse:
         return AppBar(
-          elevation: 0,
           title: const Text(
             'Browse',
             style: TextStyle(
@@ -141,7 +140,6 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         );
       case Page.history:
         return AppBar(
-          elevation: 0,
           title: const Text(
             'History',
             style: TextStyle(
@@ -153,15 +151,15 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           actions: [
             IconButton(
               onPressed: () => _showClearHistory(context),
-              icon: const Icon(
+              icon: Icon(
                 Icons.delete,
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
           ],
         );
       case Page.saved:
         return AppBar(
-          elevation: 0,
           title: const Text(
             'Saved',
             style: TextStyle(
@@ -175,13 +173,13 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               onPressed: () => _showClearSavedJobs(context),
               icon: Icon(
                 Icons.delete,
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
           ],
         );
       case Page.more:
         return AppBar(
-          elevation: 0,
           title: const Text(
             'More',
             style: TextStyle(
@@ -205,8 +203,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           content: const Text('Are you sure you want to clear your history?'),
           actions: [
             TextButton(
-              child: const Text(
+              child: Text(
                 'No',
+                style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -237,8 +236,11 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               const Text('Are you sure you want to clear your saved jobs?'),
           actions: [
             TextButton(
-              child: const Text(
+              child: Text(
                 'No',
+                style: TextStyle(
+                  color: Theme.of(context).secondaryHeaderColor,
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).pop();

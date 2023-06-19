@@ -24,8 +24,9 @@ class JobTagScreen extends StatelessWidget {
           title,
         ),
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.chevron_left,
+            color: Theme.of(context).iconTheme.color,
           ),
           onPressed: () {
             Navigator.of(context).pop();

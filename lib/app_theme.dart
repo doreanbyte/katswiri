@@ -42,13 +42,12 @@ ThemeData buildTheme({ColorScheme? scheme, required Brightness brightness}) {
           isDark ? const Color(0xFF000000) : const Color(0xFFF0F0F0),
       unselectedItemColor: Colors.grey,
     ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.transparent,
-      foregroundColor: defScheme.onSurface,
+    appBarTheme: origin.appBarTheme.copyWith(
+      color: isDark ? Colors.black : const Color(0xFFF2F2F2),
       elevation: 0,
     ),
     dialogTheme: origin.dialogTheme.copyWith(
-      backgroundColor: isDark ? Colors.black : const Color(0xFFFAFAFA),
+      surfaceTintColor: isDark ? Colors.black : const Color(0xFFFAFAFA),
     ),
     iconTheme: IconThemeData(
       color: colorScheme.primary,
