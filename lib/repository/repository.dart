@@ -21,26 +21,28 @@ class JobHistoryRepo {
       [job.url],
     );
 
-    int jobId;
+    await db.transaction((txn) async {
+      int jobId;
 
-    if (jobExists.isEmpty) {
-      final jobMap = job.toMap();
-      jobId = await db.insert(
-        _jobTable,
-        jobMap,
+      if (jobExists.isEmpty) {
+        final jobMap = job.toMap();
+        jobId = await txn.insert(
+          _jobTable,
+          jobMap,
+        );
+      } else {
+        jobId = jobExists.first['id'] as int;
+      }
+
+      await txn.insert(
+        _historyTable,
+        {
+          'time_viewed': DateTime.now().millisecondsSinceEpoch,
+          'job_id': jobId,
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace,
       );
-    } else {
-      jobId = jobExists.first['id'] as int;
-    }
-
-    await db.insert(
-      _historyTable,
-      {
-        'time_viewed': DateTime.now().millisecondsSinceEpoch,
-        'job_id': jobId,
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    });
   }
 
   /// Retrieves a job from the history table in the database.
@@ -82,17 +84,21 @@ class JobHistoryRepo {
   /// Removes a job from the history table in the database.
   static Future<void> clearJobFromHistory(Job job) async {
     final db = await DBManager.instance.database;
-    await db.delete(
-      _historyTable,
-      where: 'job_id IN (SELECT id FROM $_jobTable WHERE url = ?)',
-      whereArgs: [job.url],
+
+    await db.transaction(
+      (txn) async => await txn.delete(
+        _historyTable,
+        where: 'job_id IN (SELECT id FROM $_jobTable WHERE url = ?)',
+        whereArgs: [job.url],
+      ),
     );
   }
 
   /// Clears all the jobs from the history table in the database.
   static Future<void> clearHistory() async {
     final db = await DBManager.instance.database;
-    await db.delete(_historyTable);
+
+    await db.transaction((txn) async => await txn.delete(_historyTable));
   }
 }
 
@@ -111,33 +117,37 @@ class SavedJobRepo {
       [job.url],
     );
 
-    int jobId;
+    await db.transaction(
+      (txn) async {
+        int jobId;
 
-    if (jobExists.isEmpty) {
-      jobId = await db.insert(
-        _jobTable,
-        jobMap,
-      );
-    } else {
-      jobId = jobExists.first['id'] as int;
-      final description = jobExists.first['description'] as String;
+        if (jobExists.isEmpty) {
+          jobId = await txn.insert(
+            _jobTable,
+            jobMap,
+          );
+        } else {
+          jobId = jobExists.first['id'] as int;
+          final description = jobExists.first['description'] as String;
 
-      if (description.isEmpty && job.description.isNotEmpty) {
-        await db.insert(
-          _jobTable,
-          jobMap,
-          conflictAlgorithm: ConflictAlgorithm.replace,
+          if (description.isEmpty && job.description.isNotEmpty) {
+            await txn.insert(
+              _jobTable,
+              jobMap,
+              conflictAlgorithm: ConflictAlgorithm.replace,
+            );
+          }
+        }
+
+        await txn.insert(
+          _savedTable,
+          {
+            'time_saved': DateTime.now().millisecondsSinceEpoch,
+            'job_id': jobId,
+          },
+          conflictAlgorithm: ConflictAlgorithm.ignore,
         );
-      }
-    }
-
-    await db.insert(
-      _savedTable,
-      {
-        'time_saved': DateTime.now().millisecondsSinceEpoch,
-        'job_id': jobId,
       },
-      conflictAlgorithm: ConflictAlgorithm.ignore,
     );
   }
 
@@ -181,17 +191,23 @@ class SavedJobRepo {
   /// Removes a job from the saved table in the database.
   static Future<void> clearJobFromSaved(Job job) async {
     final db = await DBManager.instance.database;
-    await db.delete(
-      _savedTable,
-      where: 'job_id IN (SELECT id FROM $_jobTable WHERE url = ?)',
-      whereArgs: [job.url],
+
+    await db.transaction(
+      (txn) async => await txn.delete(
+        _savedTable,
+        where: 'job_id IN (SELECT id FROM $_jobTable WHERE url = ?)',
+        whereArgs: [job.url],
+      ),
     );
   }
 
   /// Clears all the jobs from the saved table in the database.
   static Future<void> clearSaves() async {
     final db = await DBManager.instance.database;
-    await db.delete(_savedTable);
+
+    await db.transaction(
+      (txn) async => await txn.delete(_savedTable),
+    );
   }
 
   /// Checks if the given [job] can be found in the saved table and if so returns
