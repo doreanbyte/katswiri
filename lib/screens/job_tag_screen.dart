@@ -20,15 +20,12 @@ class JobTagScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         title: Text(
           title,
-          style: TextStyle(color: Theme.of(context).primaryColor),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.chevron_left,
-            color: Theme.of(context).primaryColor,
           ),
           onPressed: () {
             Navigator.of(context).pop();

@@ -43,7 +43,6 @@ class _ToggleThemeSection extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          color: Theme.of(context).cardTheme.color,
           child: Container(
             padding: const EdgeInsets.all(8.0),
             child: BlocBuilder<ThemeBloc, SelectedThemeState>(
@@ -77,7 +76,6 @@ class _ToggleJobViewSection extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          color: Theme.of(context).cardTheme.color,
           child: Container(
             padding: const EdgeInsets.all(8.0),
             child: const ToggleJobViewButtons(),

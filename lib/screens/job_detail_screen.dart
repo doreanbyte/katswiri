@@ -32,43 +32,26 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final iconColor = Theme.of(context).iconTheme.color;
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          bottom: TabBar(
+          bottom: const TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             isScrollable: true,
-            labelStyle: const TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w500,
-            ),
-            unselectedLabelStyle: const TextStyle(
+            labelStyle: TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.w500,
             ),
             indicatorWeight: 3.0,
-            indicatorColor: Theme.of(context).primaryColor,
-            labelColor: Theme.of(
-              context,
-            ).tabBarTheme.labelColor,
-            unselectedLabelColor: Theme.of(
-              context,
-            ).tabBarTheme.unselectedLabelColor,
-            tabs: const [
+            tabs: [
               Tab(text: 'DESCRIPTION'),
               Tab(text: 'RELATED'),
             ],
           ),
           title: Text(
             widget.source.title,
-            style: TextStyle(
-              color: Theme.of(context).primaryColor,
-            ),
           ),
           leading: IconButton(
             onPressed: () {
@@ -76,7 +59,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
             },
             icon: Icon(
               Icons.chevron_left_outlined,
-              color: iconColor,
+              color: Theme.of(context).iconTheme.color,
             ),
           ),
           actions: [
@@ -89,7 +72,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
               },
               icon: Icon(
                 Icons.share_sharp,
-                color: iconColor,
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
             SaveJobButton(job: widget.job),
@@ -106,7 +89,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
               },
               icon: Icon(
                 Icons.public_outlined,
-                color: iconColor,
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
           ],
@@ -177,7 +160,6 @@ class JobLeadSection extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
-      color: Theme.of(context).cardTheme.color,
       child: Container(
         padding: const EdgeInsets.all(8.0),
         height: 138.0,
@@ -204,8 +186,7 @@ class JobLeadSection extends StatelessWidget {
                         job.companyName,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                        style: const TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w500,
                         ),
@@ -281,7 +262,6 @@ class _DescriptionSectionState extends State<DescriptionSection>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),
-            color: Theme.of(context).cardTheme.color,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: BlocProvider(

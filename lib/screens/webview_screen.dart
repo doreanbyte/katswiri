@@ -32,7 +32,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         title: Text(widget.title),
         leading: IconButton(
           onPressed: () {
@@ -40,7 +39,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
           },
           icon: Icon(
             Icons.chevron_left,
-            color: Theme.of(context).iconTheme.color,
           ),
         ),
       ),

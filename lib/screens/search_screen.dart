@@ -13,9 +13,8 @@ class CustomSearchDelegate extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-        icon: Icon(
+        icon: const Icon(
           Icons.close,
-          color: Theme.of(context).primaryColor,
         ),
       )
     ];
@@ -27,9 +26,8 @@ class CustomSearchDelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: Icon(
+      icon: const Icon(
         Icons.chevron_left,
-        color: Theme.of(context).primaryColor,
       ),
     );
   }

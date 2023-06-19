@@ -123,10 +123,7 @@ class RetryButton extends StatelessWidget {
     return IconButton(
       onPressed: onRetryPressed,
       icon: const Icon(Icons.refresh),
-      color: Theme.of(context).primaryColor,
       iconSize: 38.0,
-      splashColor: Theme.of(context).splashColor,
-      highlightColor: Theme.of(context).highlightColor,
     );
   }
 }

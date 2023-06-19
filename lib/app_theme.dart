@@ -37,6 +37,7 @@ ThemeData buildTheme({ColorScheme? scheme, required Brightness brightness}) {
       unselectedLabelColor: isDark ? Colors.white70 : Colors.black54,
     ),
     bottomNavigationBarTheme: origin.bottomNavigationBarTheme.copyWith(
+      selectedItemColor: colorScheme.primary,
       backgroundColor:
           isDark ? const Color(0xFF000000) : const Color(0xFFF0F0F0),
       unselectedItemColor: Colors.grey,
@@ -55,10 +56,11 @@ ThemeData buildTheme({ColorScheme? scheme, required Brightness brightness}) {
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
     cardTheme: origin.cardTheme.copyWith(
-      color: isDark
+      surfaceTintColor: isDark
           ? const Color.fromARGB(96, 64, 64, 64)
           : const Color(0xFFFAFAFA),
     ),
+    secondaryHeaderColor: isDark ? Colors.grey : Colors.black54,
   );
 }
 

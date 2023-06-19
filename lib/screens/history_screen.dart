@@ -61,7 +61,6 @@ class _HistoryListRetrieverState extends State<HistoryListRetriever> {
         };
 
         return RefreshIndicator(
-          backgroundColor: Theme.of(context).colorScheme.background,
           onRefresh: () async => _onRefresh(context),
           child: child,
         );

@@ -81,7 +81,6 @@ class JobTileComponent extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
-      color: Theme.of(context).cardTheme.color,
       child: Container(
         padding: const EdgeInsets.all(8.0),
         height: 128.0,
@@ -187,7 +186,7 @@ class JobCompanySection extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                   fontSize: 14.0,
                   fontWeight: FontWeight.w500,
                 ),
@@ -295,9 +294,6 @@ class JobTag extends StatelessWidget {
         label,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
-        style: TextStyle(
-          color: Theme.of(context).secondaryHeaderColor,
-        ),
       ),
     );
   }
@@ -365,20 +361,20 @@ class SaveJobButtonState extends State<SaveJobButton>
                   key: const ValueKey('saved'),
                   onPressed: () => _handleUnSave(context),
                   icon: const Icon(Icons.bookmark_rounded),
-                  color: Theme.of(context).primaryColor,
                 ),
               _ => IconButton(
                   tooltip: 'Add to Saved Jobs',
                   key: const ValueKey('unsaved'),
                   onPressed: () => _handleSave(context),
-                  icon: const Icon(Icons.bookmark_outline),
-                  color: Theme.of(context).iconTheme.color,
+                  icon: Icon(
+                    Icons.bookmark_outline,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
                 ),
             },
           ),
-        _ => IconButton(
-            color: Theme.of(context).primaryColor,
-            icon: const Icon(Icons.bookmark_outline),
+        _ => const IconButton(
+            icon: Icon(Icons.bookmark_outline),
             onPressed: null,
           )
       },
