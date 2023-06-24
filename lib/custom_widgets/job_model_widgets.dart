@@ -290,6 +290,9 @@ class JobTag extends StatelessWidget {
     return TextButton.icon(
       onPressed: onPressed,
       icon: icon,
+      style: const ButtonStyle(
+        alignment: Alignment.centerLeft,
+      ),
       label: Text(
         label,
         overflow: TextOverflow.ellipsis,
