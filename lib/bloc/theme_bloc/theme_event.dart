@@ -5,9 +5,7 @@ sealed class ThemeEvent {
 }
 
 class GetThemeEvent extends ThemeEvent {
-  const GetThemeEvent(this.isDark);
-
-  final bool isDark;
+  const GetThemeEvent();
 }
 
 class ChangedThemeEvent extends ThemeEvent {

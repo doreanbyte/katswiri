@@ -14,12 +14,4 @@ class SelectedDarkTheme extends SelectedThemeState {
 
 class SelectedAutoTheme extends SelectedThemeState {
   const SelectedAutoTheme();
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is SelectedAutoTheme && runtimeType == other.runtimeType;
-
-  @override
-  int get hashCode => runtimeType.hashCode;
 }
