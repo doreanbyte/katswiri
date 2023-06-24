@@ -16,6 +16,7 @@ class MoreScreen extends StatelessWidget {
           _ToggleThemeSection(),
           SizedBox(height: 8.0),
           _ToggleJobViewSection(),
+          _InformationSection(),
         ],
       ),
     );
@@ -79,6 +80,61 @@ class _ToggleJobViewSection extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(8.0),
             child: const ToggleJobViewButtons(),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _InformationSection extends StatelessWidget {
+  const _InformationSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'Information',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTapDown: (_) {},
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.info,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    title: const Text('About'),
+                  ),
+                ),
+                InkWell(
+                  onTapDown: (_) {},
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.error_outline,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    title: const Text('Privacy Policy'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
