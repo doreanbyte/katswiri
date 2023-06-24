@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:katswiri/app_settings.dart';
+import 'package:katswiri/app_theme.dart';
 import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/models/models.dart';
@@ -10,34 +12,57 @@ import 'package:katswiri/sources/sources.dart';
 import 'bottom_navigation.dart';
 import 'job_detail_screen.dart';
 
-class Katswiri extends StatelessWidget {
+class Katswiri extends StatefulWidget {
   const Katswiri({super.key});
 
   @override
+  State<Katswiri> createState() => _KatswiriState();
+}
+
+class _KatswiriState extends State<Katswiri> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => HistoryBloc()..add(const FetchHistory()),
-        ),
-        BlocProvider(
-          create: (_) => SavedJobsBloc()..add(const FetchSavedJobs()),
-        ),
-        BlocProvider(
-          create: (_) => SaveJobBloc()..add(const CheckSavedJobs()),
-        ),
-        BlocProvider(
-          create: (_) => ThemeBloc()
-            ..add(
-              GetThemeEvent(
-                MediaQuery.of(context).platformBrightness == Brightness.dark,
-              ),
+    return FutureBuilder(
+      future: AppSettings.getTheme(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Container();
+        }
+
+        final SelectedThemeState selectedTheme = switch (snapshot.data!) {
+          PreferredTheme.auto => const SelectedAutoTheme(),
+          PreferredTheme.light => const SelectedLightTheme(),
+          PreferredTheme.dark => const SelectedDarkTheme(),
+        };
+
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (_) => HistoryBloc()..add(const FetchHistory()),
             ),
-        ),
-      ],
-      child: BlocBuilder<ThemeBloc, SelectedThemeState>(
-        builder: _buildWithTheme,
-      ),
+            BlocProvider(
+              create: (_) => SavedJobsBloc()..add(const FetchSavedJobs()),
+            ),
+            BlocProvider(
+              create: (_) => SaveJobBloc()..add(const CheckSavedJobs()),
+            ),
+            BlocProvider(
+              create: (_) => ThemeBloc(selectedTheme)
+                ..add(
+                  const GetThemeEvent(),
+                ),
+            ),
+          ],
+          child: BlocBuilder<ThemeBloc, SelectedThemeState>(
+            builder: _buildWithTheme,
+          ),
+        );
+      },
     );
   }
 
