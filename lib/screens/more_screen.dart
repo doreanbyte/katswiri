@@ -118,7 +118,7 @@ class _InformationSection extends StatelessWidget {
                   child: ListTile(
                     leading: Icon(
                       Icons.info,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     title: const Text('About'),
                   ),
@@ -128,7 +128,7 @@ class _InformationSection extends StatelessWidget {
                   child: ListTile(
                     leading: Icon(
                       Icons.error_outline,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     title: const Text('Privacy Policy'),
                   ),
