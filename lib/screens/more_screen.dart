@@ -128,7 +128,7 @@ class _InformationSection extends StatelessWidget {
                 ListTile(
                   onTap: () {},
                   leading: Icon(
-                    Icons.error_outline,
+                    Icons.lock,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   title: const Text('Privacy Policy'),
