@@ -114,30 +114,24 @@ class _InformationSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTapUp: (_) {
-                    Navigator.of(context).pushNamed(
-                      AboutScreen.route,
-                    );
-                  },
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.info,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    title: const Text('About'),
+                ListTile(
+                  onTap: () => Navigator.of(context).pushNamed(
+                    AboutScreen.route,
                   ),
+                  leading: Icon(
+                    Icons.info,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  title: const Text('About'),
                 ),
                 const Divider(),
-                GestureDetector(
-                  onTapUp: (_) {},
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.error_outline,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    title: const Text('Privacy Policy'),
+                ListTile(
+                  onTap: () {},
+                  leading: Icon(
+                    Icons.error_outline,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
+                  title: const Text('Privacy Policy'),
                 ),
               ],
             ),
