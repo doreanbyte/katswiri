@@ -4,8 +4,8 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 final class DioRequest {
   static Dio? _dio;
 
-  static Dio getInstance({bool refresh = false}) {
-    if (_dio == null || refresh) {
+  static Dio getInstance() {
+    if (_dio == null) {
       final cacheStore = MemCacheStore(
         maxSize: 10485760,
         maxEntrySize: 1048576,
@@ -15,7 +15,6 @@ final class DioRequest {
         maxStale: const Duration(minutes: 5),
         store: cacheStore,
         hitCacheOnErrorExcept: [],
-        policy: refresh ? CachePolicy.refresh : CachePolicy.forceCache,
       );
 
       _dio = Dio()

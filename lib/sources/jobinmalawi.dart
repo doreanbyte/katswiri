@@ -32,7 +32,7 @@ class JobInMalawi extends Source {
   @override
   Future<Job> fetchJob(String url, {bool refresh = false}) async {
     final Job job;
-    final dio = DioRequest.getInstance(refresh: refresh);
+    final dio = DioRequest.getInstance();
     final response = await dio.get<String>(
       url,
       options: Options(
@@ -75,7 +75,7 @@ class JobInMalawi extends Source {
     final listingsUri = 'https://$host/jm-ajax/get_listings';
     final List<Job> jobs = [];
 
-    final dio = DioRequest.getInstance(refresh: refresh);
+    final dio = DioRequest.getInstance();
     final response = await dio.post<String>(
       listingsUri,
       options: Options(
