@@ -10,10 +10,14 @@ import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';
 
 enum Page {
-  browse,
-  history,
-  saved,
-  more,
+  listings('Listings'),
+  history('History'),
+  saved('Saved'),
+  more('More');
+
+  const Page(this.title);
+
+  final String title;
 }
 
 class BottomNavigationScreen extends StatefulWidget {
@@ -56,26 +60,26 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.explore_outlined),
-            activeIcon: Icon(Icons.explore_rounded),
-            label: 'Browse',
+            icon: const Icon(Icons.explore_outlined),
+            activeIcon: const Icon(Icons.list_rounded),
+            label: Page.listings.title,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history_outlined),
-            activeIcon: Icon(Icons.history_rounded),
-            label: 'History',
+            icon: const Icon(Icons.history_outlined),
+            activeIcon: const Icon(Icons.history_rounded),
+            label: Page.history.title,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_outline),
-            activeIcon: Icon(Icons.bookmark_rounded),
-            label: 'Saved',
+            icon: const Icon(Icons.bookmark_outline),
+            activeIcon: const Icon(Icons.bookmark_rounded),
+            label: Page.saved.title,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.more_horiz),
-            activeIcon: Icon(Icons.more_horiz_rounded),
-            label: 'More',
+            icon: const Icon(Icons.more_horiz),
+            activeIcon: const Icon(Icons.more_horiz_rounded),
+            label: Page.more.title,
           ),
         ],
         onTap: (int index) {
@@ -95,11 +99,11 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
   AppBar _buildAppBar(BuildContext context, Page page) {
     switch (page) {
-      case Page.browse:
+      case Page.listings:
         return AppBar(
-          title: const Text(
-            'Browse',
-            style: TextStyle(
+          title: Text(
+            Page.listings.title,
+            style: const TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.w600,
               letterSpacing: -.4,
@@ -140,9 +144,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         );
       case Page.history:
         return AppBar(
-          title: const Text(
-            'History',
-            style: TextStyle(
+          title: Text(
+            Page.history.title,
+            style: const TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.w600,
               letterSpacing: -.4,
@@ -160,9 +164,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         );
       case Page.saved:
         return AppBar(
-          title: const Text(
-            'Saved',
-            style: TextStyle(
+          title: Text(
+            Page.saved.title,
+            style: const TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.w600,
               letterSpacing: -.4,
