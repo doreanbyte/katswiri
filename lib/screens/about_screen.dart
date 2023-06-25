@@ -29,10 +29,11 @@ class AboutScreen extends StatelessWidget {
               Center(
                 child: Padding(
                   padding: EdgeInsets.only(top: 16.0),
-                  child: _AppSection(),
+                  child: _AppDetailSection(),
                 ),
               ),
               Divider(),
+              _AdditionalInformationSection(),
             ],
           ),
         ),
@@ -41,8 +42,8 @@ class AboutScreen extends StatelessWidget {
   }
 }
 
-class _AppSection extends StatelessWidget {
-  const _AppSection();
+class _AppDetailSection extends StatelessWidget {
+  const _AppDetailSection();
 
   @override
   Widget build(BuildContext context) {
@@ -50,18 +51,6 @@ class _AppSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Text(
-        //   'Katswiri',
-        //   style: TextStyle(
-        //     fontWeight: FontWeight.bold,
-        //     fontSize: 36,
-        //     color: Theme.of(context).colorScheme.primary,
-        //   ),
-        // ),
-        // const SizedBox(
-        //   height: 12.0,
-        // ),
-        // const Text('Version 0.1.0'),
         RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
@@ -81,7 +70,7 @@ class _AppSection extends StatelessWidget {
                 ),
               ),
               TextSpan(
-                text: 'By Dorean Byte',
+                text: 'by Dorean Byte',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                 ),
@@ -92,22 +81,109 @@ class _AppSection extends StatelessWidget {
         const SizedBox(
           height: 12.0,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _SocialButton(
-              icon: Icons.mail_outlined,
-              label: 'Email',
-              onPressed: () {},
-            ),
-            _SocialButton(
-              icon: Icons.public_outlined,
-              label: 'Website',
-              onPressed: () {},
-            ),
-          ],
+        const _SocialButtons(),
+      ],
+    );
+  }
+}
+
+class _SocialButtons extends StatelessWidget {
+  const _SocialButtons();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        _SocialButton(
+          icon: Icons.mail_outlined,
+          label: 'Email',
+          //TODO: Implement onPressed for email social button
+          onPressed: () {},
+          toolTip: 'Email Dorean Byte',
+        ),
+        _SocialButton(
+          icon: Icons.public_outlined,
+          label: 'Website',
+          //TODO: Implement onPressed for website visit button
+          onPressed: () {},
+          toolTip: 'Visit Dorean Byte Website',
         ),
       ],
+    );
+  }
+}
+
+class _AdditionalInformationSection extends StatelessWidget {
+  const _AdditionalInformationSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _InformationButtons();
+  }
+}
+
+class _InformationButtons extends StatelessWidget {
+  const _InformationButtons();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _InformationButton(
+          icon: Icons.star,
+          title: 'Rate',
+          subtitle: 'Like the App? Give Us a Rating',
+          //TODO: Implement onTap callback for rating
+          onTap: () {},
+        ),
+        _InformationButton(
+          icon: Icons.description,
+          title: 'Terms of Service/EULA',
+          //TODO: Implment on tap for Terms of Services
+          onTap: () {},
+        ),
+        _InformationButton(
+          icon: Icons.api,
+          title: 'Third-Party Services',
+          //TODO: Implement on tap for Third-Party Services
+          onTap: () {},
+        ),
+        _InformationButton(
+          icon: Icons.extension,
+          title: 'Third-Party Libraries',
+          //TODO: Implement on tap for Third-Party Libraries
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+}
+
+class _InformationButton extends StatelessWidget {
+  const _InformationButton({
+    required this.icon,
+    required this.title,
+    this.subtitle = '',
+    this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final void Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      leading: Icon(
+        icon,
+        color: Theme.of(context).colorScheme.primary,
+      ),
+      title: Text(title),
+      subtitle: subtitle.isNotEmpty ? Text(subtitle) : null,
     );
   }
 }
@@ -117,19 +193,23 @@ class _SocialButton extends StatelessWidget {
     required IconData icon,
     required String label,
     void Function()? onPressed,
+    String? toolTip,
   })  : _iconData = icon,
         _label = label,
-        _onPressed = onPressed;
+        _onPressed = onPressed,
+        _toolTip = toolTip;
 
   final IconData _iconData;
   final String _label;
   final void Function()? _onPressed;
+  final String? _toolTip;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         IconButton(
+          tooltip: _toolTip,
           onPressed: _onPressed,
           icon: Icon(
             _iconData,
