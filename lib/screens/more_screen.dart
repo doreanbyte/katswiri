@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart'
     show ToggleThemeButtons, ToggleJobViewButtons;
+import 'package:katswiri/screens/about_screen.dart';
 
 class MoreScreen extends StatelessWidget {
   const MoreScreen({super.key});
@@ -113,8 +114,12 @@ class _InformationSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTapDown: (_) {},
+                GestureDetector(
+                  onTapUp: (_) {
+                    Navigator.of(context).pushNamed(
+                      AboutScreen.route,
+                    );
+                  },
                   child: ListTile(
                     leading: Icon(
                       Icons.info,
@@ -123,8 +128,9 @@ class _InformationSection extends StatelessWidget {
                     title: const Text('About'),
                   ),
                 ),
-                InkWell(
-                  onTapDown: (_) {},
+                const Divider(),
+                GestureDetector(
+                  onTapUp: (_) {},
                   child: ListTile(
                     leading: Icon(
                       Icons.error_outline,

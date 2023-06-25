@@ -5,6 +5,7 @@ import 'package:katswiri/app_theme.dart';
 import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/models/models.dart';
+import 'package:katswiri/screens/about_screen.dart';
 import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/screens/job_tag_screen.dart';
 import 'package:katswiri/sources/sources.dart';
@@ -109,6 +110,9 @@ class Katswiri extends StatelessWidget {
                     filter: filter,
                     initialIndex: initialIndex,
                   ),
+                ),
+              (AboutScreen.route, _) => MaterialPageRoute(
+                  builder: (context) => const AboutScreen(),
                 ),
               (_, _) => MaterialPageRoute(
                   builder: (context) => const BottomNavigationScreen(),
