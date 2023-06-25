@@ -12,18 +12,8 @@ import 'package:katswiri/sources/sources.dart';
 import 'bottom_navigation.dart';
 import 'job_detail_screen.dart';
 
-class Katswiri extends StatefulWidget {
+class Katswiri extends StatelessWidget {
   const Katswiri({super.key});
-
-  @override
-  State<Katswiri> createState() => _KatswiriState();
-}
-
-class _KatswiriState extends State<Katswiri> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
