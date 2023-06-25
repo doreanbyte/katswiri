@@ -126,6 +126,7 @@ class _InformationSection extends StatelessWidget {
                 ),
                 const Divider(),
                 ListTile(
+                  //TODO: Implement privacy policy onTap
                   onTap: () {},
                   leading: Icon(
                     Icons.lock,
