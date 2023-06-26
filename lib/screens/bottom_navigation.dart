@@ -62,7 +62,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         currentIndex: _selectedIndex,
         items: [
           BottomNavigationBarItem(
-            icon: const Icon(Icons.explore_outlined),
+            icon: const Icon(Icons.list_outlined),
             activeIcon: const Icon(Icons.list_rounded),
             label: Page.listings.title,
           ),

@@ -107,7 +107,7 @@ class _SocialButtons extends StatelessWidget {
           label: 'Website',
           //TODO: Implement onPressed for website visit button
           onPressed: () {},
-          toolTip: 'Visit Dorean Byte Website',
+          toolTip: 'Visit Katswiri Website',
         ),
       ],
     );
@@ -152,7 +152,7 @@ class _InformationButtons extends StatelessWidget {
         ),
         _InformationButton(
           icon: Icons.extension,
-          title: 'Third-Party Libraries',
+          title: 'Open Source Licenses',
           //TODO: Implement on tap for Third-Party Libraries
           onTap: () {},
         ),
