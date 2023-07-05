@@ -42,3 +42,48 @@ class AppThemeBuilder extends StatelessWidget {
     );
   }
 }
+
+class ContinuousLinearProgressIndicator extends StatefulWidget {
+  const ContinuousLinearProgressIndicator({super.key});
+
+  @override
+  State<ContinuousLinearProgressIndicator> createState() =>
+      _ContinuousLinearProgressIndicatorState();
+}
+
+class _ContinuousLinearProgressIndicatorState
+    extends State<ContinuousLinearProgressIndicator>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat();
+
+    _animationController.addListener(() {
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LinearProgressIndicator(
+      semanticsLabel: 'Article Loading Progress',
+      value: _animationController.value,
+      valueColor: AlwaysStoppedAnimation<Color>(
+        Theme.of(context).colorScheme.primary,
+      ),
+    );
+  }
+}
