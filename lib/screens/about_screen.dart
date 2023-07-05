@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -98,8 +99,17 @@ class _SocialButtons extends StatelessWidget {
         _SocialButton(
           icon: Icons.mail_outlined,
           label: 'Email',
-          //TODO: Implement onPressed for email social button
-          onPressed: () {},
+          onPressed: () async {
+            const email = 'dev.doreanbyte.mw@gmail.com';
+            final emailUri = Uri(
+              scheme: 'mailto',
+              path: email,
+            );
+
+            if (await canLaunchUrl(emailUri)) {
+              await launchUrl(emailUri);
+            }
+          },
           toolTip: 'Email Dorean Byte',
         ),
         _SocialButton(
