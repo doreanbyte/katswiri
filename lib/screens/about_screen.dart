@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:katswiri/screens/webview_screen.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -115,8 +116,16 @@ class _SocialButtons extends StatelessWidget {
         _SocialButton(
           icon: Icons.public_outlined,
           label: 'Website',
-          //TODO: Implement onPressed for website visit button
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(
+              context,
+              WebViewScreen.route,
+              arguments: {
+                'url': 'https://doreanbyte.github.io/katswiri',
+                'title': 'Katswiri'
+              },
+            );
+          },
           toolTip: 'Visit Katswiri Website',
         ),
       ],
