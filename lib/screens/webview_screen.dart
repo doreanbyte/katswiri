@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:katswiri/custom_widgets/custom_widgets.dart'
+    show ContinuousLinearProgressIndicator;
 import 'package:webview_flutter/webview_flutter.dart';
+
+import 'package:katswiri/screens/job_detail_screen.dart';
+import 'package:katswiri/sources/sources.dart' show getSources;
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({
@@ -20,6 +25,7 @@ class WebViewScreen extends StatefulWidget {
 class _WebViewScreenState extends State<WebViewScreen> {
   late final WebViewController controller;
   double _progressValue = 0.0;
+  bool _loadingArticleView = false;
 
   @override
   void initState() {
@@ -72,6 +78,43 @@ class _WebViewScreenState extends State<WebViewScreen> {
             color: Theme.of(context).iconTheme.color,
           ),
         ),
+        actions: [
+          IconButton(
+            tooltip: 'Change to Article View',
+            icon: Icon(
+              Icons.description,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            onPressed: () {
+              try {
+                setState(() {
+                  _loadingArticleView = true;
+                });
+
+                final source = getSources().firstWhere(
+                  (element) => widget.url.contains(element.host),
+                );
+
+                source.fetchJob(widget.url).then(
+                      (job) => Navigator.popAndPushNamed(
+                        context,
+                        JobDetailScreen.route,
+                        arguments: {
+                          'source': source,
+                          'job': job.copyWith(
+                            url: widget.url,
+                          ),
+                        },
+                      ),
+                    );
+              } catch (_) {
+                setState(() {
+                  _loadingArticleView = false;
+                });
+              }
+            },
+          ),
+        ],
         bottom: _progressValue != 1.0
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(2.0),
@@ -86,7 +129,21 @@ class _WebViewScreenState extends State<WebViewScreen> {
             : null,
       ),
       body: SafeArea(
-        child: WebViewWidget(controller: controller),
+        child: Stack(
+          children: [
+            WebViewWidget(controller: controller),
+            if (_loadingArticleView)
+              const Positioned(
+                left: 0,
+                right: 0,
+                top: 0,
+                child: SizedBox(
+                  height: 2.0,
+                  child: ContinuousLinearProgressIndicator(),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
