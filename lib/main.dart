@@ -5,7 +5,11 @@ import 'package:katswiri/screens/screens.dart' show Katswiri;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await AppSettings.init();
-  await DBManager.instance.database;
+  await Future.wait(
+    [
+      AppSettings.init(),
+      DBManager.instance.database,
+    ],
+  );
   runApp(const Katswiri());
 }
