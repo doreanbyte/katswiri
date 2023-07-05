@@ -117,7 +117,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
         ],
         bottom: _progressValue != 1.0
             ? PreferredSize(
-                preferredSize: const Size.fromHeight(2.0),
+                preferredSize: const Size.fromHeight(4.0),
                 child: LinearProgressIndicator(
                   semanticsLabel: 'Webpage Loading Progress',
                   semanticsValue: '$_progressValue',
@@ -138,7 +138,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 right: 0,
                 top: 0,
                 child: SizedBox(
-                  height: 2.0,
+                  height: 4.0,
                   child: ContinuousLinearProgressIndicator(),
                 ),
               ),
