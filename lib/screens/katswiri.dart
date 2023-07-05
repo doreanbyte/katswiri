@@ -114,6 +114,9 @@ class Katswiri extends StatelessWidget {
               (AboutScreen.route, _) => MaterialPageRoute(
                   builder: (context) => const AboutScreen(),
                 ),
+              ('/license', _) => MaterialPageRoute(
+                  builder: (context) => const LicensePage(),
+                ),
               (_, _) => MaterialPageRoute(
                   builder: (context) => const BottomNavigationScreen(),
                 )

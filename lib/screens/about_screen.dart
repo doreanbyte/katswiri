@@ -153,8 +153,12 @@ class _InformationButtons extends StatelessWidget {
         _InformationButton(
           icon: Icons.extension,
           title: 'Open Source Licenses',
-          //TODO: Implement on tap for Third-Party Libraries
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              '/license',
+            );
+          },
         ),
       ],
     );
