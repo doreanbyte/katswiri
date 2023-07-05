@@ -158,7 +158,7 @@ class JobLeadSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(8.0),
       ),
       child: Container(
         padding: const EdgeInsets.all(8.0),
@@ -261,7 +261,7 @@ class _DescriptionSectionState extends State<DescriptionSection>
           ),
           Card(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: BorderRadius.circular(8.0),
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),

@@ -79,7 +79,7 @@ class JobTileComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(8.0),
       ),
       child: Container(
         padding: const EdgeInsets.all(8.0),

@@ -43,7 +43,7 @@ class _ToggleThemeSection extends StatelessWidget {
         ),
         Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+            borderRadius: BorderRadius.circular(8.0),
           ),
           child: Container(
             padding: const EdgeInsets.all(8.0),
@@ -76,7 +76,7 @@ class _ToggleJobViewSection extends StatelessWidget {
         ),
         Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+            borderRadius: BorderRadius.circular(8.0),
           ),
           child: Container(
             padding: const EdgeInsets.all(8.0),
@@ -107,7 +107,7 @@ class _InformationSection extends StatelessWidget {
         ),
         Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+            borderRadius: BorderRadius.circular(8.0),
           ),
           child: Container(
             padding: const EdgeInsets.all(8.0),
