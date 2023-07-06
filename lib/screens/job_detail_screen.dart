@@ -293,6 +293,11 @@ class _DescriptionSectionState extends State<DescriptionSection>
                                   final emailUri = Uri(
                                     scheme: 'mailto',
                                     path: url,
+                                    query: _encodeQueryParameters(
+                                      {
+                                        'subject': widget.job.position,
+                                      },
+                                    ),
                                   );
 
                                   if (await canLaunchUrl(emailUri)) {
@@ -337,6 +342,13 @@ class _DescriptionSectionState extends State<DescriptionSection>
 
   void _onRetryPressed(BuildContext context) {
     _getJob(context);
+  }
+
+  String? _encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map((MapEntry<String, String> e) =>
+            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .join('&');
   }
 }
 
