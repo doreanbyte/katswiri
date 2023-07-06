@@ -56,6 +56,10 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final source = getSources().firstWhere(
+      (element) => widget.url.contains(element.host),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -79,41 +83,39 @@ class _WebViewScreenState extends State<WebViewScreen> {
           ),
         ),
         actions: [
-          IconButton(
-            tooltip: 'Change to Article View',
-            icon: Icon(
-              Icons.description,
-              color: Theme.of(context).iconTheme.color,
+          // Only show change to article view if a job is what is being viewed
+          if (!widget.url.endsWith(source.host))
+            IconButton(
+              tooltip: 'Change to Article View',
+              icon: Icon(
+                Icons.description,
+                color: Theme.of(context).iconTheme.color,
+              ),
+              onPressed: () {
+                try {
+                  setState(() {
+                    _loadingArticleView = true;
+                  });
+
+                  source.fetchJob(widget.url).then(
+                        (job) => Navigator.popAndPushNamed(
+                          context,
+                          JobDetailScreen.route,
+                          arguments: {
+                            'source': source,
+                            'job': job.copyWith(
+                              url: widget.url,
+                            ),
+                          },
+                        ),
+                      );
+                } catch (_) {
+                  setState(() {
+                    _loadingArticleView = false;
+                  });
+                }
+              },
             ),
-            onPressed: () {
-              try {
-                setState(() {
-                  _loadingArticleView = true;
-                });
-
-                final source = getSources().firstWhere(
-                  (element) => widget.url.contains(element.host),
-                );
-
-                source.fetchJob(widget.url).then(
-                      (job) => Navigator.popAndPushNamed(
-                        context,
-                        JobDetailScreen.route,
-                        arguments: {
-                          'source': source,
-                          'job': job.copyWith(
-                            url: widget.url,
-                          ),
-                        },
-                      ),
-                    );
-              } catch (_) {
-                setState(() {
-                  _loadingArticleView = false;
-                });
-              }
-            },
-          ),
         ],
         bottom: _progressValue != 1.0
             ? PreferredSize(
