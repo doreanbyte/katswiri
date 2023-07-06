@@ -101,10 +101,9 @@ class _SocialButtons extends StatelessWidget {
           icon: Icons.mail_outlined,
           label: 'Email',
           onPressed: () async {
-            const email = 'dev.doreanbyte.mw@gmail.com';
             final emailUri = Uri(
               scheme: 'mailto',
-              path: email,
+              path: 'dev.doreanbyte.mw@gmail.com',
             );
 
             if (await canLaunchUrl(emailUri)) {
