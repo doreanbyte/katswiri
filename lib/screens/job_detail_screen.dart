@@ -7,6 +7,7 @@ import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class JobDetailScreen extends StatefulWidget {
   const JobDetailScreen({
@@ -284,7 +285,21 @@ class _DescriptionSectionState extends State<DescriptionSection>
                               textStyle: const TextStyle(
                                 fontSize: 14.0,
                               ),
-                              onTapUrl: (url) {
+                              onTapUrl: (url) async {
+                                url = url
+                                    .replaceAll(RegExp('mailto:'), '')
+                                    .trim();
+                                if (url.contains('@')) {
+                                  final emailUri = Uri(
+                                    scheme: 'mailto',
+                                    path: url,
+                                  );
+
+                                  if (await canLaunchUrl(emailUri)) {
+                                    await launchUrl(emailUri);
+                                  }
+                                }
+
                                 return true;
                               },
                             ),
