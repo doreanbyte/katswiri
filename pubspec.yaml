@@ -104,5 +104,7 @@ flutter:
 
 flutter_native_splash:
   android: true
-  background_image: assets/images/splash_img_light.png
-  background_image_dark: assets/images/splash_img_dark.png
+  color: "#ffffff"
+  image: assets/images/logo_light.png
+  color_dark: "#000000"
+  image_dark: assets/images/logo_dark.png
