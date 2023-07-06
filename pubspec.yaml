@@ -48,6 +48,7 @@ dependencies:
   collection: ^1.17.1
   dynamic_color: ^1.6.5
   url_launcher: ^6.1.11
+  flutter_native_splash: ^2.3.1
 
 dev_dependencies:
   flutter_test:
@@ -100,3 +101,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_native_splash:
+  android: true
+  background_image: assets/images/splash_img_light.png
+  background_image_dark: assets/images/splash_img_dark.png
