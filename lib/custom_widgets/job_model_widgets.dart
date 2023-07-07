@@ -217,12 +217,10 @@ class JobTagsSection extends StatelessWidget {
   const JobTagsSection(
     this.job, {
     required this.initialIndex,
-    this.hide = true,
     super.key,
   });
 
   final Job job;
-  final bool hide;
   final int initialIndex;
 
   @override
@@ -249,7 +247,6 @@ class JobTagsSection extends StatelessWidget {
           ),
         ),
         Expanded(
-          flex: hide ? 2 : 1,
           child: JobTag(
             icon: const Icon(Icons.work),
             onPressed: () {

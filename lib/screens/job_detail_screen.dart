@@ -215,7 +215,6 @@ class JobLeadSection extends StatelessWidget {
             JobTagsSection(
               job,
               initialIndex: initialIndex,
-              hide: false,
             ),
             Align(
               alignment: Alignment.centerRight,
