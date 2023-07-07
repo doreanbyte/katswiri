@@ -9,13 +9,13 @@ import 'package:katswiri/screens/search_screen.dart';
 import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';
 
-enum Page {
+enum Screen {
   listings('Listings'),
   history('History'),
   saved('Saved'),
   more('More');
 
-  const Page(this.title);
+  const Screen(this.title);
 
   final String title;
 }
@@ -40,7 +40,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     return Scaffold(
       appBar: _buildAppBar(
         context,
-        Page.values[_selectedIndex],
+        Screen.values[_selectedIndex],
       ),
       body: SafeArea(
         child: IndexedStack(
@@ -64,22 +64,22 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.list_outlined),
             activeIcon: const Icon(Icons.list_rounded),
-            label: Page.listings.title,
+            label: Screen.listings.title,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.history_outlined),
             activeIcon: const Icon(Icons.history_rounded),
-            label: Page.history.title,
+            label: Screen.history.title,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.bookmark_outline),
             activeIcon: const Icon(Icons.bookmark_rounded),
-            label: Page.saved.title,
+            label: Screen.saved.title,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.more_horiz),
             activeIcon: const Icon(Icons.more_horiz_rounded),
-            label: Page.more.title,
+            label: Screen.more.title,
           ),
         ],
         onTap: (int index) {
@@ -97,12 +97,12 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     });
   }
 
-  AppBar _buildAppBar(BuildContext context, Page page) {
+  AppBar _buildAppBar(BuildContext context, Screen page) {
     switch (page) {
-      case Page.listings:
+      case Screen.listings:
         return AppBar(
           title: Text(
-            Page.listings.title,
+            Screen.listings.title,
             style: const TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.w600,
@@ -142,10 +142,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             ),
           ],
         );
-      case Page.history:
+      case Screen.history:
         return AppBar(
           title: Text(
-            Page.history.title,
+            Screen.history.title,
             style: const TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.w600,
@@ -162,10 +162,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             ),
           ],
         );
-      case Page.saved:
+      case Screen.saved:
         return AppBar(
           title: Text(
-            Page.saved.title,
+            Screen.saved.title,
             style: const TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.w600,
@@ -182,7 +182,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             ),
           ],
         );
-      case Page.more:
+      case Screen.more:
         return AppBar(
           title: const Text(
             'More',
