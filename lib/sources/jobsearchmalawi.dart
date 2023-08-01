@@ -30,7 +30,7 @@ class JobSearchMW extends Source {
       };
 
   @override
-  Future<Job> fetchJob(String url, {bool refresh = false}) async {
+  Future<Job> fetchJob(String url) async {
     final Job job;
     final dio = DioRequest.getInstance();
     final response = await dio.get<String>(
@@ -61,8 +61,10 @@ class JobSearchMW extends Source {
   }
 
   @override
-  Future<List<Job>> fetchJobs(
-      {int page = 1, Map<String, String>? filter, bool refresh = false}) async {
+  Future<List<Job>> fetchJobs({
+    int page = 1,
+    Map<String, String>? filter,
+  }) async {
     final listingsUri = 'https://$host/jm-ajax/get_listings/';
     final List<Job> jobs = [];
 
