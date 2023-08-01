@@ -25,10 +25,10 @@ class Katswiri extends StatelessWidget {
           return Container();
         }
 
-        final SelectedThemeState selectedTheme = switch (snapshot.data!) {
-          PreferredTheme.auto => const SelectedAutoTheme(),
-          PreferredTheme.light => const SelectedLightTheme(),
-          PreferredTheme.dark => const SelectedDarkTheme(),
+        final ThemeState selectedTheme = switch (snapshot.data!) {
+          PreferredTheme.auto => const AutoTheme(),
+          PreferredTheme.light => const LightTheme(),
+          PreferredTheme.dark => const DarkTheme(),
         };
 
         return MultiBlocProvider(
@@ -49,7 +49,7 @@ class Katswiri extends StatelessWidget {
                 ),
             ),
           ],
-          child: BlocBuilder<ThemeBloc, SelectedThemeState>(
+          child: BlocBuilder<ThemeBloc, ThemeState>(
             builder: _buildWithTheme,
           ),
         );
@@ -57,7 +57,7 @@ class Katswiri extends StatelessWidget {
     );
   }
 
-  Widget _buildWithTheme(BuildContext context, SelectedThemeState state) =>
+  Widget _buildWithTheme(BuildContext context, ThemeState state) =>
       AppThemeBuilder(
         builder: (context, appTheme) {
           return MaterialApp(
@@ -66,9 +66,9 @@ class Katswiri extends StatelessWidget {
             theme: appTheme.lightTheme,
             darkTheme: appTheme.darkTheme,
             themeMode: switch (state) {
-              SelectedAutoTheme() => ThemeMode.system,
-              SelectedLightTheme() => ThemeMode.light,
-              SelectedDarkTheme() => ThemeMode.dark,
+              AutoTheme() => ThemeMode.system,
+              LightTheme() => ThemeMode.light,
+              DarkTheme() => ThemeMode.dark,
             },
             home: const BottomNavigationScreen(),
             onGenerateRoute: (settings) => switch ((

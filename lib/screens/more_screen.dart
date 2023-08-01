@@ -47,7 +47,7 @@ class _ToggleThemeSection extends StatelessWidget {
           ),
           child: Container(
             padding: const EdgeInsets.all(8.0),
-            child: BlocBuilder<ThemeBloc, SelectedThemeState>(
+            child: BlocBuilder<ThemeBloc, ThemeState>(
               builder: (context, state) => ToggleThemeButtons(state),
             ),
           ),

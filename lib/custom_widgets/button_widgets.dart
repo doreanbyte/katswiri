@@ -7,7 +7,7 @@ import 'package:katswiri/bloc/bloc.dart';
 class ToggleThemeButtons extends StatefulWidget {
   const ToggleThemeButtons(this.selectedThemeState, {super.key});
 
-  final SelectedThemeState selectedThemeState;
+  final ThemeState selectedThemeState;
 
   @override
   State<ToggleThemeButtons> createState() => _ToggleThemeButtonsState();
@@ -19,9 +19,9 @@ class _ToggleThemeButtonsState extends State<ToggleThemeButtons> {
   @override
   void initState() {
     _selectedTheme = switch (widget.selectedThemeState) {
-      SelectedAutoTheme() => PreferredTheme.auto.name,
-      SelectedLightTheme() => PreferredTheme.light.name,
-      SelectedDarkTheme() => PreferredTheme.dark.name,
+      AutoTheme() => PreferredTheme.auto.name,
+      LightTheme() => PreferredTheme.light.name,
+      DarkTheme() => PreferredTheme.dark.name,
     };
 
     super.initState();
@@ -45,21 +45,21 @@ class _ToggleThemeButtonsState extends State<ToggleThemeButtons> {
                       case PreferredTheme.auto:
                         context.read<ThemeBloc>().add(
                               const ChangedThemeEvent(
-                                SelectedAutoTheme(),
+                                AutoTheme(),
                               ),
                             );
                         break;
                       case PreferredTheme.light:
                         context.read<ThemeBloc>().add(
                               const ChangedThemeEvent(
-                                SelectedLightTheme(),
+                                LightTheme(),
                               ),
                             );
                         break;
                       case PreferredTheme.dark:
                         context.read<ThemeBloc>().add(
                               const ChangedThemeEvent(
-                                SelectedDarkTheme(),
+                                DarkTheme(),
                               ),
                             );
                         break;
