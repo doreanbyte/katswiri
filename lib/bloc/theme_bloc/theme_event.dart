@@ -11,5 +11,5 @@ class GetThemeEvent extends ThemeEvent {
 class ChangedThemeEvent extends ThemeEvent {
   const ChangedThemeEvent(this.selectedTheme);
 
-  final SelectedThemeState selectedTheme;
+  final ThemeState selectedTheme;
 }

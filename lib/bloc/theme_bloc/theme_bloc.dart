@@ -7,21 +7,21 @@ import 'package:katswiri/app_theme.dart';
 part 'theme_event.dart';
 part 'theme_state.dart';
 
-class ThemeBloc extends Bloc<ThemeEvent, SelectedThemeState> {
-  ThemeBloc(SelectedThemeState themeState) : super(themeState) {
+class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
+  ThemeBloc(ThemeState themeState) : super(themeState) {
     on<GetThemeEvent>(
       (event, emit) async {
         final themeSetting = await AppSettings.getTheme();
 
         switch (themeSetting) {
           case (PreferredTheme.auto):
-            emit(const SelectedAutoTheme());
+            emit(const AutoTheme());
             break;
           case (PreferredTheme.light):
-            emit(const SelectedLightTheme());
+            emit(const LightTheme());
             break;
           case (PreferredTheme.dark):
-            emit(const SelectedDarkTheme());
+            emit(const DarkTheme());
             break;
         }
       },
@@ -32,13 +32,13 @@ class ThemeBloc extends Bloc<ThemeEvent, SelectedThemeState> {
         final selectedTheme = event.selectedTheme;
 
         switch (selectedTheme) {
-          case (SelectedAutoTheme()):
+          case (AutoTheme()):
             await AppSettings.setTheme(PreferredTheme.auto);
             break;
-          case (SelectedLightTheme()):
+          case (LightTheme()):
             await AppSettings.setTheme(PreferredTheme.light);
             break;
-          case (SelectedDarkTheme()):
+          case (DarkTheme()):
             await AppSettings.setTheme(PreferredTheme.dark);
             break;
         }

@@ -1,17 +1,17 @@
 part of 'theme_bloc.dart';
 
-sealed class SelectedThemeState {
-  const SelectedThemeState();
+sealed class ThemeState {
+  const ThemeState();
 }
 
-class SelectedLightTheme extends SelectedThemeState {
-  const SelectedLightTheme();
+class LightTheme extends ThemeState {
+  const LightTheme();
 }
 
-class SelectedDarkTheme extends SelectedThemeState {
-  const SelectedDarkTheme();
+class DarkTheme extends ThemeState {
+  const DarkTheme();
 }
 
-class SelectedAutoTheme extends SelectedThemeState {
-  const SelectedAutoTheme();
+class AutoTheme extends ThemeState {
+  const AutoTheme();
 }
