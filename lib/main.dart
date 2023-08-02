@@ -11,5 +11,6 @@ void main() async {
       DBManager.instance.database,
     ],
   );
+
   runApp(const Katswiri());
 }
