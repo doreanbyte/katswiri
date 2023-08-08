@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:katswiri/utils/utils.dart';
 
-class Job {
+final class Job {
   const Job({
     required this.logo,
     required this.position,
