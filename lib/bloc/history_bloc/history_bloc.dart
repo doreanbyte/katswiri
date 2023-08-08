@@ -8,7 +8,7 @@ import 'package:katswiri/repository/repository.dart';
 part 'history_event.dart';
 part 'history_state.dart';
 
-class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
+final class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   HistoryBloc() : super(const HistoryInitial()) {
     on<FetchHistory>((event, emit) async {
       try {

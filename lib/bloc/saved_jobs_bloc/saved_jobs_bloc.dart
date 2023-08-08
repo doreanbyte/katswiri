@@ -8,7 +8,7 @@ import 'package:katswiri/repository/repository.dart';
 part 'saved_jobs_event.dart';
 part 'saved_jobs_state.dart';
 
-class SavedJobsBloc extends Bloc<SavedJobsEvent, SavedJobsState> {
+final class SavedJobsBloc extends Bloc<SavedJobsEvent, SavedJobsState> {
   SavedJobsBloc() : super(const SavedJobsInitial()) {
     on<FetchSavedJobs>((event, emit) async {
       try {

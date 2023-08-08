@@ -10,7 +10,7 @@ import 'package:katswiri/repository/repository.dart';
 part 'save_job_event.dart';
 part 'save_job_state.dart';
 
-class SaveJobBloc extends Bloc<JobSaveEvent, SaveJobState> {
+final class SaveJobBloc extends Bloc<JobSaveEvent, SaveJobState> {
   SaveJobBloc() : super(const SaveJobInitial()) {
     on<UnsaveJobEvent>((event, emit) async {
       try {

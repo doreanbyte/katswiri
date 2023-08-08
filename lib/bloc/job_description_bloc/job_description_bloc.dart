@@ -8,7 +8,7 @@ import 'package:katswiri/sources/sources.dart';
 part 'job_description_event.dart';
 part 'job_description_state.dart';
 
-class JobDescriptionBloc
+final class JobDescriptionBloc
     extends Bloc<JobDescriptionEvent, JobDescriptionState> {
   JobDescriptionBloc() : super(const JobDescriptionInitial()) {
     on<FetchJobDescription>((event, emit) async {

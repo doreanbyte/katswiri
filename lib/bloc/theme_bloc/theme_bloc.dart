@@ -7,7 +7,7 @@ import 'package:katswiri/app_theme.dart';
 part 'theme_event.dart';
 part 'theme_state.dart';
 
-class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
+final class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   ThemeBloc(ThemeState themeState) : super(themeState) {
     on<GetThemeEvent>(
       (event, emit) async {
