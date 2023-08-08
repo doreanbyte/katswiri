@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 final class DioRequest {
+  DioRequest._();
+
   static Dio? _dio;
 
   static Dio getInstance() {
