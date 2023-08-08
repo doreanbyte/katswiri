@@ -25,7 +25,7 @@ class OnlineJobMW extends Source {
         'X-Requested-With': 'XMLHttpRequest',
         'Origin': 'https://onlinejobmw.com',
         'Alt-Used': 'onlinejobmw.com',
-        'Referer': 'https://onlinejobmw.com/vacancies-in-malawi/',
+        'Referer': 'https://onlinejobmw.com/job-vacancies/',
       };
 
   @override
@@ -35,23 +35,42 @@ class OnlineJobMW extends Source {
     final response = await dio.get<String>(
       url,
       options: Options(
-        headers: _headers,
+        headers: {
+          ..._headers,
+          'Accept':
+              'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+          'Sec-Fetch-Dest': 'document',
+          'Sec-Fetch-Mode': 'navigate',
+          'Sec-Fetch-Site': 'none',
+          'Sec-Fetch-User': '?1',
+          'Sec-GPC': '1',
+        },
       ),
     );
 
     final $ = parseFragment(response.data);
+
+    final jobDetails = $
+        .querySelectorAll('.jet-listing-dynamic-field__content')
+        .take(5)
+        .toList();
+
     job = Job(
-      logo: $.querySelector('.company_logo')?.attributes['src']?.trim() ?? '',
-      position: $.querySelector('.page-title')?.text.trim() ?? 'Unknown',
-      companyName: $.querySelector('.job-company')?.text.trim() ?? 'Unknown',
-      location: $.querySelector('.location > a')?.text.trim() ?? 'Unknown',
-      type: $.querySelector('li.job-type')?.text.trim() ?? 'Unknown',
-      posted: $.querySelector('.date-posted')?.text.trim() ?? 'Unknown',
+      logo: $
+              .querySelector('.elementor-image > img')
+              ?.attributes['src']
+              ?.trim() ??
+          '',
+      position: jobDetails.elementAtOrNull(0)?.text.trim() ?? 'Unknown',
+      companyName: $.querySelector('h2.elementor-heading-title')?.text.trim() ??
+          'Unknown',
+      location: jobDetails.elementAtOrNull(3)?.text.trim() ?? 'Unknown',
+      type: jobDetails.elementAtOrNull(1)?.text.trim() ?? 'Unknown',
+      posted: jobDetails.elementAtOrNull(2)?.text ?? 'Unknown',
       description: $
-              .querySelector('.job_listing-description')
-              ?.outerHtml
-              .replaceAll(
-                  '(adsbygoogle = window.adsbygoogle || []).push({});', '')
+              .querySelectorAll('.elementor-element.e-flex.e-con-boxed.e-con')
+              .elementAtOrNull(1)
+              ?.text
               .trim() ??
           'Unknown',
       tag: getHeroTag(url),
