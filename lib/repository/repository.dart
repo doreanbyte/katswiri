@@ -6,7 +6,7 @@ const _jobTable = 'job';
 const _historyTable = 'history';
 const _savedTable = 'saved';
 
-class JobHistoryRepo {
+final class JobHistoryRepo {
   const JobHistoryRepo._();
 
   /// Saves a job to the history table in the database. Checks if the job exists
@@ -102,7 +102,7 @@ class JobHistoryRepo {
   }
 }
 
-class SavedJobRepo {
+final class SavedJobRepo {
   const SavedJobRepo._();
 
   /// Saves a job to the saved table in the database. Before saving the job a check
