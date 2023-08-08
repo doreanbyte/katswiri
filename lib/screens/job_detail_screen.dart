@@ -251,80 +251,85 @@ class _DescriptionSectionState extends State<DescriptionSection>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          JobLeadSection(
-            widget.job,
-            initialIndex: getSources()
-                .indexWhere((element) => element.title == widget.source.title),
-          ),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+    return RefreshIndicator(
+      onRefresh: () async {
+        _getJob(context);
+      },
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            JobLeadSection(
+              widget.job,
+              initialIndex: getSources().indexWhere(
+                  (element) => element.title == widget.source.title),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BlocProvider(
-                create: (_) => JobDescriptionBloc()
-                  ..add(
-                    FetchJobDescription(
-                      job: widget.job,
-                      source: widget.source,
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: BlocProvider(
+                  create: (_) => JobDescriptionBloc()
+                    ..add(
+                      FetchJobDescription(
+                        job: widget.job,
+                        source: widget.source,
+                      ),
                     ),
-                  ),
-                child: BlocConsumer<JobDescriptionBloc, JobDescriptionState>(
-                  listener: (context, jobDescriptionState) {},
-                  builder: (context, jobDescriptionState) {
-                    return switch (jobDescriptionState) {
-                      JobDescriptionLoaded(job: final job) => switch (
-                            job.description.isNotEmpty) {
-                          true => HtmlWidget(
-                              job.description,
-                              textStyle: const TextStyle(
-                                fontSize: 14.0,
-                              ),
-                              onTapUrl: (url) async {
-                                url = url
-                                    .replaceAll(RegExp('mailto:'), '')
-                                    .trim();
-                                if (url.contains('@')) {
-                                  final emailUri = Uri(
-                                    scheme: 'mailto',
-                                    path: url,
-                                    query: _encodeQueryParameters(
-                                      {
-                                        'subject': widget.job.position,
-                                      },
-                                    ),
-                                  );
+                  child: BlocConsumer<JobDescriptionBloc, JobDescriptionState>(
+                    listener: (context, jobDescriptionState) {},
+                    builder: (context, jobDescriptionState) {
+                      return switch (jobDescriptionState) {
+                        JobDescriptionLoaded(job: final job) => switch (
+                              job.description.isNotEmpty) {
+                            true => HtmlWidget(
+                                job.description,
+                                textStyle: const TextStyle(
+                                  fontSize: 14.0,
+                                ),
+                                onTapUrl: (url) async {
+                                  url = url
+                                      .replaceAll(RegExp('mailto:'), '')
+                                      .trim();
+                                  if (url.contains('@')) {
+                                    final emailUri = Uri(
+                                      scheme: 'mailto',
+                                      path: url,
+                                      query: _encodeQueryParameters(
+                                        {
+                                          'subject': widget.job.position,
+                                        },
+                                      ),
+                                    );
 
-                                  if (await canLaunchUrl(emailUri)) {
-                                    await launchUrl(emailUri);
+                                    if (await canLaunchUrl(emailUri)) {
+                                      await launchUrl(emailUri);
+                                    }
                                   }
-                                }
 
-                                return true;
-                              },
+                                  return true;
+                                },
+                              ),
+                            _ => Container()
+                          },
+                        JobDescriptionError(error: final error) => Center(
+                            child: ErrorButton(
+                              errorMessage: error,
+                              onRetryPressed: () => _onRetryPressed(context),
                             ),
-                          _ => Container()
-                        },
-                      JobDescriptionError(error: final error) => Center(
-                          child: ErrorButton(
-                            errorMessage: error,
-                            onRetryPressed: () => _onRetryPressed(context),
                           ),
-                        ),
-                      _ => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                    };
-                  },
+                        _ => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                      };
+                    },
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
