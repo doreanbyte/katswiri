@@ -12,14 +12,12 @@ class JobListRetriever extends StatefulWidget {
     required this.source,
     this.filter,
     this.primary,
-    this.physics,
     this.sortJobs = true,
   });
 
   final Source source;
   final Map<String, String>? filter;
   final bool? primary;
-  final ScrollPhysics? physics;
   final bool sortJobs;
 
   @override
@@ -136,7 +134,6 @@ class _JobListRetrieverState extends State<JobListRetriever>
         controller: _scrollController,
         padding: const EdgeInsets.only(top: 4.0),
         primary: widget.primary,
-        physics: widget.physics,
         shrinkWrap: true,
         itemBuilder: (context, index) => widgetList[index],
         itemCount: widgetList.length,
