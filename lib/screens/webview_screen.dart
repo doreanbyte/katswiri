@@ -26,31 +26,35 @@ class _WebViewScreenState extends State<WebViewScreen> {
   late final WebViewController controller;
   double _progressValue = 0.0;
   bool _loadingArticleView = false;
+  late String _url;
 
   @override
   void initState() {
+    _url = widget.url;
+
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse(widget.url))
+      ..loadRequest(Uri.parse(_url))
       ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (progress) {
-            setState(() {
-              _progressValue = progress / 100;
-            });
-          },
-          onPageStarted: (_) {
-            setState(() {
-              _progressValue = 0.0;
-            });
-          },
-          onPageFinished: (_) {
-            setState(() {
-              _progressValue = 1.0;
-            });
-          },
-        ),
+        NavigationDelegate(onProgress: (progress) {
+          setState(() {
+            _progressValue = progress / 100;
+          });
+        }, onPageStarted: (_) {
+          setState(() {
+            _progressValue = 0.0;
+          });
+        }, onPageFinished: (_) {
+          setState(() {
+            _progressValue = 1.0;
+          });
+        }, onUrlChange: (UrlChange urlChange) {
+          setState(() {
+            _url = urlChange.url ?? '';
+          });
+        }),
       );
+
     super.initState();
   }
 
@@ -67,7 +71,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           children: [
             Text(widget.title),
             Text(
-              widget.url,
+              _url,
               style: Theme.of(context).textTheme.labelLarge,
               overflow: TextOverflow.fade,
             ),
