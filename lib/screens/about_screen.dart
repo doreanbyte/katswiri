@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:katswiri/screens/webview_screen.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -71,61 +70,11 @@ class _AppDetailSection extends StatelessWidget {
                   color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
-              TextSpan(
-                text: 'by Dorean Byte',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
             ],
           ),
         ),
         const SizedBox(
           height: 12.0,
-        ),
-        const _SocialButtons(),
-      ],
-    );
-  }
-}
-
-class _SocialButtons extends StatelessWidget {
-  const _SocialButtons();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        _SocialButton(
-          icon: Icons.mail_outlined,
-          label: 'Email',
-          onPressed: () async {
-            final emailUri = Uri(
-              scheme: 'mailto',
-              path: 'dev.doreanbyte.mw@gmail.com',
-            );
-
-            if (await canLaunchUrl(emailUri)) {
-              await launchUrl(emailUri);
-            }
-          },
-          toolTip: 'Email Dorean Byte',
-        ),
-        _SocialButton(
-          icon: Icons.public_outlined,
-          label: 'Website',
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              WebViewScreen.route,
-              arguments: {
-                'url': 'https://doreanbyte.github.io/katswiri',
-                'title': 'Katswiri'
-              },
-            );
-          },
-          toolTip: 'Visit Katswiri Website',
         ),
       ],
     );
@@ -150,23 +99,34 @@ class _InformationButtons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _InformationButton(
+          icon: Icons.info,
+          title: 'Website',
+          subtitle: 'Visit the Katswiri website',
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              WebViewScreen.route,
+              arguments: {
+                'url': 'https://doreanbyte.github.io/katswiriapp/',
+                'title': 'Katswiri'
+              },
+            );
+          },
+        ),
+        _InformationButton(
           icon: Icons.star,
-          title: 'Rate',
-          subtitle: 'Like the App? Give Us a Rating',
-          //TODO: Implement onTap callback for rating
-          onTap: () {},
-        ),
-        _InformationButton(
-          icon: Icons.description,
-          title: 'Terms of Service/EULA',
-          //TODO: Implment on tap for Terms of Services
-          onTap: () {},
-        ),
-        _InformationButton(
-          icon: Icons.api,
-          title: 'Third-Party Services',
-          //TODO: Implement on tap for Third-Party Services
-          onTap: () {},
+          title: 'Star',
+          subtitle: 'Give the project a star on Github',
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              WebViewScreen.route,
+              arguments: {
+                'title': 'Katswiri Github',
+                'url': 'https://github.com/doreanbyte/katswiri',
+              },
+            );
+          },
         ),
         _InformationButton(
           icon: Icons.extension,
@@ -206,45 +166,6 @@ class _InformationButton extends StatelessWidget {
       ),
       title: Text(title),
       subtitle: subtitle.isNotEmpty ? Text(subtitle) : null,
-    );
-  }
-}
-
-class _SocialButton extends StatelessWidget {
-  const _SocialButton({
-    required IconData icon,
-    required String label,
-    void Function()? onPressed,
-    String? toolTip,
-  })  : _iconData = icon,
-        _label = label,
-        _onPressed = onPressed,
-        _toolTip = toolTip;
-
-  final IconData _iconData;
-  final String _label;
-  final void Function()? _onPressed;
-  final String? _toolTip;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        IconButton(
-          tooltip: _toolTip,
-          onPressed: _onPressed,
-          icon: Icon(
-            _iconData,
-            size: 28,
-          ),
-        ),
-        Text(
-          _label,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-        ),
-      ],
     );
   }
 }

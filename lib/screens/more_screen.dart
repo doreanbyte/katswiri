@@ -4,6 +4,7 @@ import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart'
     show ToggleThemeButtons, ToggleJobViewButtons;
 import 'package:katswiri/screens/about_screen.dart';
+import 'package:katswiri/screens/webview_screen.dart';
 
 class MoreScreen extends StatelessWidget {
   const MoreScreen({super.key});
@@ -126,8 +127,17 @@ class _InformationSection extends StatelessWidget {
                 ),
                 const Divider(),
                 ListTile(
-                  //TODO: Implement privacy policy onTap
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      WebViewScreen.route,
+                      arguments: {
+                        'url':
+                            'https://doreanbyte.github.io/katswiriapp/privacy_policy.html',
+                        'title': 'Katswiri Privacy Policy'
+                      },
+                    );
+                  },
                   leading: Icon(
                     Icons.lock,
                     color: Theme.of(context).colorScheme.primary,
