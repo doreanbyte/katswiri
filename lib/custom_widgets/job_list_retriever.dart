@@ -131,7 +131,6 @@ class _JobListRetrieverState extends State<JobListRetriever>
         controller: _scrollController,
         padding: const EdgeInsets.only(top: 4.0),
         primary: widget.primary,
-        shrinkWrap: true,
         itemBuilder: (context, index) => widgetList[index],
         itemCount: widgetList.length,
       );
