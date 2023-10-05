@@ -30,7 +30,7 @@ class _JobListRetrieverState extends State<JobListRetriever>
   bool _loading = true;
   bool _hasError = false;
   String _errMsg = '';
-  bool _showButton = false;
+  bool _showScrollTop = false;
 
   late final StreamController<List<Job>> _streamController =
       StreamController.broadcast();
@@ -76,15 +76,14 @@ class _JobListRetrieverState extends State<JobListRetriever>
           stream: _streamController.stream,
           builder: _builder,
         ),
-        if (_showButton)
-          Positioned(
-            bottom: 16,
-            right: 16,
-            child: FloatingActionButton(
-              onPressed: _scrollToTop,
-              child: const Icon(Icons.arrow_upward),
-            ),
+        Positioned(
+          right: 16.0,
+          bottom: 16.0,
+          child: _ScrollToTop(
+            onPressed: _scrollToTop,
+            showScrollTop: _showScrollTop,
           ),
+        ),
       ],
     );
   }
@@ -172,13 +171,13 @@ class _JobListRetrieverState extends State<JobListRetriever>
   }
 
   void _onShowToTop() {
-    if (_scrollController.offset >= 100 && !_showButton) {
+    if (_scrollController.offset >= 100 && !_showScrollTop) {
       setState(() {
-        _showButton = true;
+        _showScrollTop = true;
       });
-    } else if (_scrollController.offset < 100 && _showButton) {
+    } else if (_scrollController.offset < 100 && _showScrollTop) {
       setState(() {
-        _showButton = false;
+        _showScrollTop = false;
       });
     }
   }
@@ -226,6 +225,37 @@ class _JobListRetrieverState extends State<JobListRetriever>
       0,
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
+    );
+  }
+}
+
+class _ScrollToTop extends StatefulWidget {
+  const _ScrollToTop({
+    required this.onPressed,
+    required this.showScrollTop,
+  });
+
+  final void Function() onPressed;
+  final bool showScrollTop;
+
+  @override
+  State<_ScrollToTop> createState() => __ScrollToTopState();
+}
+
+class __ScrollToTopState extends State<_ScrollToTop> {
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      opacity: widget.showScrollTop ? 1.0 : 0.0,
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.elasticIn,
+      child: Visibility(
+        visible: widget.showScrollTop,
+        child: FloatingActionButton(
+          onPressed: widget.onPressed,
+          child: const Icon(Icons.arrow_upward),
+        ),
+      ),
     );
   }
 }
