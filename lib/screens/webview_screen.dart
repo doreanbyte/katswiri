@@ -37,23 +37,28 @@ class _WebViewScreenState extends State<WebViewScreen> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..loadRequest(Uri.parse(_url))
       ..setNavigationDelegate(
-        NavigationDelegate(onProgress: (progress) {
-          setState(() {
-            _progressValue = progress / 100;
-          });
-        }, onPageStarted: (_) {
-          setState(() {
-            _progressValue = 0.0;
-          });
-        }, onPageFinished: (_) {
-          setState(() {
-            _progressValue = 1.0;
-          });
-        }, onUrlChange: (UrlChange urlChange) {
-          setState(() {
-            _url = urlChange.url ?? '';
-          });
-        }),
+        NavigationDelegate(
+          onProgress: (progress) {
+            setState(() {
+              _progressValue = progress / 100;
+            });
+          },
+          onPageStarted: (_) {
+            setState(() {
+              _progressValue = 0.0;
+            });
+          },
+          onPageFinished: (_) {
+            setState(() {
+              _progressValue = 1.0;
+            });
+          },
+          onUrlChange: (UrlChange urlChange) {
+            setState(() {
+              _url = urlChange.url ?? '';
+            });
+          },
+        ),
       );
 
     super.initState();
