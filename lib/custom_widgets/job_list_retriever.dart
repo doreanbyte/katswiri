@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:katswiri/custom_widgets/custom_widgets.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/sources.dart';
-import 'package:katswiri/utils/utils.dart';
 
 class JobListRetriever extends StatefulWidget {
   const JobListRetriever({
@@ -12,13 +11,11 @@ class JobListRetriever extends StatefulWidget {
     required this.source,
     this.filter,
     this.primary,
-    this.sortJobs = true,
   });
 
   final Source source;
   final Map<String, String>? filter;
   final bool? primary;
-  final bool sortJobs;
 
   @override
   State<JobListRetriever> createState() => _JobListRetrieverState();
@@ -189,12 +186,6 @@ class _JobListRetrieverState extends State<JobListRetriever>
 
   void _onData(List<Job> jobs) {
     _jobs.addAll(jobs);
-
-    if (widget.sortJobs) {
-      _jobs.sort(
-        (a, b) => postedDate(b.posted).compareTo(postedDate(a.posted)),
-      );
-    }
 
     setState(() {
       _page++;
