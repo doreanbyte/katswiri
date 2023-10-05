@@ -18,7 +18,7 @@ Is an Android application that crawls job listing websites and aggregates the li
 
 ## Download
 
-The app is available for download from the [release pages](https://github.com/ngomile/katswiri/releases)
+The app is available for download from the [release pages](https://github.com/doreanbyte/katswiri/releases)
 
 ## Licence
 
