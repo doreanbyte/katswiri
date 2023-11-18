@@ -8,7 +8,7 @@ part 'theme_event.dart';
 part 'theme_state.dart';
 
 final class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
-  ThemeBloc(ThemeState themeState) : super(themeState) {
+  ThemeBloc(super.themeState) {
     on<GetThemeEvent>(
       (event, emit) async {
         final themeSetting = await AppSettings.getTheme();
