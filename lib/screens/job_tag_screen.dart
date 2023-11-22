@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:katswiri/custom_widgets/custom_widgets.dart' show TabbedSources;
+import 'package:katswiri/components/components.dart' show TabbedSources;
 
 class JobTagScreen extends StatelessWidget {
   const JobTagScreen({

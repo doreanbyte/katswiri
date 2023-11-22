@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:katswiri/custom_widgets/job_list_retriever.dart';
+import 'package:katswiri/components/components.dart';
 import 'package:katswiri/sources/sources.dart';
 
 class TabbedSources extends StatefulWidget {

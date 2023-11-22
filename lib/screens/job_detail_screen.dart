@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:katswiri/bloc/bloc.dart';
-import 'package:katswiri/custom_widgets/custom_widgets.dart';
+import 'package:katswiri/components/components.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/screens/webview_screen.dart';
 import 'package:katswiri/sources/sources.dart';

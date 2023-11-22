@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:katswiri/custom_widgets/custom_widgets.dart'
+import 'package:katswiri/components/components.dart'
     show ContinuousLinearProgressIndicator;
 import 'package:webview_flutter/webview_flutter.dart';
 
