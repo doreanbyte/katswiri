@@ -7,18 +7,18 @@ sealed class HistoryState {
 }
 
 /// [HistoryInitial] the initial state of history
-class HistoryInitial extends HistoryState {
+final class HistoryInitial extends HistoryState {
   const HistoryInitial();
 }
 
 /// [HistoryLoading] is the state that representst the history list being loaded
-class HistoryLoading extends HistoryState {
+final class HistoryLoading extends HistoryState {
   const HistoryLoading();
 }
 
 /// [HistoryLoaded] is the state that represents retrieval of value from history
 /// repository
-class HistoryLoaded extends HistoryState {
+final class HistoryLoaded extends HistoryState {
   const HistoryLoaded(this.jobs);
 
   final List<Job> jobs;
@@ -35,7 +35,7 @@ class HistoryLoaded extends HistoryState {
 }
 
 /// [HistoryError] is the state of failure from trying to load the history list
-class HistoryError extends HistoryState {
+final class HistoryError extends HistoryState {
   const HistoryError(this.error);
 
   final String error;
