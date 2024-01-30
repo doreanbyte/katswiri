@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:katswiri/app_settings.dart';
 import 'package:katswiri/bloc/bloc.dart';
@@ -26,6 +27,33 @@ class JobTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapUp: (_) => _onTapUp(context),
+      onLongPressUp: () {
+        Clipboard.setData(
+          ClipboardData(
+            text: job.url,
+          ),
+        ).then((_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Copied to Clipboard',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              backgroundColor: Colors.black,
+              elevation: 8,
+              margin: EdgeInsets.symmetric(
+                horizontal: 32.0,
+                vertical: 8.0,
+              ),
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(milliseconds: 650),
+            ),
+          );
+        });
+      },
       child: JobTileComponent(
         job: job,
         sourceIndex:
