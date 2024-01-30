@@ -359,7 +359,7 @@ class RelatedSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return JobListRetriever(
+    return JobListingsRetriever(
       source: source,
       filter: filter,
     );

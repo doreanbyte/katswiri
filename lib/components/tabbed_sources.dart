@@ -139,7 +139,7 @@ class _TabBarViewSectionState extends State<TabBarViewSection> {
       controller: widget.tabController,
       children: widget.sources
           .map<Widget>(
-            (source) => JobListRetriever(
+            (source) => JobListingsRetriever(
               source: source,
               filter: widget.filter,
             ),
