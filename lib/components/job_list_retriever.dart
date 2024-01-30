@@ -120,8 +120,15 @@ class _JobListingsRetrieverState extends State<JobListingsRetriever>
 
       if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
         widgetList.add(
-          const Center(
-            child: Text('No Results Found'),
+          Center(
+            child: Column(
+              children: [
+                const Text('No Results Found'),
+                RetryButton(
+                  onRetryPressed: _onRetryPressed,
+                ),
+              ],
+            ),
           ),
         );
       }
