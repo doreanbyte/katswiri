@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:html/parser.dart' show parseFragment;
 
 import 'package:katswiri/dio_request.dart';
 import 'package:katswiri/models/models.dart';
