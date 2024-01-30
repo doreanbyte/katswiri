@@ -4,7 +4,7 @@ sealed class JobDescriptionEvent {
   const JobDescriptionEvent();
 }
 
-class FetchJobDescription extends JobDescriptionEvent {
+final class FetchJobDescription extends JobDescriptionEvent {
   const FetchJobDescription({
     required this.job,
     required this.source,

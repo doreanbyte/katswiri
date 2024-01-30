@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:katswiri/custom_widgets/job_list_retriever.dart';
+import 'package:katswiri/components/components.dart';
 import 'package:katswiri/sources/sources.dart';
 
 class TabbedSources extends StatefulWidget {
@@ -139,7 +139,7 @@ class _TabBarViewSectionState extends State<TabBarViewSection> {
       controller: widget.tabController,
       children: widget.sources
           .map<Widget>(
-            (source) => JobListRetriever(
+            (source) => JobListingsRetriever(
               source: source,
               filter: widget.filter,
             ),

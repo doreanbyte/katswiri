@@ -56,11 +56,8 @@ class OnlineJobMW extends Source {
         .toList();
 
     job = Job(
-      logo: $
-              .querySelector('.elementor-image > img')
-              ?.attributes['src']
-              ?.trim() ??
-          '',
+      logo:
+          'https://onlinejobmw.com/wp-content/uploads/online-site-icon-100x100-1-copy.webp',
       position: jobDetails.elementAtOrNull(0)?.text.trim() ?? 'Unknown',
       companyName: $.querySelector('h2.elementor-heading-title')?.text.trim() ??
           'Unknown',
@@ -197,11 +194,8 @@ class OnlineJobMW extends Source {
             '';
 
         final job = Job(
-          logo: element
-                  .querySelector('div.elementor-image > img')
-                  ?.attributes['src']
-                  ?.trim() ??
-              '',
+          logo:
+              'https://onlinejobmw.com/wp-content/uploads/online-site-icon-100x100-1-copy.webp',
           position: details.elementAtOrNull(0)?.text ?? 'Unknown',
           companyName: details.elementAtOrNull(1)?.text ?? 'Unknown',
           location: element

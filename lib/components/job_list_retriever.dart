@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:katswiri/custom_widgets/custom_widgets.dart';
+import 'package:katswiri/components/components.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/sources.dart';
 
-class JobListRetriever extends StatefulWidget {
-  const JobListRetriever({
+class JobListingsRetriever extends StatefulWidget {
+  const JobListingsRetriever({
     super.key,
     required this.source,
     this.filter,
@@ -18,11 +18,11 @@ class JobListRetriever extends StatefulWidget {
   final bool? primary;
 
   @override
-  State<JobListRetriever> createState() => _JobListRetrieverState();
+  State<JobListingsRetriever> createState() => _JobListingsRetrieverState();
 }
 
-class _JobListRetrieverState extends State<JobListRetriever>
-    with AutomaticKeepAliveClientMixin<JobListRetriever> {
+class _JobListingsRetrieverState extends State<JobListingsRetriever>
+    with AutomaticKeepAliveClientMixin<JobListingsRetriever> {
   late final Source _source;
   final List<Job> _jobs = [];
 
@@ -120,8 +120,15 @@ class _JobListRetrieverState extends State<JobListRetriever>
 
       if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
         widgetList.add(
-          const Center(
-            child: Text('No Results Found'),
+          Center(
+            child: Column(
+              children: [
+                const Text('No Results Found'),
+                RetryButton(
+                  onRetryPressed: _onRetryPressed,
+                ),
+              ],
+            ),
           ),
         );
       }

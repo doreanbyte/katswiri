@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:html/parser.dart' show parseFragment;
 
 import 'package:katswiri/dio_request.dart';
 import 'package:katswiri/models/models.dart';
@@ -11,50 +10,58 @@ class UnitedNationsCareers extends Source {
   String get title => 'UnitedNationsCareers';
 
   @override
-  String get host => 'unitednationscareers.com';
+  String get host => 'careers.un.org';
 
   Map<String, String> get _headers => {
         'Host': host,
         'User-Agent':
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0',
-        'Origin': 'https://$host',
         'Alt-Used': host,
         'Referer': 'https://$host/',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Origin': 'null',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'none',
+        'Sec-Fetch-User': '?1',
+        'DNT': '1',
+        'Sec-GPC': '1',
       };
 
   @override
   Future<Job> fetchJob(String url) async {
     final Job job;
     final dio = DioRequest.getInstance();
-    final response = await dio.get<String>(
+
+    final response = await dio.get(
       url,
       options: Options(
         headers: _headers,
+        responseType: ResponseType.json,
       ),
     );
 
-    final $ = parseFragment(response.data);
+    if (response.data case {'data': Map data}) {
+      var datePosted = data['startDate'] as String;
+      datePosted = datePosted.substring(0, datePosted.indexOf('T'));
 
-    job = Job(
-      logo: $
-              .querySelector('.single-featured-image > img')
-              ?.attributes['src']
-              ?.trim() ??
-          '',
-      position: $.querySelector('h1.post-title')?.text.trim() ?? 'Unknown',
-      companyName: 'Unknown',
-      location: 'Unknown',
-      type: 'Unknown',
-      posted: $.querySelector('span.date.meta-item')?.text.trim() ?? 'Unknown',
-      description: $
-              .querySelector('div.entry-content')
-              ?.outerHtml
-              .replaceAll(
-                  '(adsbygoogle = window.adsbygoogle || []).push({});', '')
-              .trim() ??
-          'Unknown',
-      tag: getHeroTag(url),
-    );
+      job = Job(
+        logo:
+            'https://onlinejobmw.com/wp-content/uploads/online-site-icon-100x100-1-copy.webp',
+        position: data['jobTitle'],
+        companyName: 'N/A',
+        location: 'N/A',
+        type: 'N/A',
+        posted: datePosted,
+        tag: getHeroTag(url),
+        description: data['jobDescription'],
+      );
+    } else {
+      job = Job.empty();
+    }
 
     return job;
   }
@@ -64,46 +71,56 @@ class UnitedNationsCareers extends Source {
     int page = 1,
     Map<String, String>? filter,
   }) async {
-    final String listingsUri = switch (filter?['position']) {
-      String() => 'https://$host/?s=${filter?['position']}',
-      null => 'https://$host/category/jobs/page/$page/',
-    };
+    final listingsUri =
+        'https://$host/api/public/opening/jo/list/filteredV2/en';
 
     final List<Job> jobs = [];
 
     final dio = DioRequest.getInstance();
-    final response = await dio.get(
+    final response = await dio.post(
       listingsUri,
+      data: {
+        'filterConfig': {
+          'keyword': filter?['position'] ?? '',
+        },
+        'pagination': {
+          'itemPerPage': 10,
+          'page': page - 1,
+          'sortBy': 'startDate',
+          'sortDirection': -1,
+        }
+      },
       options: Options(
         headers: _headers,
+        responseType: ResponseType.json,
       ),
     );
 
-    final $ = parseFragment(response.data);
+    final data = response.data;
 
-    $.querySelectorAll('li.type-post').forEach((element) {
-      final url =
-          element.querySelector('a.more-link.button')?.attributes['href'] ?? '';
+    if (data case {'data': {'list': List listings}}) {
+      for (final listing in listings) {
+        final listingData = listing as Map<String, dynamic>;
+        final url =
+            'https://$host/api/public/opening/joV2/${listingData['jobId']}/en';
+        var datePosted = listingData['startDate'] as String;
+        datePosted = datePosted.substring(0, datePosted.indexOf('T'));
 
-      final job = Job(
-        logo: element
-                .querySelector('a > .wp-post-image')
-                ?.attributes['src']
-                ?.trim() ??
-            '',
-        position:
-            element.querySelector('.post-title > a')?.text.trim() ?? 'Unknown',
-        companyName: 'Unknown',
-        location: 'Unknown',
-        type: 'Unknown',
-        posted: element.querySelector('span.date.meta-item')?.text.trim() ??
-            'Unknown',
-        url: url,
-        tag: getHeroTag(url),
-      );
-
-      jobs.add(job);
-    });
+        jobs.add(
+          Job(
+            logo:
+                'https://onlinejobmw.com/wp-content/uploads/online-site-icon-100x100-1-copy.webp',
+            position: listingData['jobTitle'],
+            companyName: 'N/A',
+            location: 'N/A',
+            type: 'N/A',
+            posted: datePosted,
+            tag: getHeroTag(url),
+            url: url,
+          ),
+        );
+      }
+    }
 
     return jobs;
   }

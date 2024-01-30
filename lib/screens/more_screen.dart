@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:katswiri/bloc/bloc.dart';
-import 'package:katswiri/custom_widgets/custom_widgets.dart'
+import 'package:katswiri/components/components.dart'
     show ToggleThemeButtons, ToggleJobViewButtons;
 import 'package:katswiri/screens/about_screen.dart';
 import 'package:katswiri/screens/webview_screen.dart';

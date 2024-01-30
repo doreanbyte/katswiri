@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:katswiri/custom_widgets/custom_widgets.dart';
+import 'package:katswiri/components/components.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   @override
