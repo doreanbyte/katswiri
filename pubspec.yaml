@@ -51,6 +51,7 @@ dependencies:
   url_launcher: ^6.2.4
   flutter_native_splash: ^2.3.7
   uuid: ^4.5.0
+  transparent_image: ^2.0.1
 
 dev_dependencies:
   flutter_test:
