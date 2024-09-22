@@ -56,7 +56,7 @@ class UnitedNationsCareers extends Source {
         location: 'N/A',
         type: 'N/A',
         posted: datePosted,
-        tag: getHeroTag(url),
+        tag: getHeroTag(),
         description: data['jobDescription'],
       );
     } else {
@@ -115,7 +115,7 @@ class UnitedNationsCareers extends Source {
             location: 'N/A',
             type: 'N/A',
             posted: datePosted,
-            tag: getHeroTag(url),
+            tag: getHeroTag(),
             url: url,
           ),
         );
