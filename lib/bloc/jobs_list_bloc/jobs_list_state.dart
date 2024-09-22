@@ -1,4 +1,4 @@
-part of 'job_list_bloc.dart';
+part of 'jobs_list_bloc.dart';
 
 sealed class JobsListState {
   const JobsListState();
