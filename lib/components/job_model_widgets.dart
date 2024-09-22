@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart'
-    show CachedNetworkImageProvider;
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +10,7 @@ import 'package:katswiri/screens/webview_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/sources.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class JobTile extends StatelessWidget {
   const JobTile({
@@ -172,12 +171,15 @@ class JobThumbnailImage extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       height: size,
       width: size,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         shape: BoxShape.circle,
-        image: DecorationImage(
+      ),
+      child: Center(
+        child: FadeInImage.memoryNetwork(
+          placeholder: kTransparentImage,
+          image: job.logo,
           fit: BoxFit.cover,
-          image: CachedNetworkImageProvider(job.logo),
         ),
       ),
     );
