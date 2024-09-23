@@ -41,15 +41,21 @@ class JobTile extends StatelessWidget {
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: SnackBar(
-            content: Text(
-              'Copied to Clipboard',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-              ),
+          content: Text(
+            'Copied to Clipboard',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
             ),
           ),
+          backgroundColor: Colors.black,
+          elevation: 8,
+          margin: EdgeInsets.symmetric(
+            horizontal: 32.0,
+            vertical: 8.0,
+          ),
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(milliseconds: 650),
         ),
       );
     }
