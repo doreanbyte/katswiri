@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/components/components.dart';
 import 'package:katswiri/sources/sources.dart';
 
@@ -139,9 +141,13 @@ class _TabBarViewSectionState extends State<TabBarViewSection> {
       controller: widget.tabController,
       children: widget.sources
           .map<Widget>(
-            (source) => JobListingsRetriever(
-              source: source,
-              filter: widget.filter,
+            (source) => BlocProvider(
+              create: (context) => JobsListBloc(source: source)
+                ..add(FetchJobs(filter: widget.filter)),
+              child: JobListings(
+                source: source,
+                filter: widget.filter,
+              ),
             ),
           )
           .toList(),
