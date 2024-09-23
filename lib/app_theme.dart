@@ -27,11 +27,12 @@ ThemeData buildTheme({ColorScheme? scheme, required Brightness brightness}) {
   final isDark = brightness == Brightness.dark;
   final defScheme = isDark ? darkScheme : lightScheme;
   final colorScheme = scheme?.harmonized() ?? defScheme;
-  final origin = isDark ? ThemeData.dark() : ThemeData.light();
+  final origin = isDark
+      ? ThemeData.dark(useMaterial3: true)
+      : ThemeData.light(useMaterial3: true);
 
   return origin.copyWith(
-    useMaterial3: true,
-    colorScheme: colorScheme.copyWith(background: colorScheme.surface),
+    colorScheme: colorScheme.copyWith(surface: colorScheme.surface),
     scaffoldBackgroundColor: isDark ? Colors.black87 : const Color(0xFFF2F2F2),
     tabBarTheme: origin.tabBarTheme.copyWith(
       unselectedLabelColor: isDark ? Colors.white70 : Colors.black54,
