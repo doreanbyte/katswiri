@@ -65,7 +65,7 @@ class _AppDetailSection extends StatelessWidget {
                 ),
               ),
               TextSpan(
-                text: 'Version 1.1.3\n',
+                text: 'Version 1.1.4\n',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
                 ),
