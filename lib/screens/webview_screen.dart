@@ -101,24 +101,25 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 Icons.description,
                 color: Theme.of(context).iconTheme.color,
               ),
-              onPressed: () {
+              onPressed: () async {
                 try {
                   setState(() {
                     _loadingArticleView = true;
                   });
 
-                  source.fetchJob(widget.url).then(
-                        (job) => Navigator.popAndPushNamed(
-                          context,
-                          JobDetailScreen.route,
-                          arguments: {
-                            'source': source,
-                            'job': job.copyWith(
-                              url: widget.url,
-                            ),
-                          },
+                  final job = await source.fetchJob(widget.url);
+                  if (context.mounted) {
+                    Navigator.popAndPushNamed(
+                      context,
+                      JobDetailScreen.route,
+                      arguments: {
+                        'source': source,
+                        'job': job.copyWith(
+                          url: widget.url,
                         ),
-                      );
+                      },
+                    );
+                  }
                 } catch (_) {
                   setState(() {
                     _loadingArticleView = false;
