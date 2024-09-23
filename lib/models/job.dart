@@ -48,7 +48,7 @@ final class Job {
         ),
         url: job['url'] as String,
         description: job['description'] as String,
-        tag: getHeroTag(job['url'] as String),
+        tag: getHeroTag(),
       );
 
   factory Job.empty() => const Job(

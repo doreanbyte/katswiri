@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:katswiri/app_theme.dart';
 
 export 'job_model_widgets.dart';
-export 'job_list_retriever.dart';
+export 'job_listings.dart';
 export 'tabbed_sources.dart';
 export 'button_widgets.dart';
 

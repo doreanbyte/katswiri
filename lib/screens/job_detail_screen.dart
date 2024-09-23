@@ -359,9 +359,13 @@ class RelatedSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return JobListingsRetriever(
-      source: source,
-      filter: filter,
+    return BlocProvider(
+      create: (context) =>
+          JobsListBloc(source: source)..add(FetchJobs(filter: filter)),
+      child: JobListings(
+        source: source,
+        filter: filter,
+      ),
     );
   }
 }

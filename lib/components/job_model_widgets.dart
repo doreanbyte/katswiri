@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart'
-    show CachedNetworkImageProvider;
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +10,7 @@ import 'package:katswiri/screens/webview_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/sources.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class JobTile extends StatelessWidget {
   const JobTile({
@@ -27,33 +26,7 @@ class JobTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapUp: (_) => _onTapUp(context),
-      onLongPressUp: () {
-        Clipboard.setData(
-          ClipboardData(
-            text: job.url,
-          ),
-        ).then((_) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                'Copied to Clipboard',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              backgroundColor: Colors.black,
-              elevation: 8,
-              margin: EdgeInsets.symmetric(
-                horizontal: 32.0,
-                vertical: 8.0,
-              ),
-              behavior: SnackBarBehavior.floating,
-              duration: Duration(milliseconds: 650),
-            ),
-          );
-        });
-      },
+      onLongPressUp: () => _onLongPressUp(context),
       child: JobTileComponent(
         job: job,
         sourceIndex:
@@ -62,34 +35,54 @@ class JobTile extends StatelessWidget {
     );
   }
 
-  void _onTapUp(BuildContext context) {
-    context.read<HistoryBloc>().add(AddToHistory(job));
-    AppSettings.getJobView().then(
-      (jobView) {
-        switch (jobView) {
-          case PreferredJobView.article:
-            Navigator.pushNamed(
-              context,
-              JobDetailScreen.route,
-              arguments: {
-                'job': job,
-                'source': source,
-              },
-            );
-            break;
-          case PreferredJobView.browser:
-            Navigator.pushNamed(
-              context,
-              WebViewScreen.route,
-              arguments: {
-                'url': job.url,
-                'title': job.position,
-              },
-            );
-            break;
-        }
-      },
-    );
+  Future<void> _onLongPressUp(BuildContext context) async {
+    await Clipboard.setData(ClipboardData(text: job.url));
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: SnackBar(
+            content: Text(
+              'Copied to Clipboard',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onTapUp(BuildContext context) async {
+    final jobView = await AppSettings.getJobView();
+
+    if (context.mounted) {
+      context.read<HistoryBloc>().add(AddToHistory(job));
+      switch (jobView) {
+        case PreferredJobView.article:
+          Navigator.pushNamed(
+            context,
+            JobDetailScreen.route,
+            arguments: {
+              'job': job,
+              'source': source,
+            },
+          );
+          break;
+        case PreferredJobView.browser:
+          Navigator.pushNamed(
+            context,
+            WebViewScreen.route,
+            arguments: {
+              'url': job.url,
+              'title': job.position,
+            },
+          );
+          break;
+      }
+    }
   }
 }
 
@@ -172,12 +165,15 @@ class JobThumbnailImage extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       height: size,
       width: size,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         shape: BoxShape.circle,
-        image: DecorationImage(
+      ),
+      child: Center(
+        child: FadeInImage.memoryNetwork(
+          placeholder: kTransparentImage,
+          image: job.logo,
           fit: BoxFit.cover,
-          image: CachedNetworkImageProvider(job.logo),
         ),
       ),
     );
@@ -412,17 +408,19 @@ class SaveJobButtonState extends State<SaveJobButton>
     );
   }
 
-  void _handleSave(BuildContext context) {
+  Future<void> _handleSave(BuildContext context) async {
     context.read<SaveJobBloc>().add(SaveJobEvent(widget.job));
-    Future.delayed(const Duration(milliseconds: 100)).then((_) {
+    await Future.delayed(const Duration(milliseconds: 100));
+    if (context.mounted) {
       context.read<SavedJobsBloc>().add(const FetchSavedJobs());
-    });
+    }
   }
 
-  void _handleUnSave(BuildContext context) {
+  Future<void> _handleUnSave(BuildContext context) async {
     context.read<SaveJobBloc>().add(UnsaveJobEvent(widget.job));
-    Future.delayed(const Duration(milliseconds: 100)).then((_) {
+    await Future.delayed(const Duration(milliseconds: 100));
+    if (context.mounted) {
       context.read<SavedJobsBloc>().add(const FetchSavedJobs());
-    });
+    }
   }
 }

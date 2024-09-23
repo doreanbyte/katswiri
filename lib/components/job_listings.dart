@@ -1,12 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:katswiri/bloc/bloc.dart';
 import 'package:katswiri/components/components.dart';
-import 'package:katswiri/models/models.dart';
 import 'package:katswiri/sources/sources.dart';
 
-class JobListingsRetriever extends StatefulWidget {
-  const JobListingsRetriever({
+class JobListings extends StatefulWidget {
+  const JobListings({
     super.key,
     required this.source,
     this.filter,
@@ -18,23 +17,13 @@ class JobListingsRetriever extends StatefulWidget {
   final bool? primary;
 
   @override
-  State<JobListingsRetriever> createState() => _JobListingsRetrieverState();
+  State<JobListings> createState() => _JobListingsState();
 }
 
-class _JobListingsRetrieverState extends State<JobListingsRetriever>
-    with AutomaticKeepAliveClientMixin<JobListingsRetriever> {
+class _JobListingsState extends State<JobListings>
+    with AutomaticKeepAliveClientMixin<JobListings> {
   late final Source _source;
-  final List<Job> _jobs = [];
-
-  int _page = 1;
-  bool _loading = true;
-  bool _hasError = false;
-  String _errMsg = '';
   bool _showScrollTop = false;
-
-  late final StreamController<List<Job>> _streamController =
-      StreamController.broadcast();
-
   late final ScrollController _scrollController = ScrollController();
 
   @override
@@ -43,21 +32,14 @@ class _JobListingsRetrieverState extends State<JobListingsRetriever>
   @override
   void initState() {
     _source = widget.source;
-    _streamController.stream.listen(
-      _onData,
-      onError: _onError,
-    );
-
     _scrollController.addListener(_onScrollEnd);
     _scrollController.addListener(_onShowToTop);
 
     super.initState();
-    _getJobs();
   }
 
   @override
   void dispose() {
-    _streamController.close();
     _scrollController.removeListener(_onScrollEnd);
     _scrollController.removeListener(_onShowToTop);
 
@@ -72,8 +54,7 @@ class _JobListingsRetrieverState extends State<JobListingsRetriever>
 
     return Stack(
       children: [
-        StreamBuilder<List<Job>>(
-          stream: _streamController.stream,
+        BlocBuilder<JobsListBloc, JobsListState>(
           builder: _builder,
         ),
         Positioned(
@@ -88,37 +69,47 @@ class _JobListingsRetrieverState extends State<JobListingsRetriever>
     );
   }
 
-  Widget _builder(BuildContext context, _) {
+  Widget _builder(BuildContext context, JobsListState state) {
     final Widget child;
+    final jobs = switch (state) {
+      JobsListLoaded(:final jobs) => jobs,
+      JobsListLoading(:final jobs) => jobs,
+      JobsListError(:final jobs) => jobs
+    };
 
-    if (_loading && _jobs.isEmpty) {
+    if (state is JobsListLoading && jobs.isEmpty) {
       child = const Center(
         child: CircularProgressIndicator(),
       );
     } else {
-      final List<Widget> widgetList = _jobs
+      final List<Widget> widgetList = jobs
           .map<Widget>((job) => JobTile(
                 job: job,
                 source: _source,
               ))
           .toList();
 
-      if (_loading) {
+      if (state is JobsListLoading) {
         widgetList.add(
           const Spinner(),
         );
       }
 
-      if (_hasError) {
+      if (state case JobsListError(:final error)) {
         widgetList.add(
           ErrorButton(
-            errorMessage: _errMsg,
+            errorMessage: error,
             onRetryPressed: _onRetryPressed,
           ),
         );
       }
 
-      if (_jobs.isEmpty && !_loading && _errMsg.isEmpty) {
+      final errorMessage = switch (state) {
+        JobsListError(error: final error) => error,
+        _ => ''
+      };
+
+      if (jobs.isEmpty && state is! JobsListLoading && errorMessage.isEmpty) {
         widgetList.add(
           Center(
             child: Column(
@@ -148,32 +139,27 @@ class _JobListingsRetrieverState extends State<JobListingsRetriever>
     );
   }
 
-  void _getJobs() async {
-    try {
-      final jobs = await _source.fetchJobs(
-        page: _page,
-        filter: widget.filter,
-      );
-
-      _streamController.sink.add(jobs);
-    } catch (e) {
-      _streamController.addError(e);
-    }
-  }
-
   void _onScrollEnd() {
     final offset = _scrollController.offset;
     final maxScrollExtent = _scrollController.position.maxScrollExtent;
+    final bloc = context.read<JobsListBloc>();
+    final state = bloc.state;
+
+    final loading = switch (state) {
+      JobsListLoading() => true,
+      _ => false,
+    };
+
+    final hasError = switch (state) {
+      JobsListError() => true,
+      _ => false,
+    };
 
     // If offset is equal to or greater than max scroll extent and the _loading
     // field is not set to true and the _error field is not set to true indicating
     // an error occured. Call _getJobs to fetch extra data
-    if (offset >= maxScrollExtent && !_loading && !_hasError) {
-      setState(() {
-        _loading = true;
-      });
-
-      _getJobs();
+    if (offset >= maxScrollExtent && !loading && !hasError) {
+      bloc.add(FetchJobs(filter: widget.filter));
     }
   }
 
@@ -189,43 +175,12 @@ class _JobListingsRetrieverState extends State<JobListingsRetriever>
     }
   }
 
-  void _onData(List<Job> jobs) {
-    _jobs.addAll(jobs);
+  void _onRetryPressed() => context.read<JobsListBloc>().add(
+        FetchJobs(filter: widget.filter),
+      );
 
-    setState(() {
-      _page++;
-      _loading = false;
-    });
-  }
-
-  void _onError(Object error, StackTrace stackTrace) {
-    setState(() {
-      _loading = false;
-      _hasError = true;
-      _errMsg = error.toString();
-    });
-  }
-
-  void _onRetryPressed() {
-    setState(() {
-      _hasError = false;
-      _errMsg = '';
-      _loading = true;
-    });
-
-    _getJobs();
-  }
-
-  Future<void> _onRefresh() async {
-    setState(() {
-      _jobs.clear();
-      _page = 1;
-      _loading = true;
-      _errMsg = '';
-    });
-
-    _getJobs();
-  }
+  Future<void> _onRefresh() async =>
+      context.read<JobsListBloc>().add(RefreshJobs(filter: widget.filter));
 
   void _scrollToTop() {
     _scrollController.animateTo(

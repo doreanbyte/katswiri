@@ -54,7 +54,7 @@ class JobSearchMW extends Source {
                   '(adsbygoogle = window.adsbygoogle || []).push({});', '')
               .trim() ??
           'Unknown',
-      tag: getHeroTag(url),
+      tag: getHeroTag(),
     );
 
     return job;
@@ -106,7 +106,7 @@ class JobSearchMW extends Source {
         type: element.querySelector('li.job-type')?.text.trim() ?? 'Unknown',
         posted: element.querySelector('.date > time')?.text.trim() ?? 'Unknown',
         url: url,
-        tag: getHeroTag(url),
+        tag: getHeroTag(),
       );
 
       if (!job.location.contains(RegExp('Information|Parasites'))) {

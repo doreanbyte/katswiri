@@ -70,7 +70,7 @@ class OnlineJobMW extends Source {
               ?.text
               .trim() ??
           'Unknown',
-      tag: getHeroTag(url),
+      tag: getHeroTag(),
     );
 
     return job;
@@ -211,7 +211,7 @@ class OnlineJobMW extends Source {
               'Unknown',
           posted: details.elementAtOrNull(2)?.text ?? 'Unknown',
           url: url,
-          tag: getHeroTag(url),
+          tag: getHeroTag(),
         );
 
         if (!job.location.contains(RegExp('Information|Parasites'))) {
