@@ -34,8 +34,8 @@ dependencies:
     sdk: flutter
 
   html: ^0.15.4
-  share_plus: ^9.0.0
-  flutter_widget_from_html_core: ^0.14.11
+  share_plus: ^10.0.2
+  flutter_widget_from_html_core: ^0.15.2
   webview_flutter: ^4.4.4
   sqflite: ^2.3.2
   dio: ^5.4.0
