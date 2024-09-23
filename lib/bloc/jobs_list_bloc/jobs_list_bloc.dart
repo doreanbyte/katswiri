@@ -21,7 +21,6 @@ final class JobsListBloc extends Bloc<JobsListEvent, JobsListState> {
         final jobs = await _getJobs(filter: event.filter);
 
         _jobs.addAll(jobs);
-        _page++;
         emit(JobsListLoaded(jobs: _jobs));
       } on Exception catch (e) {
         emit(JobsListError(
@@ -51,6 +50,7 @@ final class JobsListBloc extends Bloc<JobsListEvent, JobsListState> {
       page: _page,
       filter: filter,
     );
+    _page++;
 
     return jobs;
   }
